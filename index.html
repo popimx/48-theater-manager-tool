@@ -1,4 +1,4 @@
- <!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="ja">
 <head>
   <meta charset="UTF-8">
@@ -8,8 +8,10 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <style>
     body { padding-bottom: 75px; } /* 下部ナビ表示用パディング */
-    .avatar-img { object-fit: cover; width: 40px; height: 50px; border-radius: 6px; }
-    .avatar-img-lg { object-fit: cover; width: 56px; height: 70px; border-radius: 8px; }
+    /* 丸アイコンのスタイル定義 */
+    .avatar-img { object-fit: cover; width: 42px; height: 42px; border-radius: 9999px; }
+    .avatar-img-lg { object-fit: cover; width: 56px; height: 56px; border-radius: 9999px; }
+    .avatar-img-sm { object-fit: cover; width: 32px; height: 32px; border-radius: 9999px; }
   </style>
 </head>
 <body class="bg-slate-100 text-slate-800 font-sans">
@@ -22,7 +24,7 @@
       </h1>
       
       <!-- チーム選択 -->
-      <select id="teamSelector" onchange="switchTeam(this.value)" class="bg-pink-700 text-white font-bold text-sm rounded px-3 py-1.5 border border-pink-500 focus:outline-none w-full sm:w-auto">
+      <select id="teamSelector" onchange="switchTeam(this.value)" class="bg-pink-700 text-white font-bold text-sm rounded-lg px-3 py-1.5 border border-pink-500 focus:outline-none w-full sm:w-auto cursor-pointer">
         <option value="A">チームA（ここからだ）</option>
         <option value="B">チームB（RESET）</option>
         <option value="C">チームC（M.T.に捧ぐ）</option>
@@ -37,8 +39,8 @@
     <div class="max-w-4xl mx-auto mt-3 relative">
       <div class="relative">
         <input type="text" id="searchInput" oninput="onSearchInput(this.value)" placeholder="メンバー名 / チーム名 / 演目名で検索..." 
-               class="w-full pl-9 pr-4 py-1.5 bg-white text-slate-800 text-sm rounded-lg shadow-inner focus:outline-none focus:ring-2 focus:ring-pink-300">
-        <i class="fa-solid fa-magnifying-glass absolute left-3 top-2.5 text-slate-400 text-sm"></i>
+               class="w-full pl-9 pr-4 py-2 bg-white text-slate-800 text-sm rounded-lg shadow-inner focus:outline-none focus:ring-2 focus:ring-pink-300">
+        <i class="fa-solid fa-magnifying-glass absolute left-3 top-3 text-slate-400 text-sm"></i>
       </div>
       <!-- サジェストドロップダウン -->
       <div id="searchSuggest" class="hidden absolute left-0 right-0 top-full mt-1 bg-white border border-slate-200 rounded-lg shadow-xl z-50 max-h-60 overflow-y-auto divide-y divide-slate-100 text-sm"></div>
@@ -60,7 +62,7 @@
           <button onclick="filterTheater('SKE48')" class="theater-btn bg-slate-200 text-slate-700 text-xs font-semibold px-3 py-1 rounded-full">SKE48劇場</button>
           <button onclick="filterTheater('NMB48')" class="theater-btn bg-slate-200 text-slate-700 text-xs font-semibold px-3 py-1 rounded-full">NMB48劇場</button>
           <button onclick="filterTheater('HKT48')" class="theater-btn bg-slate-200 text-slate-700 text-xs font-semibold px-3 py-1 rounded-full">HKT48劇場</button>
-          <button onclick="filterTheater('NGT_STU')" class="theater-btn bg-slate-200 text-slate-700 text-xs font-semibold px-3 py-1 rounded-full">NGT/STU (交互)</button>
+          <button onclick="filterTheater('NGT_STU')" class="theater-btn bg-slate-200 text-slate-700 text-xs font-semibold px-3 py-1 rounded-full">NGT/STU</button>
         </div>
         <div id="calendarList" class="space-y-2.5"></div>
       </div>
@@ -76,10 +78,10 @@
             <h2 id="posTeamTitle" class="text-lg font-bold text-slate-800">チームE</h2>
             <p id="posStageTitle" class="text-xs text-pink-600 font-semibold">演目：「制服の芽」公演</p>
           </div>
-          <span class="bg-pink-100 text-pink-700 text-xs font-bold px-2.5 py-1 rounded-full">固定16名枠</span>
+          <span class="bg-pink-100 text-pink-700 text-xs font-bold px-2.5 py-1 rounded-full">基本16名枠</span>
         </div>
 
-        <h3 class="text-xs font-bold text-slate-500 uppercase tracking-wider mb-2">ポジション一覧（固定メンバー ＆ アンダーメンバー）</h3>
+        <h3 class="text-xs font-bold text-slate-500 uppercase tracking-wider mb-2">ポジション一覧（基本固定メンバー ＆ アンダー候補）</h3>
         <div class="overflow-x-auto">
           <table class="w-full text-left text-xs border-collapse">
             <thead>
@@ -96,10 +98,10 @@
 
       <!-- ② 日別ユニット一覧 -->
       <div class="bg-white rounded-xl p-4 shadow-sm border border-slate-200">
-        <h3 class="text-xs font-bold text-slate-500 uppercase tracking-wider mb-2 flex items-center gap-1.5">
+        <h3 class="text-xs font-bold text-slate-500 uppercase tracking-wider mb-1 flex items-center gap-1.5">
           <i class="fa-solid fa-music text-pink-500"></i> 日別ユニットポジション一覧
         </h3>
-        <p class="text-xs text-slate-400 mb-3">公演日付ごとのユニット出演ポジション結果</p>
+        <p class="text-xs text-slate-400 mb-3">公演日付ごとのユニット出演記録</p>
         
         <div class="overflow-x-auto">
           <table class="w-full text-left text-xs border-collapse border border-slate-200 whitespace-nowrap">
@@ -111,23 +113,29 @@
 
     </section>
 
-    <!-- Tab 3: 出演・休演予想 (壁写アイコン選択) -->
+    <!-- Tab 3: 出演・休演予想 (全員選択) -->
     <section id="tab-predict" class="tab-content hidden">
       <div class="bg-white rounded-xl p-4 shadow-sm border border-slate-200">
-        <h2 class="text-base font-bold text-slate-800 mb-1">出演・休演予想シミュレーター</h2>
-        <p class="text-xs text-slate-500 mb-4">チーム全員から【休演メンバー】をタップして選択すると、アンダーメンバーが自動補填されます。</p>
+        <div class="flex justify-between items-center mb-1">
+          <h2 class="text-base font-bold text-slate-800">出演・休演予想シミュレーター</h2>
+          <span id="memberCountBadge" class="text-xs bg-slate-100 text-slate-600 font-bold px-2 py-0.5 rounded-full">全37名</span>
+        </div>
+        <p class="text-xs text-slate-500 mb-4">メンバーアイコンをタップして【休演】を選択すると、控えメンバーから自動で補填されます。</p>
 
-        <!-- メンバー壁写選択グリッド -->
+        <!-- メンバー壁写選択グリッド（全員） -->
         <div class="mb-6">
-          <h3 class="text-xs font-bold text-slate-600 mb-2 border-b pb-1">チーム所属メンバー（タップで休演切替）</h3>
-          <div id="memberGrid" class="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-6 gap-2"></div>
+          <h3 class="text-xs font-bold text-slate-600 mb-2 border-b pb-1 flex justify-between items-center">
+            <span>チーム全員一覧（タップで休演切替）</span>
+            <button onclick="resetAbsence()" class="text-xs text-pink-600 hover:underline font-normal">休演リセット</button>
+          </h3>
+          <div id="memberGrid" class="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-6 gap-2.5"></div>
         </div>
 
         <!-- 予想スターティングラインナップ -->
         <div>
           <h3 class="text-xs font-bold text-pink-600 mb-2 border-b pb-1 flex justify-between items-center">
             <span>予想スターティング16名</span>
-            <button onclick="resetAbsence()" class="text-xs text-slate-400 underline font-normal">リセット</button>
+            <span id="subCountText" class="text-xs text-slate-500 font-normal">アンダー補填: 0名</span>
           </h3>
           <div id="predictedLineup" class="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs"></div>
         </div>
@@ -156,45 +164,32 @@
 
   <!-- App Logic -->
   <script>
-    // プレースホルダー壁写アイコン生成関数
+    // 丸型アバター画像生成（プレースホルダー）
     function getAvatar(name, color = "E91E63") {
-      return `https://ui-avatars.com/api/?name=${encodeURIComponent(name)}&background=${color}&color=fff&size=128&bold=true`;
+      return `https://ui-avatars.com/api/?name=${encodeURIComponent(name)}&background=${color}&color=fff&size=128&bold=true&rounded=true`;
     }
 
-    // 全データ構造
-    const TEAMS_DATA = {
-      A: { name: "チームA", stage: "ここからだ", center: "大村杏", members: [], substitutes: [], unitHeaders: [] },
-      B: { name: "チームB", stage: "RESET", center: "河村優愛", members: [], substitutes: [], unitHeaders: [] },
-      C: { name: "チームC", stage: "M.T.に捧ぐ", center: "小栗有以", members: [], substitutes: [], unitHeaders: [] },
-      D: { name: "チームD", stage: "シアターの女神", center: "石橋颯", members: [], substitutes: [], unitHeaders: [] },
+    // 全7チームのメンバー名リスト（いただいた最新全メンバーデータ）
+    const RAW_TEAMS = {
+      A: {
+        name: "チームA", stage: "ここからだ",
+        all: ["岩立沙穂", "髙橋彩音", "武藤小麟", "平田侑希", "工藤華純", "奥本カイリ", "倉島杏実", "松川みゆ", "鎌田菜月", "松本慈子", "大村杏", "青原優花", "岡腰星来", "塩月希依音", "田中ミリア", "松岡さくら", "山口美桜", "栗原紗英", "梁瀬鈴雅", "猪島莉玲亜", "竹本くるみ", "安井妃奈", "喜多花恵", "甲斐心愛", "内海里音", "宗雪里香", "新井梨杏", "近藤沙樹", "川村昇子", "横井志穂", "桜井ひまり", "藪内陽花", "高島柚愛", "須藤凜華", "久我水羚", "木原姫花世", "田中奈菜子", "横井結菜"]
+      },
+      B: {
+        name: "チームB", stage: "RESET",
+        all: ["福岡聖菜", "徳永羚海", "山内瑞葵", "布袋百椛", "久保姫菜乃", "川村結衣", "桒原椿", "南澤恋々", "北川愛乃", "青木莉樺", "河村優愛", "池帆乃香", "衣笠彩実", "澁谷愛紗南", "中川朋香", "松本海日菜", "生野莉奈", "渋井美奈", "山内祐奈", "猪原絆愛", "立花心良", "清司麗菜", "北村優羽", "谷口茉妃菜", "尾崎世里花", "吉田彩良", "石原侑奈", "丸山ひなた", "久保田怜", "飯田ゆら", "善家侑莉花", "和田承子", "西川晴菜", "中田麻実", "佐藤歩夏", "小松奈侑", "道保琉南"]
+      },
+      C: {
+        name: "チームC", stage: "M.T.に捧ぐ",
+        all: ["小栗有以", "永野芹佳", "山根涼羽", "正鋳真優", "迫由芽実", "相川暖花", "坂本真凛", "山村さくら", "雲井紗菜", "赤堀君江", "鈴木愛菜", "池田典愛", "木根彩呂花", "新澤菜央", "西島梨央", "三鴨くるみ", "石川歩実優", "豊永阿紀", "吉田めい", "今村麻莉愛", "田中伊桜莉", "西潟茉莉奈", "水津菜月", "兵頭葵", "川又優菜", "渡辺菜月", "奥田唯菜", "髙橋舞桜", "佐々木希美", "池田有沙", "高橋樹奈", "青木日菜子", "安座間結", "皆川日和", "平井柚葉", "坂木叶愛", "野中莉央"]
+      },
+      D: {
+        name: "チームD", stage: "シアターの女神",
+        all: ["行天優莉奈", "橋本陽菜", "太田有紀", "水島美結", "成田香姫奈", "石黒友月", "杉本りいな", "荒野姫楓", "倉本羽菜", "浅井裕華", "中坂美祐", "石山千尋", "黒島咲花", "高橋ことね", "西田帆花", "宮崎紗衣", "石橋颯", "中野南実", "龍頭綺音", "江浦優香", "長野らら", "佐藤海里", "杉本萌", "福田朱里", "工藤理子", "岡田あずみ", "北澤苺", "田中沙友利", "立花菖", "竹下茉莉花", "田中れい", "呉優菜", "阿達夢", "相木茉采", "細矢夏帆", "坂崎愛", "濵田美惟"]
+      },
       E: {
-        name: "チームE",
-        stage: "制服の芽",
-        members: [
-          { pos: 1, name: "佐藤綺星", img: getAvatar("佐藤綺星"), subName: "山﨑空", subImg: getAvatar("山﨑空", "9C27B0") },
-          { pos: 2, name: "泉綾乃", img: getAvatar("泉綾乃"), subName: "鈴木恋奈", subImg: getAvatar("鈴木恋奈", "9C27B0") },
-          { pos: 3, name: "八木愛月", img: getAvatar("八木愛月"), subName: "近藤海琴", subImg: getAvatar("近藤海琴", "9C27B0") },
-          { pos: 4, name: "江口心々華", img: getAvatar("江口心々華"), subName: "井田玲音名", subImg: getAvatar("井田玲音名", "9C27B0") },
-          { pos: 5, name: "倉野尾成美", img: getAvatar("倉野尾成美"), subName: "西井美桜", subImg: getAvatar("西井美桜", "9C27B0") },
-          { pos: 6, name: "芳賀礼", img: getAvatar("芳賀礼"), subName: "竹田京加", subImg: getAvatar("竹田京加", "9C27B0") },
-          { pos: 7, name: "大塚七海", img: getAvatar("大塚七海"), subName: "宮原心音", subImg: getAvatar("宮原心音", "9C27B0") },
-          { pos: 8, name: "伊藤虹々美", img: getAvatar("伊藤虹々美"), subName: "石松陽菜", subImg: getAvatar("石松陽菜", "9C27B0") },
-          { pos: 9, name: "岡村梨央", img: getAvatar("岡村梨央"), subName: "藤野心葉", subImg: getAvatar("藤野心葉", "9C27B0") },
-          { pos: 10, name: "坂下真心", img: getAvatar("坂下真心"), subName: "秋吉優花", subImg: getAvatar("秋吉優花", "9C27B0") },
-          { pos: 11, name: "千葉恵里", img: getAvatar("千葉恵里"), subName: "福井可憐", subImg: getAvatar("福井可憐", "9C27B0") },
-          { pos: 12, name: "濵田響", img: getAvatar("濵田響"), subName: "磯崎菜々", subImg: getAvatar("磯崎菜々", "9C27B0") },
-          { pos: 13, name: "伊藤実希", img: getAvatar("伊藤実希"), subName: "迫姫華", subImg: getAvatar("迫姫華", "9C27B0") },
-          { pos: 14, name: "島田紗香", img: getAvatar("島田紗香"), subName: "牧戸愛茉", subImg: getAvatar("牧戸愛茉", "9C27B0") },
-          { pos: 15, name: "甲斐瑞季", img: getAvatar("甲斐瑞季"), subName: "田村真悠", subImg: getAvatar("田村真悠", "9C27B0") },
-          { pos: 16, name: "信濃宙花", img: getAvatar("信濃宙花"), subName: "中尾楓華", subImg: getAvatar("中尾楓華", "9C27B0") }
-        ],
-        substitutes: [
-          { name: "山﨑空", img: getAvatar("山﨑空", "9C27B0") },
-          { name: "鈴木恋奈", img: getAvatar("鈴木恋奈", "9C27B0") },
-          { name: "近藤海琴", img: getAvatar("近藤海琴", "9C27B0") },
-          { name: "井田玲音名", img: getAvatar("井田玲音名", "9C27B0") },
-          { name: "西井美桜", img: getAvatar("西井美桜", "9C27B0") }
-        ],
+        name: "チームE", stage: "制服の芽",
+        all: ["倉野尾成美", "千葉恵里", "佐藤綺星", "山﨑空", "八木愛月", "伊藤虹々美", "鈴木恋奈", "伊藤実希", "近藤海琴", "井田玲音名", "西井美桜", "泉綾乃", "坂下真心", "竹田京加", "芳賀礼", "宮原心音", "石松結菜", "藤野心葉", "秋吉優花", "江口心々華", "福井可憐", "大塚七海", "磯崎菜々", "信濃宙花", "迫姫華", "岡村梨央", "濵田響", "牧戸愛茉", "田村真悠", "中尾楓華", "谷口詩乃", "靏川那智", "甲斐瑞季", "猪股咲那", "石松陽菜", "島田紗香", "藤田愛結"],
         unitHeaders: ["思い出以上", "思い出以上", "思い出以上", "狼とプライド", "狼とプライド", "女の子の第六感", "女の子の第六感", "女の子の第六感", "枯葉のステーション", "万華鏡", "万華鏡", "万華鏡"],
         unitLogs: [
           { date: "10/1", performers: ["泉綾乃", "八木愛月", "江口心々華", "佐藤綺星", "信濃宙花", "倉野尾成美", "芳賀礼", "大塚七海", "坂下真心", "千葉恵里", "濵田響", "伊藤実希"] },
@@ -202,38 +197,48 @@
         ]
       },
       F: {
-        name: "チームF",
-        stage: "ここにだって天使はいる",
-        members: [
-          { pos: 1, name: "中村舞", img: getAvatar("中村舞"), subName: "曽我部あこ", subImg: getAvatar("曽我部あこ", "009688") },
-          { pos: 2, name: "野村実代", img: getAvatar("野村実代"), subName: "板垣心和", subImg: getAvatar("板垣心和", "009688") },
-          { pos: 3, name: "高雄さやか", img: getAvatar("高雄さやか"), subName: "北澤百音", subImg: getAvatar("北澤百音", "009688") },
-          { pos: 4, name: "秋山由奈", img: getAvatar("秋山由奈"), subName: "木本杏菜", subImg: getAvatar("木本杏菜", "009688") },
-          { pos: 5, name: "坂田心咲", img: getAvatar("坂田心咲"), subName: "坂川陽香", subImg: getAvatar("坂川陽香", "009688") },
-          { pos: 6, name: "佐藤佳穂", img: getAvatar("佐藤佳穂"), subName: "黒須遥香", subImg: getAvatar("黒須遥香", "009688") },
-          { pos: 7, name: "井澤美優", img: getAvatar("井澤美優"), subName: "山口結愛", subImg: getAvatar("山口結愛", "009688") },
-          { pos: 8, name: "久留島優果", img: getAvatar("久留島優果"), subName: "長谷川雅", subImg: getAvatar("長谷川雅", "009688") },
-          { pos: 9, name: "市村愛里", img: getAvatar("市村愛里"), subName: "宮本杏海", subImg: getAvatar("宮本杏海", "009688") },
-          { pos: 10, name: "入内嶋涼", img: getAvatar("入内嶋涼"), subName: "渕上舞", subImg: getAvatar("渕上舞", "009688") },
-          { pos: 11, name: "平山真衣", img: getAvatar("平山真衣"), subName: "大庭凜咲", subImg: getAvatar("大庭凜咲", "009688") },
-          { pos: 12, name: "森末妃奈", img: getAvatar("森末妃奈"), subName: "松本苺花", subImg: getAvatar("松本苺花", "009688") },
-          { pos: 13, name: "橋本恵理子", img: getAvatar("橋本恵理子"), subName: "三村妃乃", subImg: getAvatar("三村妃乃", "009688") },
-          { pos: 14, name: "太田彩夏", img: getAvatar("太田彩夏"), subName: "森川優", subImg: getAvatar("森川優", "009688") },
-          { pos: 15, name: "井上瑠夏", img: getAvatar("井上瑠夏"), subName: "聖遥花", subImg: getAvatar("聖遥花", "009688") },
-          { pos: 16, name: "龍本弥生", img: getAvatar("龍本弥生"), subName: "矢島凪", subImg: getAvatar("矢島凪", "009688") }
-        ],
-        substitutes: [
-          { name: "曽我部あこ", img: getAvatar("曽我部あこ", "009688") },
-          { name: "板垣心和", img: getAvatar("板垣心和", "009688") },
-          { name: "北澤百音", img: getAvatar("北澤百音", "009688") }
-        ],
+        name: "チームF", stage: "ここにだって天使はいる",
+        all: ["坂川陽香", "黒須遥香", "橋本恵理子", "秋山由奈", "山口結愛", "入内嶋涼", "野村実代", "井上瑠夏", "佐藤佳穂", "太田彩夏", "長谷川雅", "板垣心和", "坂田心咲", "龍本弥生", "平山真衣", "宮本杏海", "市村愛里", "渕上舞", "井澤美優", "大庭凜咲", "松本苺花", "三村妃乃", "木本杏菜", "中村舞", "高雄さやか", "久留島優果", "森末妃奈", "森川優", "聖遥花", "矢島凪", "西住美咲妃", "山川万里愛", "北澤百音", "大橋彩乃", "井上久伶杏", "曽我部あこ", "三好真綺"],
         unitHeaders: ["おNEWの上履き", "おNEWの上履き", "おNEWの上履き", "ジッパー", "ジッパー", "ジッパー", "何度もねらえ!", "何度もねらえ!", "100年先でも"],
         unitLogs: [
           { date: "10/2", performers: ["野村実代", "高雄さやか", "秋山由奈", "中村舞", "坂田心咲", "佐藤佳穂", "井澤美優", "久留島優果", "森末妃奈"] }
         ]
       },
-      G: { name: "チームG", stage: "目撃者", center: "伊藤百花", members: [], substitutes: [], unitHeaders: [] }
+      G: {
+        name: "チームG", stage: "目撃者",
+        all: ["下尾みう", "長友彩海", "畠山希美", "新井彩永", "伊藤百花", "熊崎晴香", "原優寧", "奥野心羽", "篠原京香", "太田愛恵", "森本くるみ", "内田愛彩", "桜田彩叶", "田中美空", "福野杏実", "村井悠莉", "北川陽彩", "松永悠良", "石井彩音", "栗山梨奈", "森﨑冴彩", "磯部瑠紅", "佐藤広花", "池田裕楽", "原田清花", "諸葛望愛", "大賀彩姫", "渡邉葵心", "宮本倫花", "赤松昊", "福原琴美", "新沢葵唯", "佐藤柚花", "片山珠吏", "蕪竹真奈", "髙村栞里", "屋木優菜"]
+      }
     };
+
+    // 内部データ初期化関数（先頭16名を固定、17名以降を控えに設定）
+    const TEAMS_DATA = {};
+    Object.keys(RAW_TEAMS).forEach(key => {
+      const raw = RAW_TEAMS[key];
+      const members = raw.all.slice(0, 16).map((name, idx) => {
+        const subName = raw.all[16 + idx] || raw.all[16];
+        return {
+          pos: idx + 1,
+          name: name,
+          img: getAvatar(name, "E91E63"),
+          subName: subName,
+          subImg: getAvatar(subName, "9C27B0")
+        };
+      });
+      const substitutes = raw.all.slice(16).map(name => ({
+        name: name,
+        img: getAvatar(name, "9C27B0")
+      }));
+
+      TEAMS_DATA[key] = {
+        name: raw.name,
+        stage: raw.stage,
+        allNames: raw.all,
+        members: members,
+        substitutes: substitutes,
+        unitHeaders: raw.unitHeaders || [],
+        unitLogs: raw.unitLogs || []
+      };
+    });
 
     // カレンダー用ダミーデータ
     const SCHEDULE_DATA = [
@@ -246,7 +251,7 @@
 
     let currentTeamKey = 'E';
     let currentTheaterFilter = 'ALL';
-    let absentMembersMap = {}; // 休演メンバー管理マップ { "佐藤綺星": true }
+    let absentMembersMap = {}; // 休演マップ { "メンバー名": true }
 
     document.addEventListener("DOMContentLoaded", () => {
       renderCalendar();
@@ -287,21 +292,15 @@
       const query = val.toLowerCase();
       let matches = [];
 
-      // チーム / 演目マッチ
       Object.keys(TEAMS_DATA).forEach(key => {
         const t = TEAMS_DATA[key];
         if (t.name.toLowerCase().includes(query) || t.stage.toLowerCase().includes(query)) {
           matches.push({ type: 'team', label: `${t.name} (演目: ${t.stage})`, key: key });
         }
-        // メンバーマッチ
-        t.members.forEach(m => {
-          if (m.name.toLowerCase().includes(query)) {
-            matches.push({ type: 'member', label: `${m.name} (${t.name} Pos.${m.pos})`, key: key, memberName: m.name });
-          }
-        });
-        t.substitutes.forEach(s => {
-          if (s.name.toLowerCase().includes(query)) {
-            matches.push({ type: 'member', label: `${s.name} (${t.name} 控え)`, key: key, memberName: s.name });
+        t.allNames.forEach((name, idx) => {
+          if (name.toLowerCase().includes(query)) {
+            const role = idx < 16 ? `Pos.${idx+1}` : '控え';
+            matches.push({ type: 'member', label: `${name} (${t.name} ${role})`, key: key });
           }
         });
       });
@@ -311,7 +310,7 @@
         return;
       }
 
-      suggestBox.innerHTML = matches.map(m => `
+      suggestBox.innerHTML = matches.slice(0, 8).map(m => `
         <div onclick="selectSuggest('${m.key}')" class="p-2.5 hover:bg-pink-50 cursor-pointer flex justify-between items-center">
           <span class="font-medium text-slate-800">${m.label}</span>
           <span class="text-xs text-pink-600 font-bold">${m.type === 'team' ? 'チーム' : 'メンバー'}</span>
@@ -377,22 +376,18 @@
       const tbody = document.getElementById('positionTableBody');
       tbody.innerHTML = '';
 
-      if (team.members.length === 0) {
-        tbody.innerHTML = `<tr><td colspan="5" class="p-4 text-center text-slate-400">枠調整中（データ準備中）</td></tr>`;
-      } else {
-        team.members.forEach(m => {
-          const tr = document.createElement('tr');
-          tr.className = "hover:bg-slate-50";
-          tr.innerHTML = `
-            <td class="p-2 text-center font-bold text-slate-400">${m.pos}</td>
-            <td class="p-1.5 w-12"><img src="${m.img}" alt="${m.name}" class="avatar-img"></td>
-            <td class="p-2 font-bold text-slate-800">${m.name} ${m.pos === 1 ? '🌟' : ''}</td>
-            <td class="p-1.5 w-12"><img src="${m.subImg || getAvatar(m.subName, "9C27B0")}" alt="${m.subName}" class="avatar-img opacity-90"></td>
-            <td class="p-2 text-slate-600">${m.subName || '未定'}</td>
-          `;
-          tbody.appendChild(tr);
-        });
-      }
+      team.members.forEach(m => {
+        const tr = document.createElement('tr');
+        tr.className = "hover:bg-slate-50";
+        tr.innerHTML = `
+          <td class="p-2 text-center font-bold text-slate-400">${m.pos}</td>
+          <td class="p-1.5 w-12"><img src="${m.img}" alt="${m.name}" class="avatar-img"></td>
+          <td class="p-2 font-bold text-slate-800">${m.name} ${m.pos === 1 ? '🌟' : ''}</td>
+          <td class="p-1.5 w-12"><img src="${m.subImg}" alt="${m.subName}" class="avatar-img"></td>
+          <td class="p-2 text-slate-600">${m.subName}</td>
+        `;
+        tbody.appendChild(tr);
+      });
 
       // ② 日別ユニット一覧表
       const uHead = document.getElementById('unitTableHead');
@@ -401,11 +396,11 @@
       uBody.innerHTML = '';
 
       if (!team.unitHeaders || team.unitHeaders.length === 0) {
-        uBody.innerHTML = `<tr><td class="p-3 text-slate-400 text-center">ユニット履歴なし</td></tr>`;
+        uBody.innerHTML = `<tr><td class="p-3 text-slate-400 text-center">ユニット履歴準備中</td></tr>`;
         return;
       }
 
-      // ヘッダー生成 (公演日付, ユニット名1, ユニット名2...)
+      // ヘッダー生成
       let headHTML = `<tr class="divide-x divide-slate-200"><th class="p-2 font-bold text-center bg-slate-100">公演日付</th>`;
       team.unitHeaders.forEach(uName => {
         headHTML += `<th class="p-2 font-bold text-center">${uName}</th>`;
@@ -424,39 +419,33 @@
       });
     }
 
-    // --- Tab 3: 出演・休演予想 (壁写アイコン選択) ---
+    // --- Tab 3: 出演・休演予想 (全員選択) ---
     function initPredictTab() {
       const team = TEAMS_DATA[currentTeamKey];
       const grid = document.getElementById('memberGrid');
       grid.innerHTML = '';
 
-      if (!team || team.members.length === 0) {
-        grid.innerHTML = `<p class="text-xs text-slate-400 col-span-4">データが設定されていません。</p>`;
-        document.getElementById('predictedLineup').innerHTML = '';
-        return;
-      }
+      document.getElementById('memberCountBadge').innerText = `全${team.allNames.length}名`;
 
-      // 全メンバーリスト（正規16名＋控えメンバー）
-      const allTeamMembers = [
-        ...team.members.map(m => ({ name: m.name, img: m.img, isRegular: true, pos: m.pos })),
-        ...team.substitutes.map(s => ({ name: s.name, img: s.img, isRegular: false, pos: null }))
-      ];
+      // 全メンバーのグリッド描画（全37〜38名）
+      team.allNames.forEach((name, idx) => {
+        const isAbsent = !!absentMembersMap[name];
+        const isRegular = idx < 16;
+        const imgUrl = isRegular ? team.members[idx].img : team.substitutes[idx - 16].img;
 
-      allTeamMembers.forEach(m => {
-        const isAbsent = !!absentMembersMap[m.name];
         const card = document.createElement('div');
-        card.onclick = () => toggleAbsence(m.name);
-        card.className = `p-2 rounded-lg border flex flex-col items-center justify-center cursor-pointer transition select-none ${
-          isAbsent ? 'bg-red-50 border-red-300 opacity-60' : 'bg-white border-slate-200 hover:border-pink-400 shadow-sm'
+        card.onclick = () => toggleAbsence(name);
+        card.className = `p-2 rounded-xl border flex flex-col items-center justify-center cursor-pointer transition select-none ${
+          isAbsent ? 'bg-red-50 border-red-300 shadow-inner' : 'bg-white border-slate-200 hover:border-pink-300 shadow-sm'
         }`;
 
         card.innerHTML = `
-          <div class="relative">
-            <img src="${m.img}" alt="${m.name}" class="avatar-img-lg mb-1">
-            ${isAbsent ? '<span class="absolute top-0 right-0 bg-red-600 text-white text-[10px] font-bold px-1 rounded">休</span>' : ''}
+          <div class="relative mb-1">
+            <img src="${imgUrl}" alt="${name}" class="avatar-img-lg ${isAbsent ? 'grayscale opacity-50' : ''}">
+            ${isAbsent ? '<span class="absolute -top-1 -right-1 bg-red-600 text-white text-[10px] font-bold px-1.5 py-0.2 rounded-full border border-white">休</span>' : ''}
           </div>
-          <span class="text-xs font-bold text-center leading-tight ${isAbsent ? 'text-red-600 line-through' : 'text-slate-800'}">${m.name}</span>
-          <span class="text-[10px] text-slate-400">${m.isRegular ? `P${m.pos}` : '控え'}</span>
+          <span class="text-xs font-bold text-center leading-tight ${isAbsent ? 'text-red-500 line-through' : 'text-slate-800'}">${name}</span>
+          <span class="text-[10px] ${isRegular ? 'text-pink-600 font-semibold' : 'text-slate-400'}">${isRegular ? `P${idx+1}` : '控え'}</span>
         `;
         grid.appendChild(card);
       });
@@ -479,47 +468,50 @@
       const lineupContainer = document.getElementById('predictedLineup');
       lineupContainer.innerHTML = '';
 
-      if (!team || team.members.length === 0) return;
-
-      // 出演可能な控えプール
+      // 控えメンバー（17名以降）の中で出演可能なメンバーのキューを作成
       const availableSubs = team.substitutes.filter(s => !absentMembersMap[s.name]);
       let subIndex = 0;
+      let subCount = 0;
 
-      team.members.forEach(m => {
+      // 基本16ポジションを繰り上げ計算
+      team.members.forEach((m) => {
         const isAbsent = absentMembersMap[m.name];
         const div = document.createElement('div');
 
         if (!isAbsent) {
-          // 通常出演
-          div.className = "p-2 bg-slate-50 rounded border border-slate-200 flex items-center justify-between";
+          // 通常固定メンバー出演
+          div.className = "p-2 bg-slate-50 rounded-lg border border-slate-200 flex items-center justify-between";
           div.innerHTML = `
-            <div class="flex items-center gap-2">
-              <span class="font-bold text-slate-400 text-xs w-5">P${m.pos}</span>
-              <img src="${m.img}" class="w-8 h-10 object-cover rounded">
-              <span class="font-bold text-slate-800">${m.name}</span>
+            <div class="flex items-center gap-2.5">
+              <span class="font-bold text-slate-400 text-xs w-5 text-center">P${m.pos}</span>
+              <img src="${m.img}" class="avatar-img-sm">
+              <span class="font-bold text-slate-800 text-xs">${m.name}</span>
             </div>
-            <span class="text-[10px] bg-slate-200 text-slate-600 px-1.5 py-0.5 rounded">正規</span>
+            <span class="text-[10px] bg-slate-200 text-slate-600 font-semibold px-2 py-0.5 rounded-full">固定</span>
           `;
         } else {
-          // 休演 -> アンダー自動補填
-          const sub = availableSubs[subIndex] || { name: m.subName || `控え枠${subIndex+1}`, img: m.subImg || getAvatar("控え") };
+          // 休演のためアンダー補填
+          subCount++;
+          const sub = availableSubs[subIndex] || { name: "アンダー未定", img: getAvatar("未定", "607D8B") };
           subIndex++;
 
-          div.className = "p-2 bg-amber-50 border border-amber-300 rounded flex items-center justify-between";
+          div.className = "p-2 bg-amber-50 border border-amber-200 rounded-lg flex items-center justify-between";
           div.innerHTML = `
-            <div class="flex items-center gap-2">
-              <span class="font-bold text-amber-600 text-xs w-5">P${m.pos}</span>
-              <img src="${sub.img}" class="w-8 h-10 object-cover rounded border border-amber-400">
+            <div class="flex items-center gap-2.5">
+              <span class="font-bold text-amber-600 text-xs w-5 text-center">P${m.pos}</span>
+              <img src="${sub.img}" class="avatar-img-sm border border-amber-300">
               <div>
-                <span class="font-bold text-amber-900 block leading-tight">${sub.name}</span>
+                <span class="font-bold text-amber-900 text-xs block leading-tight">${sub.name}</span>
                 <span class="text-[10px] text-slate-400 line-through">休: ${m.name}</span>
               </div>
             </div>
-            <span class="text-[10px] bg-amber-200 text-amber-800 font-bold px-1.5 py-0.5 rounded">アンダー</span>
+            <span class="text-[10px] bg-amber-200 text-amber-800 font-bold px-2 py-0.5 rounded-full">アンダー</span>
           `;
         }
         lineupContainer.appendChild(div);
       });
+
+      document.getElementById('subCountText').innerText = `アンダー補填: ${subCount}名`;
     }
   </script>
 </body>
