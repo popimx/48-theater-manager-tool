@@ -169,7 +169,7 @@
       return `https://ui-avatars.com/api/?name=${encodeURIComponent(name)}&background=${color}&color=fff&size=128&bold=true&rounded=true`;
     }
 
-    // マスターデータ (固定ポジション & 指定された全員の並び順)
+    // マスターデータ
     const RAW_TEAMS_DATA = {
       A: {
         name: "チームA", stage: "ここからだ",
@@ -198,7 +198,7 @@
         unitHeaders: ["思い出以上", "思い出以上", "思い出以上", "狼とプライド", "狼とプライド", "女の子の第六感", "女の子の第六感", "女の子の第六感", "枯葉のステーション", "万華鏡", "万華鏡", "万華鏡"],
         unitLogs: [
           { date: "10/1", performers: ["泉綾乃", "八木愛月", "江口心々華", "佐藤綺星", "信濃宙花", "倉野尾成美", "芳賀礼", "大塚七海", "坂下真心", "千葉恵里", "濵田響", "伊藤実希"] },
-          { date: "10/5", performers: ["鈴木恋奈", "八木愛月", "江口心々華", "佐藤綺星", "信濃宙花", "倉野尾成美", "芳賀礼", "大塚七海", "秋吉優花", "千葉恵里", "濵田響", "伊藤実希"] }
+          { date: "10/2", performers: ["鈴木恋奈", "八木愛月", "江口心々華", "佐藤綺星", "信濃宙花", "倉野尾成美", "芳賀礼", "大塚七海", "秋吉優花", "千葉恵里", "濵田響", "伊藤実希"] }
         ]
       },
       F: {
@@ -217,12 +217,18 @@
       }
     };
 
+    // 指定された最新劇場スケジュール（10公演）
     const SCHEDULE_DATA = [
-      { date: "2026-10-01", time: "18:30", theater: "SKE48", team: "E", stage: "制服の芽" },
-      { date: "2026-10-02", time: "18:30", theater: "NMB48", team: "F", stage: "ここにだって天使はいる" },
-      { date: "2026-10-03", time: "17:00", theater: "AKB48", team: "A", stage: "ここからだ" },
-      { date: "2026-10-04", time: "13:00", theater: "HKT48", team: "D", stage: "シアターの女神" },
-      { date: "2026-10-05", time: "18:30", theater: "SKE48", team: "E", stage: "制服の芽" }
+      { date: "10/1(木)", time: "18:30", theater: "AKB48劇場", team: "A", stage: "ここからだ" },
+      { date: "10/1(木)", time: "18:30", theater: "SKE48劇場", team: "B", stage: "RESET" },
+      { date: "10/1(木)", time: "18:30", theater: "NMB48劇場", team: "C", stage: "M.T.に捧ぐ" },
+      { date: "10/1(木)", time: "18:30", theater: "NGT48劇場", team: "D", stage: "シアターの女神" },
+      { date: "10/1(木)", time: "18:30", theater: "STU48劇場", team: "E", stage: "制服の芽" },
+      { date: "10/2(金)", time: "18:30", theater: "AKB48劇場", team: "F", stage: "ここにだって天使はいる" },
+      { date: "10/2(金)", time: "18:30", theater: "SKE48劇場", team: "G", stage: "目撃者" },
+      { date: "10/2(金)", time: "18:30", theater: "NMB48劇場", team: "A", stage: "ここからだ" },
+      { date: "10/2(金)", time: "18:30", theater: "NGT48劇場", team: "C", stage: "M.T.に捧ぐ" },
+      { date: "10/2(金)", time: "18:30", theater: "STU48劇場", team: "E", stage: "制服の芽" }
     ];
 
     let currentTeamKey = 'E';
@@ -317,17 +323,19 @@
       const listContainer = document.getElementById('calendarList');
       listContainer.innerHTML = '';
 
-      const filtered = SCHEDULE_DATA.filter(item => 
-        currentTheaterFilter === 'ALL' || item.theater === currentTheaterFilter
-      );
+      const filtered = SCHEDULE_DATA.filter(item => {
+        if (currentTheaterFilter === 'ALL') return true;
+        if (currentTheaterFilter === 'NGT_STU') return item.theater.includes('NGT') || item.theater.includes('STU');
+        return item.theater.includes(currentTheaterFilter);
+      });
 
       filtered.forEach(item => {
         const card = document.createElement('div');
         card.className = "flex items-center justify-between p-2.5 bg-slate-50 rounded-lg border border-slate-200";
         card.innerHTML = `
           <div class="flex items-center gap-3">
-            <div class="text-center bg-white border border-slate-200 px-2 py-1 rounded w-14">
-              <span class="block text-xs text-slate-500 font-bold">${item.date.split('-')[1]}/${item.date.split('-')[2]}</span>
+            <div class="text-center bg-white border border-slate-200 px-2 py-1 rounded w-16">
+              <span class="block text-xs text-slate-500 font-bold">${item.date}</span>
               <span class="block text-xs font-bold text-pink-600">${item.time}</span>
             </div>
             <div>
