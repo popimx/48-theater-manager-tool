@@ -1,4 +1,4 @@
- <!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="ja">
 <head>
   <meta charset="UTF-8">
@@ -8,9 +8,9 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <style>
     body { padding-bottom: 75px; } /* 下部ナビ用 */
-    .avatar-img { object-fit: cover; width: 42px; height: 42px; border-radius: 9999px; }
-    .avatar-img-lg { object-fit: cover; width: 56px; height: 56px; border-radius: 9999px; }
-    .avatar-img-sm { object-fit: cover; width: 34px; height: 34px; border-radius: 9999px; }
+    .avatar-img { object-fit: cover; width: 32px; height: 32px; border-radius: 9999px; flex-shrink: 0; }
+    .avatar-img-lg { object-fit: cover; width: 48px; height: 48px; border-radius: 9999px; flex-shrink: 0; }
+    .avatar-img-sm { object-fit: cover; width: 28px; height: 28px; border-radius: 9999px; flex-shrink: 0; }
   </style>
 </head>
 <body class="bg-slate-100 text-slate-800 font-sans">
@@ -54,14 +54,22 @@
         <h2 class="text-base font-bold text-slate-700 mb-3 flex items-center gap-2">
           <i class="fa-regular fa-calendar-days text-pink-500"></i> 劇場スケジュール（2026年10月）
         </h2>
+        <!-- フィルターボタン（劇場別 ＆ チーム別） -->
         <div class="flex flex-wrap gap-1.5 mb-4">
-          <button onclick="filterTheater('ALL')" class="theater-btn active bg-slate-800 text-white text-xs font-semibold px-3 py-1 rounded-full">全劇場</button>
-          <button onclick="filterTheater('AKB48')" class="theater-btn bg-slate-200 text-slate-700 text-xs font-semibold px-3 py-1 rounded-full">AKB48劇場</button>
-          <button onclick="filterTheater('SKE48')" class="theater-btn bg-slate-200 text-slate-700 text-xs font-semibold px-3 py-1 rounded-full">SKE48劇場</button>
-          <button onclick="filterTheater('NMB48')" class="theater-btn bg-slate-200 text-slate-700 text-xs font-semibold px-3 py-1 rounded-full">NMB48劇場</button>
-          <button onclick="filterTheater('HKT48')" class="theater-btn bg-slate-200 text-slate-700 text-xs font-semibold px-3 py-1 rounded-full">HKT48劇場</button>
-          <button onclick="filterTheater('NGT48')" class="theater-btn bg-slate-200 text-slate-700 text-xs font-semibold px-3 py-1 rounded-full">NGT48劇場</button>
-          <button onclick="filterTheater('STU48')" class="theater-btn bg-slate-200 text-slate-700 text-xs font-semibold px-3 py-1 rounded-full">STU48劇場</button>
+          <button onclick="filterSchedule('ALL', this)" class="filter-btn active bg-slate-800 text-white text-xs font-semibold px-3 py-1 rounded-full">全スケジュール</button>
+          <button onclick="filterSchedule('AKB48', this)" class="filter-btn bg-slate-200 text-slate-700 text-xs font-semibold px-3 py-1 rounded-full">AKB48劇場</button>
+          <button onclick="filterSchedule('SKE48', this)" class="filter-btn bg-slate-200 text-slate-700 text-xs font-semibold px-3 py-1 rounded-full">SKE48劇場</button>
+          <button onclick="filterSchedule('NMB48', this)" class="filter-btn bg-slate-200 text-slate-700 text-xs font-semibold px-3 py-1 rounded-full">NMB48劇場</button>
+          <button onclick="filterSchedule('HKT48', this)" class="filter-btn bg-slate-200 text-slate-700 text-xs font-semibold px-3 py-1 rounded-full">HKT48劇場</button>
+          <button onclick="filterSchedule('NGT48', this)" class="filter-btn bg-slate-200 text-slate-700 text-xs font-semibold px-3 py-1 rounded-full">NGT48劇場</button>
+          <button onclick="filterSchedule('STU48', this)" class="filter-btn bg-slate-200 text-slate-700 text-xs font-semibold px-3 py-1 rounded-full">STU48劇場</button>
+          <button onclick="filterSchedule('TeamA', this)" class="filter-btn bg-slate-200 text-slate-700 text-xs font-semibold px-3 py-1 rounded-full">チームA</button>
+          <button onclick="filterSchedule('TeamB', this)" class="filter-btn bg-slate-200 text-slate-700 text-xs font-semibold px-3 py-1 rounded-full">チームB</button>
+          <button onclick="filterSchedule('TeamC', this)" class="filter-btn bg-slate-200 text-slate-700 text-xs font-semibold px-3 py-1 rounded-full">チームC</button>
+          <button onclick="filterSchedule('TeamD', this)" class="filter-btn bg-slate-200 text-slate-700 text-xs font-semibold px-3 py-1 rounded-full">チームD</button>
+          <button onclick="filterSchedule('TeamE', this)" class="filter-btn bg-slate-200 text-slate-700 text-xs font-semibold px-3 py-1 rounded-full">チームE</button>
+          <button onclick="filterSchedule('TeamF', this)" class="filter-btn bg-slate-200 text-slate-700 text-xs font-semibold px-3 py-1 rounded-full">チームF</button>
+          <button onclick="filterSchedule('TeamG', this)" class="filter-btn bg-slate-200 text-slate-700 text-xs font-semibold px-3 py-1 rounded-full">チームG</button>
         </div>
         <div id="calendarList" class="space-y-3"></div>
       </div>
@@ -175,6 +183,7 @@
       A: {
         name: "チームA", stage: "ここからだ",
         posNames: ["小栗", "山内", "村山", "倉野尾", "佐藤", "八木", "下尾", "秋山", "伊藤", "向井地", "千葉", "水島", "山口", "永野", "鈴木", "山﨑"],
+        predictPosNames: ["小栗", "佐藤", "倉野尾", "八木", "伊藤", "秋山", "下尾", "村山", "山内", "千葉", "山口", "水島", "山﨑", "向井地", "永野", "鈴木"],
         fixed: ["大村杏", "塩月希依音", "甲斐心愛", "青原優花", "竹本くるみ", "岡腰星来", "梁瀬鈴雅", "栗原紗英", "近藤沙樹", "倉島杏実", "工藤華純", "新井梨杏", "喜多花恵", "内海里音", "松岡さくら", "平田侑希"],
         allMembers: ["岩立沙穂", "髙橋彩音", "武藤小麟", "平田侑希", "工藤華純", "奥本カイリ", "倉島杏実", "松川みゆ", "鎌田菜月", "松本慈子", "大村杏", "青原優花", "岡腰星来", "塩月希依音", "田中ミリア", "松岡さくら", "山口美桜", "栗原紗英", "梁瀬鈴雅", "猪島莉玲亜", "竹本くるみ", "安井妃奈", "喜多花恵", "甲斐心愛", "内海里音", "宗雪里香", "新井梨杏", "近藤沙樹", "川村昇子", "横井志穂", "桜井ひまり", "藪内陽花", "高島柚愛", "須藤凜華", "久我水羚", "木原姫花世", "田中奈菜子", "横井結菜"],
         underChain: {
@@ -237,9 +246,9 @@
         absent: ["大村杏", "青原優花", "塩月希依音"],
         performersText: "平田侑希・工藤華純・倉島杏実・鎌田菜月・岡腰星来・田中ミリア・松岡さくら・猪島莉玲亜・栗原紗英・梁瀬鈴雅・竹本くるみ・喜多花恵・甲斐心愛・内海里音・新井梨杏・近藤沙樹",
         positionChanges: [
-          "大村杏←竹本くるみ←倉島杏実←猪島莉玲亜",
-          "塩月希依音←梁瀬鈴雅←松岡さくら←鎌田菜月",
-          "青原優花←近藤沙樹←田中ミリア"
+          "大村杏 ← 竹本くるみ ← 倉島杏実 ← 猪島莉玲亜",
+          "塩月希依音 ← 梁瀬鈴雅 ← 松岡さくら ← 鎌田菜月",
+          "青原優花 ← 近藤沙樹 ← 田中ミリア"
         ]
       },
       { date: "10/1(木)", time: "18:30", theater: "SKE48劇場", team: "B", stage: "RESET" },
@@ -254,7 +263,7 @@
     ];
 
     let currentTeamKey = 'A';
-    let currentTheaterFilter = 'ALL';
+    let currentScheduleFilter = 'ALL';
     let absentMembersMap = {};
 
     document.addEventListener("DOMContentLoaded", () => {
@@ -345,15 +354,15 @@
       return 'bg-pink-100 text-pink-700';
     }
 
-    // Tab 1: カレンダー
-    function filterTheater(theater) {
-      currentTheaterFilter = theater;
-      document.querySelectorAll('.theater-btn').forEach(btn => {
+    // Tab 1: カレンダー フィルター
+    function filterSchedule(filter, btnElement) {
+      currentScheduleFilter = filter;
+      document.querySelectorAll('.filter-btn').forEach(btn => {
         btn.classList.remove('bg-slate-800', 'text-white');
         btn.classList.add('bg-slate-200', 'text-slate-700');
       });
-      event.target.classList.remove('bg-slate-200', 'text-slate-700');
-      event.target.classList.add('bg-slate-800', 'text-white');
+      btnElement.classList.remove('bg-slate-200', 'text-slate-700');
+      btnElement.classList.add('bg-slate-800', 'text-white');
       renderCalendar();
     }
 
@@ -362,8 +371,12 @@
       listContainer.innerHTML = '';
 
       const filtered = SCHEDULE_DATA.filter(item => {
-        if (currentTheaterFilter === 'ALL') return true;
-        return item.theater.includes(currentTheaterFilter);
+        if (currentScheduleFilter === 'ALL') return true;
+        if (currentScheduleFilter.startsWith('Team')) {
+          const teamLetter = currentScheduleFilter.replace('Team', '');
+          return item.team === teamLetter;
+        }
+        return item.theater.includes(currentScheduleFilter);
       });
 
       filtered.forEach(item => {
@@ -382,7 +395,7 @@
               </div>
               <div>
                 <span class="font-bold text-slate-700 block mb-0.5">【ポジション】</span>
-                <div class="text-slate-700 font-mono text-[11px] leading-relaxed">${posFormatted}</div>
+                <div class="text-slate-700 font-mono text-xs leading-relaxed">${posFormatted}</div>
               </div>
             </div>
           `;
@@ -426,22 +439,20 @@
         const nameText = isPresent ? fixedName : "－";
         const imgUrl = getAvatar(nameText, "E91E63");
 
-        // Pos欄の名称表示（例: 1 小栗）
         const posName = (team.posNames && team.posNames[pos - 1]) ? team.posNames[pos - 1] : "";
         const posDisplay = posName ? `${pos}<br><span class="text-[10px] text-slate-500 font-normal">${posName}</span>` : `${pos}`;
 
-        // アンダーチェーンが明記されていない場合は空白表示にする
         let subName = "";
         if (team.underChain && team.underChain[fixedName] && team.underChain[fixedName].length > 0) {
           subName = team.underChain[fixedName][0];
         }
 
-        let subImgTd = `<td class="p-1.5 w-12"></td>`;
+        let subImgTd = `<td class="p-1.5 w-10"></td>`;
         let subNameTd = `<td class="p-2 font-bold text-pink-600"></td>`;
 
         if (subName) {
           const subImg = getAvatar(subName, "9C27B0");
-          subImgTd = `<td class="p-1.5 w-12"><img src="${subImg}" alt="${subName}" class="avatar-img"></td>`;
+          subImgTd = `<td class="p-1.5 w-10"><img src="${subImg}" alt="${subName}" class="avatar-img"></td>`;
           subNameTd = `<td class="p-2 font-bold text-pink-600">${subName}</td>`;
         }
 
@@ -449,7 +460,7 @@
         tr.className = "hover:bg-slate-50";
         tr.innerHTML = `
           <td class="p-2 text-center font-bold text-slate-600 leading-tight">${posDisplay}</td>
-          <td class="p-1.5 w-12"><img src="${imgUrl}" alt="${nameText}" class="avatar-img"></td>
+          <td class="p-1.5 w-10"><img src="${imgUrl}" alt="${nameText}" class="avatar-img"></td>
           <td class="p-2 font-bold ${isPresent ? 'text-slate-800' : 'text-slate-400'}">${nameText} ${pos === 1 && isPresent ? '🌟' : ''}</td>
           ${subImgTd}
           ${subNameTd}
@@ -531,18 +542,6 @@
       initPredictTab();
     }
 
-    // メンバーの元ポジション名の取得ヘルパー
-    function getOriginalPosName(team, memberName) {
-      const fixedIdx = team.fixed.indexOf(memberName);
-      if (fixedIdx >= 0 && fixedIdx < 16) {
-        if (team.posNames && team.posNames[fixedIdx]) {
-          return `${team.posNames[fixedIdx]}ポジ`;
-        }
-        return `P${fixedIdx + 1}`;
-      }
-      return "アンダー";
-    }
-
     // 優先チェーンロジックに基づいたスターティング16名算出
     function renderPredictedLineup() {
       const team = RAW_TEAMS_DATA[currentTeamKey];
@@ -595,15 +594,19 @@
 
       let subCount = 0;
 
-      // 予想スターティング16名描画
-      lineup.forEach(item => {
+      // 予想スターティング16名描画（チームAの場合は指定の予測順序ラベルを適用）
+      lineup.forEach((item, index) => {
         const div = document.createElement('div');
+        let posLabel = `P${item.pos}`;
+        if (currentTeamKey === 'A' && team.predictPosNames && team.predictPosNames[index]) {
+          posLabel = `${index + 1}<br><span class="text-[10px] font-normal">${team.predictPosNames[index]}</span>`;
+        }
 
         if (!item.isUnder) {
           div.className = "p-2 bg-slate-50 rounded-lg border border-slate-200 flex items-center justify-between";
           div.innerHTML = `
             <div class="flex items-center gap-2.5">
-              <span class="font-bold text-slate-400 text-xs w-5 text-center">P${item.pos}</span>
+              <span class="font-bold text-slate-500 text-xs w-8 text-center leading-tight">${posLabel}</span>
               <img src="${getAvatar(item.name, 'E91E63')}" class="avatar-img-sm">
               <span class="font-bold text-slate-800 text-xs">${item.name}</span>
             </div>
@@ -611,17 +614,13 @@
           `;
         } else {
           subCount++;
-          const origPosName = getOriginalPosName(team, item.name);
-
           div.className = "p-2 bg-amber-50 border border-amber-200 rounded-lg flex items-center justify-between";
           div.innerHTML = `
             <div class="flex items-center gap-2.5">
-              <span class="font-bold text-amber-600 text-xs w-5 text-center">P${item.pos}</span>
+              <span class="font-bold text-amber-700 text-xs w-8 text-center leading-tight">${posLabel}</span>
               <img src="${getAvatar(item.name, '9C27B0')}" class="avatar-img-sm border border-amber-300">
               <div>
-                <span class="font-bold text-amber-900 text-xs block leading-tight">
-                  ${item.name} <span class="text-[11px] font-normal text-amber-700">(元:${origPosName})</span>
-                </span>
+                <span class="font-bold text-amber-900 text-xs block leading-tight">${item.name}</span>
                 <span class="text-[10px] text-slate-400 ${item.fixedName ? 'line-through' : ''}">${item.fixedName ? '本: ' + item.fixedName : '固定なし'}</span>
               </div>
             </div>
