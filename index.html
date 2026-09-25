@@ -28,7 +28,7 @@
         <option value="B">チームB（RESET）</option>
         <option value="C">チームC（M.T.に捧ぐ）</option>
         <option value="D">チームD（シアターの女神）</option>
-        <option value="E" selected>チームE（制服の芽）</option>
+        <option value="E">チームE（制服の芽）</option>
         <option value="F">チームF（ここにだって天使はいる）</option>
         <option value="G">チームG（目撃者）</option>
       </select>
@@ -52,7 +52,7 @@
     <section id="tab-calendar" class="tab-content">
       <div class="bg-white rounded-xl p-4 shadow-sm border border-slate-200 mb-4">
         <h2 class="text-base font-bold text-slate-700 mb-3 flex items-center gap-2">
-          <i class="fa-regular fa-calendar-days text-pink-500"></i> 劇場スケジュール
+          <i class="fa-regular fa-calendar-days text-pink-500"></i> 劇場スケジュール（2026年10月）
         </h2>
         <div class="flex flex-wrap gap-1.5 mb-4">
           <button onclick="filterTheater('ALL')" class="theater-btn active bg-slate-800 text-white text-xs font-semibold px-3 py-1 rounded-full">全劇場</button>
@@ -62,7 +62,7 @@
           <button onclick="filterTheater('HKT48')" class="theater-btn bg-slate-200 text-slate-700 text-xs font-semibold px-3 py-1 rounded-full">HKT48劇場</button>
           <button onclick="filterTheater('NGT_STU')" class="theater-btn bg-slate-200 text-slate-700 text-xs font-semibold px-3 py-1 rounded-full">NGT/STU</button>
         </div>
-        <div id="calendarList" class="space-y-2.5"></div>
+        <div id="calendarList" class="space-y-3"></div>
       </div>
     </section>
 
@@ -73,8 +73,8 @@
       <div class="bg-white rounded-xl p-4 shadow-sm border border-slate-200">
         <div class="flex justify-between items-center mb-3">
           <div>
-            <h2 id="posTeamTitle" class="text-lg font-bold text-slate-800">チームE</h2>
-            <p id="posStageTitle" class="text-xs text-pink-600 font-semibold">演目：「制服の芽」公演</p>
+            <h2 id="posTeamTitle" class="text-lg font-bold text-slate-800">チームA</h2>
+            <p id="posStageTitle" class="text-xs text-pink-600 font-semibold">演目：「ここからだ」公演</p>
           </div>
           <span id="fixedCountBadge" class="bg-pink-100 text-pink-700 text-xs font-bold px-2.5 py-1 rounded-full">固定 16名</span>
         </div>
@@ -118,7 +118,7 @@
           <h2 class="text-base font-bold text-slate-800">出演・休演予想シミュレーター</h2>
           <span id="memberCountBadge" class="text-xs bg-slate-100 text-slate-600 font-bold px-2 py-0.5 rounded-full">全38名</span>
         </div>
-        <p class="text-xs text-slate-500 mb-4">メンバーアイコンをタップして【休演】を選択すると、アンダーメンバーが自動補填されます。</p>
+        <p class="text-xs text-slate-500 mb-4">メンバーアイコンをタップして【休演】を選択すると、設定されたポジション連鎖（アンダーリスト）に従って自動補テンされます。</p>
 
         <!-- チーム全員一覧 -->
         <div class="mb-6">
@@ -133,7 +133,7 @@
         <div>
           <h3 class="text-xs font-bold text-pink-600 mb-2 border-b pb-1 flex justify-between items-center">
             <span>予想スターティング16名</span>
-            <span id="subCountText" class="text-xs text-slate-500 font-normal">アンダー補填: 0名</span>
+            <span id="subCountText" class="text-xs text-slate-500 font-normal">アンダー補テン: 0名</span>
           </h3>
           <div id="predictedLineup" class="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs"></div>
         </div>
@@ -175,93 +175,50 @@
         name: "チームA", stage: "ここからだ",
         fixed: ["大村杏", "塩月希依音", "甲斐心愛", "青原優花", "竹本くるみ", "岡腰星来", "梁瀬鈴雅", "栗原紗英", "近藤沙樹", "倉島杏実", "工藤華純", "新井梨杏", "喜多花恵", "内海里音", "松岡さくら", "平田侑希"],
         allMembers: ["岩立沙穂", "髙橋彩音", "武藤小麟", "平田侑希", "工藤華純", "奥本カイリ", "倉島杏実", "松川みゆ", "鎌田菜月", "松本慈子", "大村杏", "青原優花", "岡腰星来", "塩月希依音", "田中ミリア", "松岡さくら", "山口美桜", "栗原紗英", "梁瀬鈴雅", "猪島莉玲亜", "竹本くるみ", "安井妃奈", "喜多花恵", "甲斐心愛", "内海里音", "宗雪里香", "新井梨杏", "近藤沙樹", "川村昇子", "横井志穂", "桜井ひまり", "藪内陽花", "高島柚愛", "須藤凜華", "久我水羚", "木原姫花世", "田中奈菜子", "横井結菜"],
+        // ポジションごとの優先スライド（アンダー）チェーン
+        underChain: {
+          "大村杏": ["竹本くるみ"],
+          "塩月希依音": ["梁瀬鈴雅"],
+          "青原優花": ["近藤沙樹"],
+          "竹本くるみ": ["倉島杏実"],
+          "梁瀬鈴雅": ["松岡さくら"],
+          "近藤沙樹": ["田中ミリア"],
+          "倉島杏実": ["猪島莉玲亜"],
+          "松岡さくら": ["鎌田菜月"]
+        },
         posMap: {
-          "大村杏": "(小栗)",
-          "塩月希依音": "(佐藤)",
-          "甲斐心愛": "(倉野尾)",
-          "青原優花": "(八木)",
-          "竹本くるみ": "(伊藤)",
-          "岡腰星来": "(秋山)",
-          "梁瀬鈴雅": "(下尾)",
-          "栗原紗英": "(村山)",
-          "近藤沙樹": "(山内)",
-          "倉島杏実": "(千葉)",
-          "工藤華純": "(山口)",
-          "新井梨杏": "(水島)",
-          "喜多花恵": "(山﨑)",
-          "内海里音": "(向井地)",
-          "松岡さくら": "(永野)",
-          "平田侑希": "(鈴木)"
+          "大村杏": "(小栗有以)",
+          "塩月希依音": "(山内瑞葵)",
+          "甲斐心愛": "(村山彩希)",
+          "青原優花": "(倉野尾成美)",
+          "竹本くるみ": "(佐藤綺星)",
+          "岡腰星来": "(八木愛月)",
+          "梁瀬鈴雅": "(下尾みう)",
+          "栗原紗英": "(秋山由奈)",
+          "近藤沙樹": "(伊藤百花)",
+          "倉島杏実": "(向井地美音)",
+          "工藤華純": "(千葉恵里)",
+          "新井梨杏": "(水島美結)",
+          "喜多花恵": "(山口結愛)",
+          "内海里音": "(永野芹佳)",
+          "松岡さくら": "(鈴木くるみ)",
+          "平田侑希": "(山﨑空)"
         }
       },
       B: {
         name: "チームB", stage: "RESET",
         fixed: ["河村優愛", "吉田彩良", "北村優羽", "山内瑞葵", "尾崎世里花", "川村結衣", "池帆乃香", "清司麗菜", "山内祐奈", "猪原絆愛", "渋井美奈", "青木莉樺", "徳永羚海", "北川愛乃", "久保姫菜乃", "布袋百椛"],
-        allMembers: ["福岡聖菜", "徳永羚海", "山内瑞葵", "布袋百椛", "久保姫菜乃", "川村結衣", "桒原椿", "南澤恋々", "北川愛乃", "青木莉樺", "河村優愛", "池帆乃香", "衣笠彩実", "澁谷愛紗南", "中川朋香", "松本海日菜", "生野莉奈", "渋井美奈", "山内祐奈", "猪原絆愛", "立花心良", "清司麗菜", "北村優羽", "谷口茉妃菜", "尾崎世里花", "吉田彩良", "石原侑奈", "丸山ひなた", "久保田怜", "飯田ゆら", "善家侑莉花", "和田承子", "西川晴菜", "中田麻実", "佐藤歩夏", "小松奈侑", "道保琉南"],
-        posMap: {
-          "河村優愛": "(板野)",
-          "吉田彩良": "(大島)",
-          "北村優羽": "(峯岸)",
-          "山内瑞葵": "(宮澤)",
-          "尾崎世里花": "(秋元)",
-          "川村結衣": "(中塚)",
-          "池帆乃香": "(藤江)",
-          "清司麗菜": "(米沢)",
-          "山内祐奈": "(菊地)",
-          "猪原絆愛": "(仁藤)",
-          "渋井美奈": "(松井)",
-          "青木莉樺": "(野中)",
-          "徳永羚海": "(小野)",
-          "北川愛乃": "(梅田)",
-          "久保姫菜乃": "(田名部)",
-          "布袋百椛": "(内田)"
-        }
+        allMembers: ["福岡聖菜", "徳永羚海", "山内瑞葵", "布袋百椛", "久保姫菜乃", "川村結衣", "桒原椿", "南澤恋々", "北川愛乃", "青木莉樺", "河村優愛", "池帆乃香", "衣笠彩実", "澁谷愛紗南", "中川朋香", "松本海日菜", "生野莉奈", "渋井美奈", "山内祐奈", "猪原絆愛", "立花心良", "清司麗菜", "北村優羽", "谷口茉妃菜", "尾崎世里花", "吉田彩良", "石原侑奈", "丸山ひなた", "久保田怜", "飯田ゆら", "善家侑莉花", "和田承子", "西川晴菜", "中田麻実", "佐藤歩夏", "小松奈侑", "道保琉南"]
       },
       C: {
         name: "チームC", stage: "M.T.に捧ぐ",
         fixed: ["小栗有以", "西潟茉莉奈", "新澤菜央", "豊永阿紀", "兵頭葵", "水津菜月", "三鴨くるみ", "坂本真凛", "今村麻莉愛", "相川暖花", "池田典愛", "田中伊桜莉", "正鋳真優", "山根涼羽", "赤堀君江", "迫由芽実"],
-        allMembers: ["小栗有以", "永野芹佳", "山根涼羽", "正鋳真優", "迫由芽実", "相川暖花", "坂本真凛", "山村さくら", "雲井紗菜", "赤堀君江", "鈴木愛菜", "池田典愛", "木根彩呂花", "新澤菜央", "西島梨央", "三鴨くるみ", "石川歩実優", "豊永阿紀", "吉田めい", "今村麻莉愛", "田中伊桜莉", "西潟茉莉奈", "水津菜月", "兵頭葵", "川又優菜", "渡辺菜月", "奥田唯菜", "髙橋舞桜", "佐々木希美", "池田有沙", "高橋樹奈", "青木日菜子", "安座間結", "皆川日和", "平井柚葉", "坂木叶愛", "野中莉央"],
-        posMap: {
-          "小栗有以": "(大和田)",
-          "西潟茉莉奈": "(宮崎)",
-          "新澤菜央": "(宮脇)",
-          "豊永阿紀": "(横山)",
-          "兵頭葵": "(小嶋)",
-          "水津菜月": "(樋渡)",
-          "三鴨くるみ": "(島崎)",
-          "坂本真凛": "(入山)",
-          "今村麻莉愛": "(白間)",
-          "相川暖花": "(中西)",
-          "池田典愛": "(小笠原)",
-          "田中伊桜莉": "(佐々木)",
-          "正鋳真優": "(大家)",
-          "山根涼羽": "(中村)",
-          "赤堀君江": "(谷口)",
-          "迫由芽実": "(山田)"
-        }
+        allMembers: ["小栗有以", "永野芹佳", "山根涼羽", "正鋳真優", "迫由芽実", "相川暖花", "坂本真凛", "山村さくら", "雲井紗菜", "赤堀君江", "鈴木愛菜", "池田典愛", "木根彩呂花", "新澤菜央", "西島梨央", "三鴨くるみ", "石川歩実優", "豊永阿紀", "吉田めい", "今村麻莉愛", "田中伊桜莉", "西潟茉莉奈", "水津菜月", "兵頭葵", "川又優菜", "渡辺菜月", "奥田唯菜", "髙橋舞桜", "佐々木希美", "池田有沙", "高橋樹奈", "青木日菜子", "安座間結", "皆川日和", "平井柚葉", "坂木叶愛", "野中莉央"]
       },
       D: {
         name: "チームD", stage: "シアターの女神",
         fixed: ["石橋颯", "浅井裕華", "福田朱里", "龍頭綺音", "荒野姫楓", "江浦優香", "杉本萌", "佐藤海里", "岡田あずみ", "石山千尋", "水島美結", "田中れい", "高橋ことね", "工藤理子", "成田香姫奈", "橋本陽菜"],
-        allMembers: ["行天優莉奈", "橋本陽菜", "太田有紀", "水島美結", "成田香姫奈", "石黒友月", "杉本りいな", "荒野姫楓", "倉本羽菜", "浅井裕華", "中坂美祐", "石山千尋", "黒島咲花", "高橋ことね", "西田帆花", "宮崎紗衣", "石橋颯", "中野南実", "龍頭綺音", "江浦優香", "長野らら", "佐藤海里", "杉本萌", "福田朱里", "工藤理子", "岡田あずみ", "北澤苺", "田中沙友利", "立花菖", "竹下茉莉花", "田中れい", "呉優菜", "阿達夢", "相木茉采", "細矢夏帆", "坂崎愛", "濵田美惟"],
-        posMap: {
-          "石橋颯": "(河西)",
-          "浅井裕華": "(渡辺)",
-          "福田朱里": "(北原)",
-          "龍頭綺音": "(柏木)",
-          "荒野姫楓": "(宮崎)",
-          "江浦優香": "(佐藤す)",
-          "杉本萌": "(小森)",
-          "佐藤海里": "(近野)",
-          "岡田あずみ": "(佐藤夏)",
-          "石山千尋": "(小林)",
-          "水島美結": "(佐藤亜)",
-          "田中れい": "(奥)",
-          "高橋ことね": "(平嶋)",
-          "工藤理子": "(石田)",
-          "成田香姫奈": "(鈴木)",
-          "橋本陽菜": "(増田)"
-        }
+        allMembers: ["行天優莉奈", "橋本陽菜", "太田有紀", "水島美結", "成田香姫奈", "石黒友月", "杉本りいな", "荒野姫楓", "倉本羽菜", "浅井裕華", "中坂美祐", "石山千尋", "黒島咲花", "高橋ことね", "西田帆花", "宮崎紗衣", "石橋颯", "中野南実", "龍頭綺音", "江浦優香", "長野らら", "佐藤海里", "杉本萌", "福田朱里", "工藤理子", "岡田あずみ", "北澤苺", "田中沙友利", "立花菖", "竹下茉莉花", "田中れい", "呉優菜", "阿達夢", "相木茉采", "細矢夏帆", "坂崎愛", "濵田美惟"]
       },
       E: {
         name: "チームE", stage: "制服の芽",
@@ -271,81 +228,38 @@
         unitLogs: [
           { date: "10/1", performers: ["泉綾乃", "八木愛月", "江口心々華", "佐藤綺星", "信濃宙花", "倉野尾成美", "芳賀礼", "大塚七海", "坂下真心", "千葉恵里", "濵田響", "伊藤実希"] },
           { date: "10/2", performers: ["鈴木恋奈", "八木愛月", "江口心々華", "佐藤綺星", "信濃宙花", "倉野尾成美", "芳賀礼", "大塚七海", "秋吉優花", "千葉恵里", "濵田響", "伊藤実希"] }
-        ],
-        posMap: {
-          "佐藤綺星": "(矢神)",
-          "泉綾乃": "(珠理奈)",
-          "八木愛月": "(森)",
-          "江口心々華": "(山下)",
-          "倉野尾成美": "(玲奈)",
-          "芳賀礼": "(桑原)",
-          "大塚七海": "(松下)",
-          "伊藤虹々美": "(高田)",
-          "坂下真心": "(小野)",
-          "岡村梨央": "(平松)",
-          "千葉恵里": "(大矢)",
-          "濵田響": "(新海)",
-          "伊藤実希": "(出口)",
-          "島田紗香": "(平田)",
-          "甲斐瑞季": "(若林)",
-          "信濃宙花": "(中西)"
-        }
+        ]
       },
       F: {
         name: "チームF", stage: "ここにだって天使はいる",
         fixed: ["中村舞", "高雄さやか", "野村実代", "秋山由奈", "坂田心咲", "久留島優果", "佐藤佳穂", "井澤美優", "市村愛里", "入内嶋涼", "森末妃奈", "平山真衣", "橋本恵理子", "太田彩夏", "井上瑠夏", "龍本弥生"],
-        allMembers: ["坂川陽香", "黒須遥香", "橋本恵理子", "秋山由奈", "山口結愛", "入内嶋涼", "野村実代", "井上瑠夏", "佐藤佳穂", "太田彩夏", "長谷川雅", "板垣心和", "坂田心咲", "龍本弥生", "平山真衣", "宮本杏海", "市村愛里", "渕上舞", "井澤美優", "大庭凜咲", "松本苺花", "三村妃乃", "木本杏菜", "中村舞", "高雄さやか", "久留島優果", "森末妃奈", "森川優", "聖遥花", "矢島凪", "西住美咲妃", "山川万里愛", "北澤百音", "大橋彩乃", "井上久伶杏", "曽我部あこ", "三好真綺"],
-        unitHeaders: ["おNEWの上履き", "おNEWの上履き", "おNEWの上履き", "ジッパー", "ジッパー", "ジッパー", "何度もねらえ!", "何度もねらえ!", "100年先でも"],
-        unitLogs: [
-          { date: "10/2", performers: ["野村実代", "高雄さやか", "秋山由奈", "中村舞", "坂田心咲", "佐藤佳穂", "井澤美優", "久留島優果", "森末妃奈"] }
-        ],
-        posMap: {
-          "中村舞": "(渡辺)",
-          "高雄さやか": "(市川)",
-          "野村実代": "(山本彩)",
-          "秋山由奈": "(小谷)",
-          "坂田心咲": "(岸野)",
-          "久留島優果": "(白間)",
-          "佐藤佳穂": "(吉田)",
-          "井澤美優": "(小笠原)",
-          "市村愛里": "(上西)",
-          "入内嶋涼": "(西村)",
-          "森末妃奈": "(山口)",
-          "平山真衣": "(木下)",
-          "橋本恵理子": "(門脇)",
-          "太田彩夏": "(古賀)",
-          "井上瑠夏": "(近藤)",
-          "龍本弥生": "(林)"
-        }
+        allMembers: ["坂川陽香", "黒須遥香", "橋本恵理子", "秋山由奈", "山口結愛", "入内嶋涼", "野村実代", "井上瑠夏", "佐藤佳穂", "太田彩夏", "長谷川雅", "板垣心和", "坂田心咲", "龍本弥生", "平山真衣", "宮本杏海", "市村愛里", "渕上舞", "井澤美優", "大庭凜咲", "松本苺花", "三村妃乃", "木本杏菜", "中村舞", "高雄さやか", "久留島優果", "森末妃奈", "森川優", "聖遥花", "矢島凪", "西住美咲妃", "山川万里愛", "北澤百音", "大橋彩乃", "井上久伶杏", "曽我部あこ", "三好真綺"]
       },
       G: {
         name: "チームG", stage: "目撃者",
         fixed: ["伊藤百花", "森本くるみ", "原田清花", "熊崎晴香", "桜田彩叶", "新井彩永", "佐藤広花", "下尾みう", "栗山梨奈", "長友彩海", "磯部瑠紅", "池田裕楽", "篠原京香", "諸葛望愛", "田中美空", "森﨑冴彩"],
-        allMembers: ["下尾みう", "長友彩海", "畠山希美", "新井彩永", "伊藤百花", "熊崎晴香", "原優寧", "奥野心羽", "篠原京香", "太田愛恵", "森本くるみ", "内田愛彩", "桜田彩叶", "田中美空", "福野杏実", "村井悠莉", "北川陽彩", "松永悠良", "石井彩音", "栗山梨奈", "森﨑冴彩", "磯部瑠紅", "佐藤広花", "池田裕楽", "原田清花", "諸葛望愛", "大賀彩姫", "渡邉葵心", "宮本倫花", "赤松昊", "福原琴美", "新沢葵唯", "佐藤柚花", "片山珠吏", "蕪竹真奈", "髙村栞里", "屋木優菜"],
-        posMap: {
-          "伊藤百花": "(高城)",
-          "森本くるみ": "(篠田)",
-          "原田清花": "(前田敦)",
-          "熊崎晴香": "(高橋)",
-          "桜田彩叶": "(指原)",
-          "新井彩永": "(小嶋)",
-          "佐藤広花": "(仲川)",
-          "下尾みう": "(倉持)",
-          "栗山梨奈": "(多田)",
-          "長友彩海": "(岩佐)",
-          "磯部瑠紅": "(前田亜)",
-          "池田裕楽": "(片山)",
-          "篠原京香": "(仲谷)",
-          "諸葛望愛": "(松原)",
-          "田中美空": "(大家)",
-          "森﨑冴彩": "(中田)"
-        }
+        allMembers: ["下尾みう", "長友彩海", "畠山希美", "新井彩永", "伊藤百花", "熊崎晴香", "原優寧", "奥野心羽", "篠原京香", "太田愛恵", "森本くるみ", "内田愛彩", "桜田彩叶", "田中美空", "福野杏実", "村井悠莉", "北川陽彩", "松永悠良", "石井彩音", "栗山梨奈", "森﨑冴彩", "磯部瑠紅", "佐藤広花", "池田裕楽", "原田清花", "諸葛望愛", "大賀彩姫", "渡邉葵心", "宮本倫花", "赤松昊", "福原琴美", "新沢葵唯", "佐藤柚花", "片山珠吏", "蕪竹真奈", "髙村栞里", "屋木優菜"]
       }
     };
 
-    // 指定された最新劇場スケジュール（10公演）
+    // Data/members/202610.json 相当のデータを含んだ劇場スケジュール
     const SCHEDULE_DATA = [
-      { date: "10/1(木)", time: "18:30", theater: "AKB48劇場", team: "A", stage: "ここからだ" },
+      {
+        id: "20261001_A",
+        date: "10/1(木)",
+        time: "18:30",
+        theater: "AKB48劇場",
+        team: "A",
+        stage: "ここからだ",
+        absent: ["大村杏", "青原優花", "塩月希依音"],
+        performersText: "平田侑希・工藤華純・倉島杏実・鎌田菜月・岡腰星来・田中ミリア・松岡さくら・猪島莉玲亜・栗原紗英・梁瀬鈴雅・竹本くるみ・喜多花恵・甲斐心愛・内海里音・新井梨杏・近藤沙樹",
+        highlightMembers: ["竹本くるみ", "倉島杏実", "猪島莉玲亜", "梁瀬鈴雅", "松岡さくら", "鎌田菜月", "近藤沙樹", "田中ミリア"],
+        positionChanges: [
+          "大村杏←竹本くるみ←倉島杏実←猪島莉玲亜",
+          "塩月希依音←梁瀬鈴雅←松岡さくら←鎌田菜月",
+          "青原優花←近藤沙樹←田中ミリア"
+        ]
+      },
       { date: "10/1(木)", time: "18:30", theater: "SKE48劇場", team: "B", stage: "RESET" },
       { date: "10/1(木)", time: "18:30", theater: "NMB48劇場", team: "C", stage: "M.T.に捧ぐ" },
       { date: "10/1(木)", time: "18:30", theater: "NGT48劇場", team: "D", stage: "シアターの女神" },
@@ -357,7 +271,7 @@
       { date: "10/2(金)", time: "18:30", theater: "STU48劇場", team: "E", stage: "制服の芽" }
     ];
 
-    let currentTeamKey = 'E';
+    let currentTeamKey = 'A';
     let currentTheaterFilter = 'ALL';
     let absentMembersMap = {};
 
@@ -384,8 +298,25 @@
       currentTeamKey = teamKey;
       document.getElementById('teamSelector').value = teamKey;
       absentMembersMap = {};
+      
+      // 10/1 チームA公演の場合は初期休演メンバーをセット
+      if (teamKey === 'A') {
+        absentMembersMap = { "大村杏": true, "青原優花": true, "塩月希依音": true };
+      }
+
       renderPositionsAndUnits();
       initPredictTab();
+    }
+
+    // ハイライトテキスト装飾ヘルパー（指定メンバーをピンク太字化）
+    function formatHighlightText(text, highlightList = []) {
+      if (!highlightList || highlightList.length === 0) return text;
+      let result = text;
+      highlightList.forEach(name => {
+        const regex = new RegExp(name, 'g');
+        result = result.replace(regex, `<span class="text-pink-600 font-bold">${name}</span>`);
+      });
+      return result;
     }
 
     // 検索機能
@@ -457,19 +388,42 @@
 
       filtered.forEach(item => {
         const card = document.createElement('div');
-        card.className = "flex items-center justify-between p-2.5 bg-slate-50 rounded-lg border border-slate-200";
+        card.className = "p-3 bg-slate-50 rounded-lg border border-slate-200 shadow-sm";
+
+        let detailHTML = '';
+        if (item.performersText && item.positionChanges) {
+          const perfFormatted = formatHighlightText(item.performersText, item.highlightMembers);
+          const posFormatted = item.positionChanges.map(pc => formatHighlightText(pc, item.highlightMembers)).join('<br>');
+
+          detailHTML = `
+            <div class="mt-2.5 pt-2 border-t border-slate-200 text-xs space-y-1.5 bg-pink-50/40 p-2.5 rounded-md">
+              <div>
+                <span class="font-bold text-slate-700 block mb-0.5">【出演メンバー】</span>
+                <p class="text-slate-700 leading-relaxed">${perfFormatted}</p>
+              </div>
+              <div>
+                <span class="font-bold text-slate-700 block mb-0.5">【ポジション】</span>
+                <div class="text-slate-700 font-mono text-[11px] leading-relaxed">${posFormatted}</div>
+              </div>
+            </div>
+          `;
+        }
+
         card.innerHTML = `
-          <div class="flex items-center gap-3">
-            <div class="text-center bg-white border border-slate-200 px-2 py-1 rounded w-16">
-              <span class="block text-xs text-slate-500 font-bold">${item.date}</span>
-              <span class="block text-xs font-bold text-pink-600">${item.time}</span>
+          <div class="flex items-center justify-between">
+            <div class="flex items-center gap-3">
+              <div class="text-center bg-white border border-slate-200 px-2 py-1 rounded w-16">
+                <span class="block text-xs text-slate-500 font-bold">${item.date}</span>
+                <span class="block text-xs font-bold text-pink-600">${item.time}</span>
+              </div>
+              <div>
+                <span class="text-xs font-bold px-2 py-0.5 rounded bg-pink-100 text-pink-700">${item.theater}</span>
+                <h4 class="font-bold text-slate-800 text-xs mt-0.5">チーム${item.team}「${item.stage}」</h4>
+              </div>
             </div>
-            <div>
-              <span class="text-xs font-bold px-2 py-0.5 rounded bg-pink-100 text-pink-700">${item.theater}</span>
-              <h4 class="font-bold text-slate-800 text-xs mt-0.5">チーム${item.team}「${item.stage}」</h4>
-            </div>
+            <span class="text-xs bg-slate-200 text-slate-600 px-2 py-1 rounded-full font-semibold">16名</span>
           </div>
-          <span class="text-xs bg-slate-200 text-slate-600 px-2 py-1 rounded-full">最大16名</span>
+          ${detailHTML}
         `;
         listContainer.appendChild(card);
       });
@@ -482,7 +436,7 @@
       document.getElementById('posStageTitle').innerText = `演目：「${team.stage}」公演`;
       document.getElementById('fixedCountBadge').innerText = `固定 ${team.fixed.length}名`;
 
-      // 固定16枠に入っていないアンダーメンバー候補を抽出
+      // アンダー補テンリストの計算・表示
       const unsetMembers = team.allMembers.filter(m => !team.fixed.slice(0, 16).includes(m));
 
       const tbody = document.getElementById('positionTableBody');
@@ -496,7 +450,14 @@
 
         const posInfo = (team.posMap && team.posMap[fixedName]) ? ` <span class="text-xs font-normal text-slate-500">${team.posMap[fixedName]}</span>` : '';
 
-        const subName = unsetMembers[pos - 1] || "未定";
+        // スライドチェーンがあれば第一候補を使用、無ければ枠外メンバーから割当
+        let subName = "未定";
+        if (team.underChain && team.underChain[fixedName] && team.underChain[fixedName].length > 0) {
+          subName = team.underChain[fixedName][0];
+        } else {
+          subName = unsetMembers[pos - 1] || "未定";
+        }
+        
         const subImg = getAvatar(subName, "9C27B0");
 
         const tr = document.createElement('tr');
@@ -506,12 +467,12 @@
           <td class="p-1.5 w-12"><img src="${imgUrl}" alt="${nameText}" class="avatar-img"></td>
           <td class="p-2 font-bold ${isPresent ? 'text-slate-800' : 'text-slate-400'}">${nameText}${posInfo} ${pos === 1 && isPresent ? '🌟' : ''}</td>
           <td class="p-1.5 w-12"><img src="${subImg}" alt="${subName}" class="avatar-img"></td>
-          <td class="p-2 text-slate-600">${subName}</td>
+          <td class="p-2 font-bold text-pink-600">${subName}</td>
         `;
         tbody.appendChild(tr);
       }
 
-      // ユニット表
+      // ユニット表の更新
       const uHead = document.getElementById('unitTableHead');
       const uBody = document.getElementById('unitTableBody');
       uHead.innerHTML = '';
@@ -539,7 +500,7 @@
       });
     }
 
-    // Tab 3: 出演・休演予想 (指定された全員順で表示)
+    // Tab 3: 出演・休演予想
     function initPredictTab() {
       const team = RAW_TEAMS_DATA[currentTeamKey];
       const grid = document.getElementById('memberGrid');
@@ -585,40 +546,63 @@
       initPredictTab();
     }
 
+    // 優先チェーンロジックに基づいたスターティング16名算出
     function renderPredictedLineup() {
       const team = RAW_TEAMS_DATA[currentTeamKey];
       const lineupContainer = document.getElementById('predictedLineup');
       lineupContainer.innerHTML = '';
 
-      let lineup = [];
-      let filledMembers = new Set();
+      const usedMembers = new Set();
+      const lineup = [];
 
-      // 1. 各ポジション1〜16の枠チェック
+      // 全16ポジションに対して優先順位にしたがって判定
       for (let pos = 1; pos <= 16; pos++) {
         const fixedName = team.fixed[pos - 1];
-        if (fixedName && !absentMembersMap[fixedName]) {
-          lineup.push({ pos: pos, name: fixedName, isUnder: false, fixedName: fixedName });
-          filledMembers.add(fixedName);
+        
+        // 優先順位リストを作成 (固定メンバー -> アンダーチェーン -> 全体メンバー)
+        let candidateList = [];
+        if (fixedName) candidateList.push(fixedName);
+        
+        if (team.underChain && team.underChain[fixedName]) {
+          candidateList.push(...team.underChain[fixedName]);
+        }
+
+        // 未割り当ての全メンバーを末尾に追加
+        team.allMembers.forEach(m => {
+          if (!candidateList.includes(m)) candidateList.push(m);
+        });
+
+        // 休演でなく、かつまだ他のポジションで選ばれていない最優先のメンバーを探す
+        let assignedMember = null;
+        for (let candidate of candidateList) {
+          if (!absentMembersMap[candidate] && !usedMembers.has(candidate)) {
+            assignedMember = candidate;
+            break;
+          }
+        }
+
+        if (assignedMember) {
+          usedMembers.add(assignedMember);
+          const isUnder = (assignedMember !== fixedName);
+          lineup.push({
+            pos: pos,
+            name: assignedMember,
+            fixedName: fixedName,
+            isUnder: isUnder
+          });
         } else {
-          lineup.push({ pos: pos, name: null, isUnder: true, fixedName: fixedName || null });
+          lineup.push({
+            pos: pos,
+            name: "未定",
+            fixedName: fixedName,
+            isUnder: true
+          });
         }
       }
 
-      // 2. 空いているポジションへ、指定順のアンダー（未配置＆出演可）を上から補充
-      let subPool = team.allMembers.filter(name => !filledMembers.has(name) && !absentMembersMap[name]);
-      let subIndex = 0;
       let subCount = 0;
 
-      lineup.forEach(item => {
-        if (item.isUnder) {
-          subCount++;
-          const subName = subPool[subIndex] || "未定";
-          item.name = subName;
-          subIndex++;
-        }
-      });
-
-      // 3. 予想スターティング16名レンダリング
+      // 予想スターティング16名描画
       lineup.forEach(item => {
         const div = document.createElement('div');
         const posInfo = (team.posMap && team.posMap[item.name]) ? ` <span class="text-[11px] font-normal text-slate-500">${team.posMap[item.name]}</span>` : '';
@@ -634,6 +618,7 @@
             <span class="text-[10px] bg-slate-200 text-slate-600 font-semibold px-2 py-0.5 rounded-full">${item.pos}番手</span>
           `;
         } else {
+          subCount++;
           div.className = "p-2 bg-amber-50 border border-amber-200 rounded-lg flex items-center justify-between";
           div.innerHTML = `
             <div class="flex items-center gap-2.5">
@@ -641,16 +626,16 @@
               <img src="${getAvatar(item.name, '9C27B0')}" class="avatar-img-sm border border-amber-300">
               <div>
                 <span class="font-bold text-amber-900 text-xs block leading-tight">${item.name}${posInfo}</span>
-                <span class="text-[10px] text-slate-400 ${item.fixedName ? 'line-through' : ''}">${item.fixedName ? '休: ' + item.fixedName : '固定なし'}</span>
+                <span class="text-[10px] text-slate-400 ${item.fixedName ? 'line-through' : ''}">${item.fixedName ? '本: ' + item.fixedName : '固定なし'}</span>
               </div>
             </div>
-            <span class="text-[10px] bg-amber-200 text-amber-800 font-bold px-2 py-0.5 rounded-full">アンダー</span>
+            <span class="text-[10px] bg-amber-200 text-amber-800 font-bold px-2 py-0.5 rounded-full">アンダー/スライド</span>
           `;
         }
         lineupContainer.appendChild(div);
       });
 
-      document.getElementById('subCountText').innerText = `アンダー補填: ${subCount}名`;
+      document.getElementById('subCountText').innerText = `アンダー補テン: ${subCount}名`;
     }
   </script>
 </body>
