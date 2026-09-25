@@ -1,0 +1,375 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>48 Group Theater & Position Manager</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    body { padding-bottom: 70px; } /* 下部ナビゲーションの被り防止 */
+  </style>
+</head>
+<body class="bg-slate-100 text-slate-800 font-sans">
+
+  <!-- Header -->
+  <header class="bg-pink-600 text-white p-4 shadow-md sticky top-0 z-40">
+    <div class="max-w-4xl mx-auto flex justify-between items-center">
+      <h1 class="text-xl font-bold flex items-center gap-2">
+        <i class="fa-solid font-music"></i> 劇場公演＆ポジション管理
+      </h1>
+      <select id="teamSelector" onchange="switchTeam(this.value)" class="bg-pink-700 text-white font-bold text-sm rounded px-3 py-1 border border-pink-500 focus:outline-none">
+        <option value="A">チームA（ここからだ）</option>
+        <option value="B">チームB（RESET）</option>
+        <option value="C">チームC（M.T.に捧ぐ）</option>
+        <option value="D">チームD（シアターの女神）</option>
+        <option value="E" selected>チームE（制服の芽）</option>
+        <option value="F">チームF（ここにだって天使はいる）</option>
+        <option value="G">チームG（目撃者）</option>
+      </select>
+    </div>
+  </header>
+
+  <!-- Main Content Container -->
+  <main class="max-w-4xl mx-auto p-4">
+
+    <!-- Tab 1: カレンダー -->
+    <section id="tab-calendar" class="tab-content">
+      <div class="bg-white rounded-xl p-5 shadow-sm border border-slate-200 mb-4">
+        <h2 class="text-lg font-bold text-slate-700 mb-3 flex items-center gap-2">
+          <i class="fa-regular fa-calendar-days text-pink-500"></i> 劇場スケジュール
+        </h2>
+        <div class="flex flex-wrap gap-2 mb-4">
+          <button onclick="filterTheater('ALL')" class="theater-btn active bg-slate-800 text-white text-xs font-semibold px-3 py-1.5 rounded-full">全劇場</button>
+          <button onclick="filterTheater('AKB48')" class="theater-btn bg-slate-200 text-slate-700 text-xs font-semibold px-3 py-1.5 rounded-full">AKB48劇場</button>
+          <button onclick="filterTheater('SKE48')" class="theater-btn bg-slate-200 text-slate-700 text-xs font-semibold px-3 py-1.5 rounded-full">SKE48劇場</button>
+          <button onclick="filterTheater('NMB48')" class="theater-btn bg-slate-200 text-slate-700 text-xs font-semibold px-3 py-1.5 rounded-full">NMB48劇場</button>
+          <button onclick="filterTheater('HKT48')" class="theater-btn bg-slate-200 text-slate-700 text-xs font-semibold px-3 py-1.5 rounded-full">HKT48劇場</button>
+          <button onclick="filterTheater('NGT_STU')" class="theater-btn bg-slate-200 text-slate-700 text-xs font-semibold px-3 py-1.5 rounded-full">NGT/STU劇場 (交互)</button>
+        </div>
+        <div id="calendarList" class="space-y-3">
+          <!-- JSで動的生成 -->
+        </div>
+      </div>
+    </section>
+
+    <!-- Tab 2: ポジション -->
+    <section id="tab-positions" class="tab-content hidden">
+      <div class="bg-white rounded-xl p-5 shadow-sm border border-slate-200 mb-4">
+        <div class="flex justify-between items-center mb-4">
+          <div>
+            <h2 id="posTeamTitle" class="text-xl font-bold text-slate-800">チームE</h2>
+            <p id="posStageTitle" class="text-sm text-pink-600 font-semibold">演目：「制服の芽」公演（固定16枠）</p>
+          </div>
+          <span class="bg-pink-100 text-pink-700 text-xs font-bold px-2.5 py-1 rounded-full">16名出演</span>
+        </div>
+
+        <div class="mb-6">
+          <h3 class="text-sm font-bold text-slate-500 uppercase tracking-wider mb-2">固定ポジション＆基本ユニット一覧</h3>
+          <div class="overflow-x-auto">
+            <table class="w-full text-left text-sm border-collapse">
+              <thead>
+                <tr class="bg-slate-50 border-b border-slate-200 text-slate-500">
+                  <th class="p-2.5 w-12 text-center">Pos</th>
+                  <th class="p-2.5">メンバー名</th>
+                  <th class="p-2.5">担当ユニット曲</th>
+                  <th class="p-2.5">役割</th>
+                </tr>
+              </thead>
+              <tbody id="positionTableBody" class="divide-y divide-slate-100">
+                <!-- JSで動的生成 -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Tab 3: 予想 (アンダー・ポジション試算) -->
+    <section id="tab-predict" class="tab-content hidden">
+      <div class="bg-white rounded-xl p-5 shadow-sm border border-slate-200 mb-4">
+        <h2 class="text-lg font-bold text-slate-800 mb-1">休演・出演予想シミュレーター</h2>
+        <p class="text-xs text-slate-500 mb-4">正規枠16名の中から【休演】を選択すると、控えメンバーから自動的にポジションが割り振られます。</p>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <!-- 出演・休演トグル -->
+          <div>
+            <h3 class="text-sm font-bold text-slate-700 mb-2 border-b pb-1">正規ポジション16名 出演選択</h3>
+            <div id="absenceChecklist" class="space-y-1.5 max-h-96 overflow-y-auto pr-2">
+              <!-- JSで動的生成 -->
+            </div>
+          </div>
+
+          <!-- 予想出演ラインナップ -->
+          <div>
+            <h3 class="text-sm font-bold text-pink-600 mb-2 border-b pb-1 flex justify-between items-center">
+              <span>予想スターティング16名</span>
+              <button onclick="calculateLineup()" class="bg-pink-600 hover:bg-pink-700 text-white text-xs px-2.5 py-1 rounded shadow">再計算</button>
+            </h3>
+            <div id="predictedLineup" class="space-y-1.5 text-sm">
+              <!-- JSで動的生成 -->
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- Bottom Navigation (画面最下部に固定) -->
+  <nav class="fixed bottom-0 left-0 right-0 bg-white border-t border-slate-200 shadow-lg z-50">
+    <div class="max-w-4xl mx-auto flex justify-around">
+      <button onclick="switchTab('calendar')" id="nav-calendar" class="nav-btn active flex-1 py-2 text-center text-xs font-semibold text-pink-600">
+        <i class="fa-regular fa-calendar-days text-lg block mb-0.5"></i>
+        カレンダー
+      </button>
+      <button onclick="switchTab('positions')" id="nav-positions" class="nav-btn flex-1 py-2 text-center text-xs font-semibold text-slate-400 hover:text-pink-500">
+        <i class="fa-solid fa-users-rectangle text-lg block mb-0.5"></i>
+        ポジション
+      </button>
+      <button onclick="switchTab('predict')" id="nav-predict" class="nav-btn flex-1 py-2 text-center text-xs font-semibold text-slate-400 hover:text-pink-500">
+        <i class="fa-solid fa-wand-magic-sparkles text-lg block mb-0.5"></i>
+        予想
+      </button>
+    </div>
+  </nav>
+
+  <!-- App Logic Script -->
+  <script>
+    // データ構造 (チームA〜G)
+    const TEAMS_DATA = {
+      A: { name: "チームA", stage: "ここからだ", center: "大村杏", members: [], substitutes: [] },
+      B: { name: "チームB", stage: "RESET", center: "河村優愛", members: [], substitutes: [] },
+      C: { name: "チームC", stage: "M.T.に捧ぐ", center: "小栗有以", members: [], substitutes: [] },
+      D: { name: "チームD", stage: "シアターの女神", center: "石橋颯", members: [], substitutes: [] },
+      E: {
+        name: "チームE",
+        stage: "制服の芽",
+        members: [
+          { pos: 1, name: "佐藤綺星", unit: "狼とプライド", role: "Center" },
+          { pos: 2, name: "泉綾乃", unit: "思い出以上", role: "Unit Center" },
+          { pos: 3, name: "八木愛月", unit: "思い出以上", role: "Regular" },
+          { pos: 4, name: "江口心々華", unit: "思い出以上", role: "Regular" },
+          { pos: 5, name: "倉野尾成美", unit: "女の子の第六感", role: "Unit Center" },
+          { pos: 6, name: "芳賀礼", unit: "女の子の第六感", role: "Regular" },
+          { pos: 7, name: "大塚七海", unit: "女の子の第六感", role: "Regular" },
+          { pos: 8, name: "伊藤虹々美", unit: "女の子の第六感", role: "Regular" },
+          { pos: 9, name: "岡村梨央", unit: "女の子の第六感", role: "Regular" },
+          { pos: 10, name: "坂下真心", unit: "枯葉のステーション", role: "Solo" },
+          { pos: 11, name: "千葉恵里", unit: "万華鏡", role: "Unit Center" },
+          { pos: 12, name: "濵田響", unit: "万華鏡", role: "Regular" },
+          { pos: 13, name: "伊藤実希", unit: "万華鏡", role: "Regular" },
+          { pos: 14, name: "島田紗香", unit: "万華鏡", role: "Regular" },
+          { pos: 15, name: "甲斐瑞季", unit: "万華鏡", role: "Regular" },
+          { pos: 16, name: "信濃宙花", unit: "狼とプライド", role: "Regular" }
+        ],
+        substitutes: ["山﨑空", "鈴木恋奈", "近藤海琴", "井田玲音名", "西井美桜"]
+      },
+      F: {
+        name: "チームF",
+        stage: "ここにだって天使はいる",
+        members: [
+          { pos: 1, name: "中村舞", unit: "ジッパー", role: "Center" },
+          { pos: 2, name: "野村実代", unit: "おNEWの上履き", role: "Unit Center" },
+          { pos: 3, name: "高雄さやか", unit: "おNEWの上履き", role: "Regular" },
+          { pos: 4, name: "秋山由奈", unit: "おNEWの上履き", role: "Regular" },
+          { pos: 5, name: "坂田心咲", unit: "ジッパー", role: "Unit Center" },
+          { pos: 6, name: "佐藤佳穂", unit: "ジッパー", role: "Regular" },
+          { pos: 7, name: "井澤美優", unit: "何度もねらえ!", role: "Unit Center" },
+          { pos: 8, name: "久留島優果", unit: "何度もねらえ!", role: "Regular" },
+          { pos: 9, name: "市村愛里", unit: "何度もねらえ!", role: "Regular" },
+          { pos: 10, name: "入内嶋涼", unit: "何度もねらえ!", role: "Regular" },
+          { pos: 11, name: "平山真衣", unit: "何度もねらえ!", role: "Regular" },
+          { pos: 12, name: "森末妃奈", unit: "100年先でも", role: "Unit Center" },
+          { pos: 13, name: "橋本恵理子", unit: "100年先でも", role: "Regular" },
+          { pos: 14, name: "太田彩夏", unit: "100年先でも", role: "Regular" },
+          { pos: 15, name: "井上瑠夏", unit: "100年先でも", role: "Regular" },
+          { pos: 16, name: "龍本弥生", unit: "初めての星", role: "Regular" }
+        ],
+        substitutes: ["曽我部あこ", "板垣心和", "北澤百音", "木本杏菜", "坂川陽香"]
+      },
+      G: { name: "チームG", stage: "目撃者", center: "伊藤百花", members: [], substitutes: [] }
+    };
+
+    // 劇場カレンダー用ダミーデータ
+    const SCHEDULE_DATA = [
+      { date: "2026-10-01", time: "18:30", theater: "SKE48", team: "E", stage: "制服の芽" },
+      { date: "2026-10-02", time: "18:30", theater: "NMB48", team: "F", stage: "ここにだって天使はいる" },
+      { date: "2026-10-03", time: "17:00", theater: "AKB48", team: "A", stage: "ここからだ" },
+      { date: "2026-10-04", time: "13:00", theater: "HKT48", team: "D", stage: "シアターの女神" },
+      { date: "2026-10-05", time: "18:30", theater: "NGT_STU", team: "G", stage: "目撃者 (STU48劇場)" },
+      { date: "2026-10-06", time: "18:30", theater: "SKE48", team: "E", stage: "制服の芽" }
+    ];
+
+    let currentTeamKey = 'E';
+    let currentTab = 'calendar';
+    let currentTheaterFilter = 'ALL';
+    let absenceState = {}; // 休演状態管理 { "佐藤綺星": true }
+
+    // 初期化処理
+    document.addEventListener("DOMContentLoaded", () => {
+      renderCalendar();
+      renderPositions();
+      initPredictTab();
+    });
+
+    // タブ切り替え
+    function switchTab(tabName) {
+      currentTab = tabName;
+      document.querySelectorAll('.tab-content').forEach(el => el.classList.add('hidden'));
+      document.getElementById(`tab-${tabName}`).classList.remove('hidden');
+
+      document.querySelectorAll('.nav-btn').forEach(btn => {
+        btn.classList.remove('active', 'text-pink-600');
+        btn.classList.add('text-slate-400');
+      });
+      const activeBtn = document.getElementById(`nav-${tabName}`);
+      activeBtn.classList.add('active', 'text-pink-600');
+      activeBtn.classList.remove('text-slate-400');
+    }
+
+    // チーム切り替え
+    function switchTeam(teamKey) {
+      currentTeamKey = teamKey;
+      renderPositions();
+      initPredictTab();
+    }
+
+    // Tab 1: カレンダー描画
+    function filterTheater(theater) {
+      currentTheaterFilter = theater;
+      document.querySelectorAll('.theater-btn').forEach(btn => {
+        btn.classList.remove('bg-slate-800', 'text-white');
+        btn.classList.add('bg-slate-200', 'text-slate-700');
+      });
+      event.target.classList.remove('bg-slate-200', 'text-slate-700');
+      event.target.classList.add('bg-slate-800', 'text-white');
+      renderCalendar();
+    }
+
+    function renderCalendar() {
+      const listContainer = document.getElementById('calendarList');
+      listContainer.innerHTML = '';
+
+      const filtered = SCHEDULE_DATA.filter(item => 
+        currentTheaterFilter === 'ALL' || item.theater === currentTheaterFilter
+      );
+
+      if(filtered.length === 0) {
+        listContainer.innerHTML = `<p class="text-sm text-slate-400 p-4 text-center">該当する公演予定がありません。</p>`;
+        return;
+      }
+
+      filtered.forEach(item => {
+        const card = document.createElement('div');
+        card.className = "flex items-center justify-between p-3 bg-slate-50 rounded-lg border border-slate-200 hover:border-pink-300 transition";
+        card.innerHTML = `
+          <div class="flex items-center gap-3">
+            <div class="text-center bg-white border border-slate-200 p-2 rounded w-16">
+              <span class="block text-xs text-slate-500 font-bold">${item.date.split('-')[1]}/${item.date.split('-')[2]}</span>
+              <span class="block text-xs font-bold text-pink-600">${item.time}</span>
+            </div>
+            <div>
+              <span class="text-xs font-bold px-2 py-0.5 rounded bg-pink-100 text-pink-700">${item.theater}</span>
+              <h4 class="font-bold text-slate-800 text-sm mt-0.5">チーム${item.team}「${item.stage}」</h4>
+            </div>
+          </div>
+          <span class="text-xs font-semibold bg-slate-200 text-slate-600 px-2.5 py-1 rounded-full">最大16名</span>
+        `;
+        listContainer.appendChild(card);
+      });
+    }
+
+    // Tab 2: ポジション描画
+    function renderPositions() {
+      const team = TEAMS_DATA[currentTeamKey];
+      document.getElementById('posTeamTitle').innerText = team.name;
+      document.getElementById('posStageTitle').innerText = `演目：「${team.stage}」公演`;
+
+      const tbody = document.getElementById('positionTableBody');
+      tbody.innerHTML = '';
+
+      if (team.members.length === 0) {
+        tbody.innerHTML = `<tr><td colspan="4" class="p-4 text-center text-slate-400">枠調整中（未登録）</td></tr>`;
+        return;
+      }
+
+      team.members.forEach(m => {
+        const tr = document.createElement('tr');
+        tr.className = m.pos === 1 ? "bg-pink-50/50 font-bold" : "";
+        tr.innerHTML = `
+          <td class="p-2.5 text-center font-bold text-slate-500">${m.pos}</td>
+          <td class="p-2.5 font-medium text-slate-800">${m.name} ${m.pos === 1 ? '🌟' : ''}</td>
+          <td class="p-2.5 text-pink-600 font-medium">${m.unit}</td>
+          <td class="p-2.5"><span class="text-xs px-2 py-0.5 rounded bg-slate-100 text-slate-600">${m.role}</span></td>
+        `;
+        tbody.appendChild(tr);
+      });
+    }
+
+    // Tab 3: 予想ツール（アンダー計算）
+    function initPredictTab() {
+      const team = TEAMS_DATA[currentTeamKey];
+      const checklistContainer = document.getElementById('absenceChecklist');
+      checklistContainer.innerHTML = '';
+      absenceState = {};
+
+      if (team.members.length === 0) {
+        checklistContainer.innerHTML = `<p class="text-xs text-slate-400">チームのデータが設定されていません。</p>`;
+        document.getElementById('predictedLineup').innerHTML = '';
+        return;
+      }
+
+      team.members.forEach(m => {
+        const label = document.createElement('label');
+        label.className = "flex items-center justify-between p-2 bg-slate-50 rounded border border-slate-200 cursor-pointer text-sm hover:bg-slate-100";
+        label.innerHTML = `
+          <span>Pos.${m.pos} <strong>${m.name}</strong></span>
+          <input type="checkbox" onchange="toggleAbsence('${m.name}', this.checked)" class="w-4 h-4 text-pink-600 rounded border-slate-300 focus:ring-pink-500">
+        `;
+        checklistContainer.appendChild(label);
+      });
+
+      calculateLineup();
+    }
+
+    function toggleAbsence(memberName, isAbsent) {
+      absenceState[memberName] = isAbsent;
+      calculateLineup();
+    }
+
+    function calculateLineup() {
+      const team = TEAMS_DATA[currentTeamKey];
+      const lineupContainer = document.getElementById('predictedLineup');
+      lineupContainer.innerHTML = '';
+
+      if (!team || team.members.length === 0) return;
+
+      let subsIndex = 0;
+      const subPool = team.substitutes || [];
+
+      team.members.forEach(m => {
+        const isAbsent = absenceState[m.name];
+        const div = document.createElement('div');
+
+        if (!isAbsent) {
+          div.className = "p-2 bg-slate-50 rounded border border-slate-200 flex justify-between items-center";
+          div.innerHTML = `
+            <span><strong class="text-slate-400 w-8 inline-block">P${m.pos}</strong> ${m.name}</span>
+            <span class="text-xs text-slate-500">${m.unit}</span>
+          `;
+        } else {
+          const subName = subPool[subsIndex] || `控え補填枠${subsIndex + 1}`;
+          subsIndex++;
+          div.className = "p-2 bg-amber-50 border border-amber-200 rounded flex justify-between items-center";
+          div.innerHTML = `
+            <span><strong class="text-amber-600 w-8 inline-block">P${m.pos}</strong> <span class="font-bold text-amber-800">${subName}</span> <span class="text-xs bg-amber-200 text-amber-800 px-1.5 py-0.5 rounded ml-1">アンダー</span></span>
+            <span class="text-xs text-slate-400 line-through">${m.name} (休)</span>
+          `;
+        }
+        lineupContainer.appendChild(div);
+      });
+    }
+  </script>
+</body>
+</html>
