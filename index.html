@@ -136,7 +136,7 @@
           <h2 class="text-base font-bold text-slate-800">出演・休演予想シミュレーター</h2>
           <span id="memberCountBadge" class="text-xs bg-slate-100 text-slate-600 font-bold px-2 py-0.5 rounded-full">全38名</span>
         </div>
-        <p class="text-xs text-slate-500 mb-4">メンバーアイコンをタップして【休演】を選択すると、設定されたポジション連鎖（アンダーリスト）に従って自動補填されます。</p>
+        <p class="text-xs text-slate-500 mb-4">メンバーアイコンをタップして【休演】を選択すると、設定されたポジション連鎖に従って自動補填されます。（卒マークは選択不可）</p>
 
         <!-- チーム全員一覧 -->
         <div class="mb-6">
@@ -195,30 +195,35 @@
         predictPosNames: ["小栗", "佐藤", "倉野尾", "八木", "伊藤", "秋山", "下尾", "村山", "山内", "千葉", "山口", "水島", "山﨑", "向井地", "永野", "鈴木"],
         fixed: ["大村杏", "塩月希依音", "甲斐心愛", "青原優花", "竹本くるみ", "岡腰星来", "梁瀬鈴雅", "栗原紗英", "近藤沙樹", "倉島杏実", "工藤華純", "新井梨杏", "喜多花恵", "内海里音", "松岡さくら", "平田侑希"],
         allMembers: ["岩立沙穂", "髙橋彩音", "武藤小麟", "平田侑希", "工藤華純", "奥本カイリ", "倉島杏実", "松川みゆ", "鎌田菜月", "松本慈子", "大村杏", "青原優花", "岡腰星来", "塩月希依音", "田中ミリア", "松岡さくら", "山口美桜", "栗原紗英", "梁瀬鈴雅", "猪島莉玲亜", "竹本くるみ", "安井妃奈", "喜多花恵", "甲斐心愛", "内海里音", "宗雪里香", "新井梨杏", "近藤沙樹", "川村昇子", "横井志穂", "桜井ひまり", "藪内陽花", "高島柚愛", "須藤凜華", "久我水羚", "木原姫花世", "田中奈菜子", "横井結菜"],
+        graduated: ["岩立沙穂"], // 卒業メンバー設定例
         underChain: {}
       },
       B: {
         name: "チームB", stage: "RESET",
         fixed: ["河村優愛", "吉田彩良", "北村優羽", "山内瑞葵", "尾崎世里花", "川村結衣", "池帆乃香", "清司麗菜", "山内祐奈", "猪原絆愛", "渋井美奈", "青木莉樺", "徳永羚海", "北川愛乃", "久保姫菜乃", "布袋百椛"],
         allMembers: ["福岡聖菜", "徳永羚海", "山内瑞葵", "布袋百椛", "久保姫菜乃", "川村結衣", "桒原椿", "南澤恋々", "北川愛乃", "青木莉樺", "河村優愛", "池帆乃香", "衣笠彩実", "澁谷愛紗南", "中川朋香", "松本海日菜", "生野莉奈", "渋井美奈", "山内祐奈", "猪原絆愛", "立花心良", "清司麗菜", "北村優羽", "谷口茉妃菜", "尾崎世里花", "吉田彩良", "石原侑奈", "丸山ひなた", "久保田怜", "飯田ゆら", "善家侑莉花", "和田承子", "西川晴菜", "中田麻実", "佐藤歩夏", "小松奈侑", "道保琉南"],
+        graduated: ["福岡聖菜"],
         underChain: {}
       },
       C: {
         name: "チームC", stage: "M.T.に捧ぐ",
         fixed: ["小栗有以", "西潟茉莉奈", "新澤菜央", "豊永阿紀", "兵頭葵", "水津菜月", "三鴨くるみ", "坂本真凛", "今村麻莉愛", "相川暖花", "池田典愛", "田中伊桜莉", "正鋳真優", "山根涼羽", "赤堀君江", "迫由芽実"],
         allMembers: ["小栗有以", "永野芹佳", "山根涼羽", "正鋳真優", "迫由芽実", "相川暖花", "坂本真凛", "山村さくら", "雲井紗菜", "赤堀君江", "鈴木愛菜", "池田典愛", "木根彩呂花", "新澤菜央", "西島梨央", "三鴨くるみ", "石川歩実優", "豊永阿紀", "吉田めい", "今村麻莉愛", "田中伊桜莉", "西潟茉莉奈", "水津菜月", "兵頭葵", "川又優菜", "渡辺菜月", "奥田唯菜", "髙橋舞桜", "佐々木希美", "池田有沙", "高橋樹奈", "青木日菜子", "安座間結", "皆川日和", "平井柚葉", "坂木叶愛", "野中莉央"],
+        graduated: [],
         underChain: {}
       },
       D: {
         name: "チームD", stage: "シアターの女神",
         fixed: ["石橋颯", "浅井裕華", "福田朱里", "龍頭綺音", "荒野姫楓", "江浦優香", "杉本萌", "佐藤海里", "岡田あずみ", "石山千尋", "水島美結", "田中れい", "高橋ことね", "工藤理子", "成田香姫奈", "橋本陽菜"],
         allMembers: ["行天優莉奈", "橋本陽菜", "太田有紀", "水島美結", "成田香姫奈", "石黒友月", "杉本りいな", "荒野姫楓", "倉本羽菜", "浅井裕華", "中坂美祐", "石山千尋", "黒島咲花", "高橋ことね", "西田帆花", "宮崎紗衣", "石橋颯", "中野南実", "龍頭綺音", "江浦優香", "長野らら", "佐藤海里", "杉本萌", "福田朱里", "工藤理子", "岡田あずみ", "北澤苺", "田中沙友利", "立花菖", "竹下茉莉花", "田中れい", "呉優菜", "阿達夢", "相木茉采", "細矢夏帆", "坂崎愛", "濵田美惟"],
+        graduated: [],
         underChain: {}
       },
       E: {
         name: "チームE", stage: "制服の芽",
         fixed: ["佐藤綺星", "泉綾乃", "八木愛月", "江口心々華", "倉野尾成美", "大塚七海", "伊藤虹々美", "坂下真心", "岡村梨央", "千葉恵里", "濵田響", "伊藤実希", "島田紗香", "甲斐瑞季", "信濃宙花", "山﨑空"],
         allMembers: ["倉野尾成美", "千葉恵里", "佐藤綺星", "山﨑空", "八木愛月", "伊藤虹々美", "鈴木恋奈", "伊藤実希", "近藤海琴", "井田玲音名", "西井美桜", "泉綾乃", "坂下真心", "竹田京加", "宮原心音", "石松結菜", "藤野心葉", "秋吉優花", "江口心々華", "福井可憐", "大塚七海", "磯崎菜々", "信濃宙花", "迫姫華", "岡村梨央", "濵田響", "牧戸愛茉", "田村真悠", "中尾楓華", "谷口詩乃", "靏川那智", "甲斐瑞季", "猪股咲那", "石松陽菜", "島田紗香", "藤田愛結"],
+        graduated: [],
         underChain: {},
         unitHeaders: ["思い出以上", "思い出以上", "思い出以上", "狼とプライド", "狼とプライド", "女の子の第六感", "女の子の第六感", "女の子の第六感", "枯葉のステーション", "万華鏡", "万華鏡", "万華鏡"],
         unitLogs: [
@@ -230,27 +235,32 @@
         name: "チームF", stage: "ここにだって天使はいる",
         fixed: ["中村舞", "高雄さやか", "野村実代", "秋山由奈", "坂田心咲", "久留島優果", "佐藤佳穂", "井澤美優", "市村愛里", "入内嶋涼", "森末妃奈", "平山真衣", "橋本恵理子", "太田彩夏", "井上瑠夏", "龍本弥生"],
         allMembers: ["坂川陽香", "黒須遥香", "橋本恵理子", "秋山由奈", "山口結愛", "入内嶋涼", "野村実代", "井上瑠夏", "佐藤佳穂", "太田彩夏", "長谷川雅", "板垣心和", "坂田心咲", "龍本弥生", "平山真衣", "宮本杏海", "市村愛里", "渕上舞", "井澤美優", "大庭凜咲", "松本苺花", "三村妃乃", "木本杏菜", "中村舞", "高雄さやか", "久留島優果", "森末妃奈", "森川優", "聖遥花", "矢島凪", "西住美咲妃", "山川万里愛", "北澤百音", "大橋彩乃", "井上久伶杏", "曽我部あこ", "三好真綺"],
+        graduated: [],
         underChain: {}
       },
       G: {
         name: "チームG", stage: "目撃者",
         fixed: ["伊藤百花", "森本くるみ", "原田清花", "熊崎晴香", "桜田彩叶", "新井彩永", "佐藤広花", "下尾みう", "栗山梨奈", "長友彩海", "磯部瑠紅", "池田裕楽", "篠原京香", "諸葛望愛", "田中美空", "森﨑冴彩"],
         allMembers: ["下尾みう", "長友彩海", "畠山希美", "新井彩永", "伊藤百花", "熊崎晴香", "原優寧", "奥野心羽", "篠原京香", "太田愛恵", "森本くるみ", "内田愛彩", "桜田彩叶", "田中美空", "福野杏実", "村井悠莉", "北川陽彩", "松永悠良", "石井彩音", "栗山梨奈", "森﨑冴彩", "磯部瑠紅", "佐藤広花", "池田裕楽", "原田清花", "諸葛望愛", "大賀彩姫", "渡邉葵心", "宮本倫花", "赤松昊", "福原琴美", "新沢葵唯", "佐藤柚花", "片山珠吏", "蕪竹真奈", "髙村栞里", "屋木優菜"],
+        graduated: [],
         underChain: {}
       }
     };
 
-    // スケジュール動的保持配列
     let SCHEDULE_DATA = [];
-
     let currentTeamKey = 'A';
     let currentScheduleFilter = 'ALL';
     let absentMembersMap = {};
 
     document.addEventListener("DOMContentLoaded", () => {
-      // 起動時に schedule_10.json を読み込み
       loadScheduleJson('schedule_202610.json');
     });
+
+    // 卒業メンバーかどうか判定するヘルパー
+    function isGraduated(memberName, teamKey = currentTeamKey) {
+      const team = RAW_TEAMS_DATA[teamKey];
+      return !!(team && team.graduated && team.graduated.includes(memberName));
+    }
 
     // --- JSONデータ読み込み機能 ---
     async function loadScheduleJson(jsonPath) {
@@ -260,7 +270,7 @@
         const data = await response.json();
         processAndSetScheduleData(data);
       } catch (err) {
-        console.warn("fetchによる自動読み込みスキップ (ファイル直開きの可能性があります):", err);
+        console.warn("fetchによる自動読み込みスキップ:", err);
       }
     }
 
@@ -274,7 +284,7 @@
           const data = JSON.parse(e.target.result);
           processAndSetScheduleData(data);
         } catch (err) {
-          alert("JSONファイルの読み込みに失敗しました。構造を確認してください。");
+          alert("JSONファイルの読み込みに失敗しました。");
         }
       };
       reader.readAsText(file);
@@ -294,7 +304,6 @@
         const positionChanges = item.positions || item.positionChanges || [];
         const teamKey = item.team;
 
-        // JSONの positions (例: "岡腰星来 ← 新井梨杏 ← 宗雪里香") からアンダー連鎖(underChain)を自動登録
         if (teamKey && positionChanges.length > 0) {
           updateUnderChainsFromPositions(positionChanges, teamKey);
         }
@@ -314,7 +323,6 @@
       initPredictTab();
     }
 
-    // positionsの矢印文字列からアンダー関係を抽出・登録するヘルパー
     function updateUnderChainsFromPositions(positions, teamKey) {
       const team = RAW_TEAMS_DATA[teamKey];
       if (!team) return;
@@ -322,19 +330,16 @@
 
       positions.forEach(posStr => {
         if (typeof posStr !== 'string') return;
-
-        // "←" または "<-" で分割して前後の関係を取得
         const members = posStr.split(/←|<-/).map(m => m.trim()).filter(Boolean);
         if (members.length < 2) return;
 
         for (let i = 0; i < members.length - 1; i++) {
-          const target = members[i];      // 例: 岡腰星来 (または 新井梨杏)
-          const under = members[i + 1];   // 例: 新井梨杏 (または 宗雪里香)
+          const target = members[i];
+          const under = members[i + 1];
 
           if (!team.underChain[target]) {
             team.underChain[target] = [];
           }
-          // まだアンダーリストに登録されていなければ追加
           if (!team.underChain[target].includes(under)) {
             team.underChain[target].push(under);
           }
@@ -387,7 +392,8 @@
           if (name.toLowerCase().includes(query)) {
             const fixedIdx = t.fixed.indexOf(name);
             const roleStr = (fixedIdx >= 0 && fixedIdx < 16) ? `${fixedIdx + 1}番手` : 'アンダー';
-            matches.push({ type: 'member', label: `${name} (${t.name} ${roleStr})`, key: key });
+            const gradStr = isGraduated(name, key) ? ' (卒業)' : '';
+            matches.push({ type: 'member', label: `${name}${gradStr} (${t.name} ${roleStr})`, key: key });
           }
         });
       });
@@ -413,7 +419,6 @@
       switchTab('positions');
     }
 
-    // 劇場バッジの背景色・文字色
     function getTheaterBadgeClass(theater) {
       if (theater.includes('AKB48')) return 'bg-pink-100 text-pink-700';
       if (theater.includes('SKE48')) return 'bg-orange-100 text-orange-800';
@@ -424,7 +429,6 @@
       return 'bg-pink-100 text-pink-700';
     }
 
-    // Tab 1: カレンダー フィルター
     function filterSchedule(filter, btnElement) {
       currentScheduleFilter = filter;
       document.querySelectorAll('.filter-btn').forEach(btn => {
@@ -514,7 +518,8 @@
         const fixedName = team.fixed[pos - 1];
         const isPresent = !!fixedName;
         const nameText = isPresent ? fixedName : "－";
-        const imgUrl = getAvatar(nameText, "E91E63");
+        const isGrad = isGraduated(fixedName);
+        const imgUrl = getAvatar(nameText, isGrad ? "94A3B8" : "E91E63");
 
         const posName = (team.posNames && team.posNames[pos - 1]) ? team.posNames[pos - 1] : "";
         const posDisplay = posName ? `${pos}<br><span class="text-[10px] text-slate-500 font-normal">${posName}</span>` : `${pos}`;
@@ -538,8 +543,10 @@
         tr.className = "hover:bg-slate-50";
         tr.innerHTML = `
           <td class="p-2 text-center font-bold text-slate-600 leading-tight">${posDisplay}</td>
-          <td class="p-1.5 w-10"><img src="${imgUrl}" alt="${nameText}" class="avatar-img"></td>
-          <td class="p-2 font-bold ${isPresent ? 'text-slate-800' : 'text-slate-400'}">${nameText} ${pos === 1 && isPresent ? '🌟' : ''}</td>
+          <td class="p-1.5 w-10"><img src="${imgUrl}" alt="${nameText}" class="avatar-img ${isGrad ? 'grayscale' : ''}"></td>
+          <td class="p-2 font-bold ${isGrad ? 'text-slate-400 line-through' : isPresent ? 'text-slate-800' : 'text-slate-400'}">
+            ${nameText} ${isGrad ? '<span class="text-[10px] bg-slate-500 text-white font-normal px-1 rounded no-underline inline-block">卒</span>' : ''} ${pos === 1 && isPresent && !isGrad ? '🌟' : ''}
+          </td>
           ${subImgTd}
           ${subNameTd}
         `;
@@ -587,22 +594,28 @@
         const isFixed16 = fixedIdx >= 0 && fixedIdx < 16;
         const roleLabel = isFixed16 ? `${fixedIdx + 1}番手` : 'アンダー';
         
+        const isGrad = isGraduated(name);
         const isAbsent = !!absentMembersMap[name];
-        const imgUrl = getAvatar(name, isFixed16 ? "E91E63" : "9C27B0");
+        const imgUrl = getAvatar(name, isGrad ? "94A3B8" : (isFixed16 ? "E91E63" : "9C27B0"));
 
         const card = document.createElement('div');
-        card.onclick = () => toggleAbsence(name);
-        card.className = `p-2 rounded-xl border flex flex-col items-center justify-center cursor-pointer transition select-none ${
-          isAbsent ? 'bg-red-50 border-red-300 shadow-inner' : 'bg-white border-slate-200 hover:border-pink-300 shadow-sm'
+        if (!isGrad) {
+          card.onclick = () => toggleAbsence(name);
+        }
+
+        card.className = `p-2 rounded-xl border flex flex-col items-center justify-center transition select-none ${
+          isGrad ? 'bg-slate-200/60 border-slate-300 opacity-60 cursor-not-allowed' :
+          isAbsent ? 'bg-red-50 border-red-300 shadow-inner cursor-pointer' : 'bg-white border-slate-200 hover:border-pink-300 shadow-sm cursor-pointer'
         }`;
 
         card.innerHTML = `
           <div class="relative mb-1">
-            <img src="${imgUrl}" alt="${name}" class="avatar-img-lg ${isAbsent ? 'grayscale opacity-50' : ''}">
-            ${isAbsent ? '<span class="absolute -top-1 -right-1 bg-red-600 text-white text-[10px] font-bold px-1.5 py-0.2 rounded-full border border-white">休</span>' : ''}
+            <img src="${imgUrl}" alt="${name}" class="avatar-img-lg ${isGrad || isAbsent ? 'grayscale opacity-50' : ''}">
+            ${isGrad ? '<span class="absolute -top-1 -right-1 bg-slate-700 text-white text-[10px] font-bold px-1.5 py-0.2 rounded-full border border-white">卒</span>' : 
+              isAbsent ? '<span class="absolute -top-1 -right-1 bg-red-600 text-white text-[10px] font-bold px-1.5 py-0.2 rounded-full border border-white">休</span>' : ''}
           </div>
-          <span class="text-xs font-bold text-center leading-tight ${isAbsent ? 'text-red-500 line-through' : 'text-slate-800'}">${name}</span>
-          <span class="text-[10px] ${isFixed16 ? 'text-pink-600 font-bold' : 'text-slate-400'}">${roleLabel}</span>
+          <span class="text-xs font-bold text-center leading-tight ${isGrad ? 'text-slate-500 line-through' : isAbsent ? 'text-red-500 line-through' : 'text-slate-800'}">${name}</span>
+          <span class="text-[10px] ${isGrad ? 'text-slate-400' : isFixed16 ? 'text-pink-600 font-bold' : 'text-slate-400'}">${isGrad ? '卒業' : roleLabel}</span>
         `;
         grid.appendChild(card);
       });
@@ -611,6 +624,7 @@
     }
 
     function toggleAbsence(memberName) {
+      if (isGraduated(memberName)) return;
       absentMembersMap[memberName] = !absentMembersMap[memberName];
       initPredictTab();
     }
@@ -620,7 +634,7 @@
       initPredictTab();
     }
 
-    // 過去のスケジュールデータから特定の固定メンバーに対する直近の出演者を検索するヘルパー
+    // 前回出演メンバーを取得
     function getLastPerformerForPosition(teamKey, fixedName) {
       if (!SCHEDULE_DATA || SCHEDULE_DATA.length === 0) return null;
       for (let i = SCHEDULE_DATA.length - 1; i >= 0; i--) {
@@ -629,7 +643,7 @@
           for (let posStr of item.positionChanges) {
             const members = posStr.split(/←|<-/).map(m => m.trim());
             if (members[0] === fixedName && members.length > 1) {
-              return members[1]; // 直近でスライド出演した第1候補
+              return members[1];
             }
           }
         }
@@ -637,145 +651,218 @@
       return null;
     }
 
-    // スライド予想理由の自動生成ロジック
-    function generatePredictionReason(teamKey, fixedName, assignedMember, candidateList, usedMembers) {
-      if (assignedMember === fixedName) {
-        return "固定メンバー（本出演）";
+    // 複数候補から「直近の出演日が1番遠いメンバー」を選出
+    function getOldestCandidate(teamKey, fixedName, candidates) {
+      if (!candidates || candidates.length === 0) return null;
+      if (candidates.length === 1) return candidates[0];
+
+      const lastAppearance = {};
+      candidates.forEach(c => lastAppearance[c] = -1);
+
+      if (SCHEDULE_DATA && SCHEDULE_DATA.length > 0) {
+        SCHEDULE_DATA.forEach((item, idx) => {
+          if (item.team === teamKey && item.positionChanges) {
+            item.positionChanges.forEach(posStr => {
+              const members = posStr.split(/←|<-/).map(m => m.trim());
+              if (members[0] === fixedName && members.length > 1) {
+                const perf = members[1];
+                if (candidates.includes(perf)) {
+                  lastAppearance[perf] = idx;
+                }
+              }
+            });
+          }
+        });
       }
 
-      const lastPerformer = getLastPerformerForPosition(teamKey, fixedName);
-      
-      // 自分より優先順位が高かったもののスキップされた（休演または他ポ使用）メンバーを収集
-      let skipped = [];
-      for (let c of candidateList) {
-        if (c === assignedMember) break;
-        if (absentMembersMap[c]) {
-          skipped.push(`${c}(休演)`);
-        } else if (usedMembers.has(c)) {
-          skipped.push(`${c}(他ポジション出演中)`);
+      let oldestCandidate = candidates[0];
+      let minIdx = Infinity;
+
+      candidates.forEach(c => {
+        if (lastAppearance[c] < minIdx) {
+          minIdx = lastAppearance[c];
+          oldestCandidate = c;
         }
-      }
+      });
 
-      const skippedText = skipped.length > 0 ? ` [${skipped.join('・')}が不参加のため]` : "";
-
-      if (lastPerformer && lastPerformer !== assignedMember) {
-        return `前回の公演は ${lastPerformer} が出演したため${skippedText}、今回は ${assignedMember} と予想。`;
-      } else if (lastPerformer && lastPerformer === assignedMember) {
-        return `前回公演の実績（${lastPerformer}出演）に基づき${skippedText}、引き続き ${assignedMember} と予想。`;
-      } else {
-        return `${fixedName} の休演に伴い${skippedText}、優先順位に従い ${assignedMember} と予想。`;
-      }
+      return oldestCandidate;
     }
 
-    // 優先チェーンロジックに基づいたスターティング16名算出
+    // --- 予想ラインナップ算出 ＆ 理由生成 (2パスマッチング) ---
     function renderPredictedLineup() {
       const team = RAW_TEAMS_DATA[currentTeamKey];
       const lineupContainer = document.getElementById('predictedLineup');
       lineupContainer.innerHTML = '';
 
       const usedMembers = new Set();
-      const lineup = [];
+      const assignedPosMap = {}; // メンバー名 -> 出演するポジションの固定メンバー名
+      const intermediateLineup = [];
 
+      // Pass 1: 各ポジションの出演者判定
       for (let pos = 1; pos <= 16; pos++) {
         const fixedName = team.fixed[pos - 1];
-        
-        let candidateList = [];
-        if (fixedName) candidateList.push(fixedName);
-        
-        if (team.underChain && team.underChain[fixedName]) {
-          candidateList.push(...team.underChain[fixedName]);
-        }
+        const isFixedGrad = isGraduated(fixedName);
+        const isFixedAbsent = !!absentMembersMap[fixedName];
 
-        team.allMembers.forEach(m => {
-          if (!candidateList.includes(m)) candidateList.push(m);
-        });
-
+        let registeredUnderList = (team.underChain && team.underChain[fixedName]) ? [...team.underChain[fixedName]] : [];
+        
         let assignedMember = null;
-        for (let candidate of candidateList) {
-          if (!absentMembersMap[candidate] && !usedMembers.has(candidate)) {
-            assignedMember = candidate;
-            break;
+
+        // 本人（固定）が出演可能な場合
+        if (!isFixedGrad && !isFixedAbsent && !usedMembers.has(fixedName)) {
+          assignedMember = fixedName;
+        } else {
+          // 登録アンダーの中で出演可能な候補を検索
+          let availUnders = registeredUnderList.filter(u => !isGraduated(u) && !absentMembersMap[u] && !usedMembers.has(u));
+
+          if (availUnders.length > 0) {
+            // 直近の出演日が1番遠いメンバーを選出
+            assignedMember = getOldestCandidate(currentTeamKey, fixedName, availUnders);
+          } else {
+            // 登録アンダーで対応できない場合、全メンバーから未割当メンバーを探す
+            for (let m of team.allMembers) {
+              if (!isGraduated(m) && !absentMembersMap[m] && !usedMembers.has(m)) {
+                assignedMember = m;
+                break;
+              }
+            }
           }
         }
 
         if (assignedMember) {
-          const isUnder = (assignedMember !== fixedName);
-          
-          // 既に登録済みのスライド・アンダーであるか判定 (underChain または過去の実績に存在)
-          const lastPerformer = getLastPerformerForPosition(currentTeamKey, fixedName);
-          const isRegisteredSlide = isUnder && (
-            (team.underChain && team.underChain[fixedName] && team.underChain[fixedName].includes(assignedMember)) ||
-            (lastPerformer === assignedMember)
-          );
-
-          // 予想理由を生成
-          const reasonText = generatePredictionReason(currentTeamKey, fixedName, assignedMember, candidateList, usedMembers);
-
           usedMembers.add(assignedMember);
-
-          lineup.push({
-            pos: pos,
-            name: assignedMember,
-            fixedName: fixedName,
-            isUnder: isUnder,
-            isRegistered: isRegisteredSlide,
-            reason: reasonText
-          });
-        } else {
-          lineup.push({
-            pos: pos,
-            name: "未定",
-            fixedName: fixedName,
-            isUnder: true,
-            isRegistered: false,
-            reason: "候補メンバー不足"
-          });
+          assignedPosMap[assignedMember] = fixedName;
         }
+
+        intermediateLineup.push({
+          pos: pos,
+          fixedName: fixedName,
+          assignedMember: assignedMember || "未定",
+          registeredUnderList: registeredUnderList
+        });
       }
 
+      // Pass 2: 正確な予想理由文の組み立て
       let subCount = 0;
 
-      lineup.forEach((item, index) => {
+      intermediateLineup.forEach((item, index) => {
+        const { pos, fixedName, assignedMember, registeredUnderList } = item;
+        const isUnder = (assignedMember !== fixedName);
+        const isFixedGrad = isGraduated(fixedName);
+
+        // 登録済みスライド判定
+        const lastPerformer = getLastPerformerForPosition(currentTeamKey, fixedName);
+        const isRegisteredSlide = isUnder && (
+          registeredUnderList.includes(assignedMember) || (lastPerformer === assignedMember)
+        );
+
+        // 理由テキスト生成
+        let reasonText = "";
+
+        if (!isUnder) {
+          reasonText = "固定メンバー（本出演）";
+        } else {
+          subCount++;
+
+          const N = registeredUnderList.length;
+
+          // 登録アンダーそれぞれの状態を判定
+          const uStatus = registeredUnderList.map(u => {
+            let status = 'avail';
+            let detail = '';
+            if (isGraduated(u)) {
+              status = 'graduated';
+              detail = `${u} が卒業`;
+            } else if (absentMembersMap[u]) {
+              status = 'absent';
+              detail = `${u} が休演`;
+            } else if (assignedPosMap[u] && assignedPosMap[u] !== fixedName) {
+              status = 'other_pos';
+              detail = `${u} が ${assignedPosMap[u]} ポジで出演`;
+            }
+            return { name: u, status, detail };
+          });
+
+          const availList = uStatus.filter(s => s.status === 'avail');
+
+          if (N === 0) {
+            // アンダー未登録
+            if (isFixedGrad) {
+              reasonText = `${fixedName} が卒業したため、これまでの傾向を元に、今回は ${assignedMember} と予想。`;
+            } else {
+              reasonText = `これまでの傾向を元に、今回は ${assignedMember} と予想。`;
+            }
+          } else if (availList.length === 0) {
+            // アンダー全員が出演不可（休演/他ポジ/卒業）
+            const detailsText = uStatus.map(s => s.detail).join('、');
+            reasonText = `${detailsText}ため、これまでの傾向を元に、今回は ${assignedMember} と予想。`;
+          } else if (N === 1 && availList.length === 1) {
+            // アンダー1名で出演可能
+            reasonText = `経験に基づき ${assignedMember} と予想。`;
+          } else if (N === 2 && availList.length === 1) {
+            // アンダー2名のうち1名のみ出演可能
+            const unavail = uStatus.find(s => s.status !== 'avail');
+            if (unavail.status === 'other_pos') {
+              reasonText = `${unavail.name} が ${assignedPosMap[unavail.name]} ポジで出演するため、${assignedMember} と予想。`;
+            } else if (unavail.status === 'graduated') {
+              reasonText = `${unavail.name} が卒業のため、${assignedMember} と予想。`;
+            } else {
+              reasonText = `${unavail.name} が休演のため、${assignedMember} と予想。`;
+            }
+          } else if (N >= 2 && availList.length >= 2) {
+            // アンダー2名以上で2名以上が出演可能
+            if (lastPerformer) {
+              reasonText = `前回は ${lastPerformer} が出演したので、今回は ${assignedMember} と予想。`;
+            } else {
+              reasonText = `これまでの傾向を元に、今回は ${assignedMember} と予想。`;
+            }
+          } else {
+            // フォールバック
+            reasonText = `これまでの傾向を元に、今回は ${assignedMember} と予想。`;
+          }
+        }
+
+        // HTMLレンダリング
         const div = document.createElement('div');
-        let posLabel = `P${item.pos}`;
+        let posLabel = `P${pos}`;
         if (currentTeamKey === 'A' && team.predictPosNames && team.predictPosNames[index]) {
           posLabel = `${index + 1}<br><span class="text-[10px] font-normal">${team.predictPosNames[index]}</span>`;
         }
 
-        if (!item.isUnder) {
+        if (!isUnder) {
           div.className = "p-2.5 bg-slate-50 rounded-lg border border-slate-200 flex flex-col justify-between gap-1.5";
           div.innerHTML = `
             <div class="flex items-center justify-between">
               <div class="flex items-center gap-2.5">
                 <span class="font-bold text-slate-500 text-xs w-8 text-center leading-tight">${posLabel}</span>
-                <img src="${getAvatar(item.name, 'E91E63')}" class="avatar-img-sm">
-                <span class="font-bold text-slate-800 text-xs">${item.name}</span>
+                <img src="${getAvatar(assignedMember, 'E91E63')}" class="avatar-img-sm">
+                <span class="font-bold text-slate-800 text-xs">${assignedMember}</span>
               </div>
-              <span class="text-[10px] bg-slate-200 text-slate-600 font-semibold px-2 py-0.5 rounded-full">${item.pos}番手</span>
+              <span class="text-[10px] bg-slate-200 text-slate-600 font-semibold px-2 py-0.5 rounded-full">${pos}番手</span>
             </div>
           `;
         } else {
-          subCount++;
           div.className = "p-2.5 bg-amber-50 border border-amber-200 rounded-lg flex flex-col gap-2";
           div.innerHTML = `
             <div class="flex items-center justify-between">
               <div class="flex items-center gap-2.5">
                 <span class="font-bold text-amber-700 text-xs w-8 text-center leading-tight">${posLabel}</span>
-                <img src="${getAvatar(item.name, '9C27B0')}" class="avatar-img-sm border border-amber-300">
+                <img src="${getAvatar(assignedMember, '9C27B0')}" class="avatar-img-sm border border-amber-300">
                 <div>
                   <div class="flex items-center gap-1.5">
-                    <span class="font-bold text-amber-900 text-xs block leading-tight">${item.name}</span>
-                    ${item.isRegistered ? '<span class="text-[10px] bg-emerald-100 text-emerald-800 font-bold px-1.5 py-0.2 rounded border border-emerald-300 flex items-center gap-0.5">︎︎︎︎☑︎ 出演あり</span>' : ''}
+                    <span class="font-bold text-amber-900 text-xs block leading-tight">${assignedMember}</span>
+                    ${isRegisteredSlide ? '<span class="text-[10px] bg-emerald-100 text-emerald-800 font-bold px-1.5 py-0.2 rounded border border-emerald-300 flex items-center gap-0.5">☑️ 登録済みスライド</span>' : ''}
                   </div>
-                  <span class="text-[10px] text-slate-400 ${item.fixedName ? 'line-through' : ''}">${item.fixedName ? '本: ' + item.fixedName : '固定なし'}</span>
+                  <span class="text-[10px] text-slate-400 ${fixedName ? 'line-through' : ''}">
+                    ${fixedName ? '本: ' + fixedName + (isFixedGrad ? '(卒)' : '') : '固定なし'}
+                  </span>
                 </div>
               </div>
               <span class="text-[10px] bg-amber-200 text-amber-800 font-bold px-2 py-0.5 rounded-full shrink-0">アンダー/スライド</span>
             </div>
             
-            <!-- 予想理由表記欄 -->
             <div class="text-[11px] text-amber-900 bg-amber-100/70 p-1.5 rounded border border-amber-200/60 leading-relaxed">
-              <span class="font-bold text-amber-800"><i class="fa-regular fa-comment-dots"></i> 予想理由:</span> ${item.reason}
+              <span class="font-bold text-amber-800"><i class="fa-regular fa-comment-dots"></i> 予想理由:</span> ${reasonText}
             </div>
           `;
         }
