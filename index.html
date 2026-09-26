@@ -195,14 +195,14 @@
         predictPosNames: ["小栗", "佐藤", "倉野尾", "八木", "伊藤", "秋山", "下尾", "村山", "山内", "千葉", "山口", "水島", "山﨑", "向井地", "永野", "鈴木"],
         fixed: ["大村杏", "塩月希依音", "甲斐心愛", "青原優花", "竹本くるみ", "岡腰星来", "梁瀬鈴雅", "栗原紗英", "近藤沙樹", "倉島杏実", "工藤華純", "新井梨杏", "喜多花恵", "内海里音", "松岡さくら", "平田侑希"],
         allMembers: ["岩立沙穂", "髙橋彩音", "武藤小麟", "平田侑希", "工藤華純", "奥本カイリ", "倉島杏実", "松川みゆ", "鎌田菜月", "松本慈子", "大村杏", "青原優花", "岡腰星来", "塩月希依音", "田中ミリア", "松岡さくら", "山口美桜", "栗原紗英", "梁瀬鈴雅", "猪島莉玲亜", "竹本くるみ", "安井妃奈", "喜多花恵", "甲斐心愛", "内海里音", "宗雪里香", "新井梨杏", "近藤沙樹", "川村昇子", "横井志穂", "桜井ひまり", "藪内陽花", "高島柚愛", "須藤凜華", "久我水羚", "木原姫花世", "田中奈菜子", "横井結菜"],
-        graduated: ["岩立沙穂"], // 卒業メンバー設定例
+        graduated: [], // 卒業メンバー設定例
         underChain: {}
       },
       B: {
         name: "チームB", stage: "RESET",
         fixed: ["河村優愛", "吉田彩良", "北村優羽", "山内瑞葵", "尾崎世里花", "川村結衣", "池帆乃香", "清司麗菜", "山内祐奈", "猪原絆愛", "渋井美奈", "青木莉樺", "徳永羚海", "北川愛乃", "久保姫菜乃", "布袋百椛"],
         allMembers: ["福岡聖菜", "徳永羚海", "山内瑞葵", "布袋百椛", "久保姫菜乃", "川村結衣", "桒原椿", "南澤恋々", "北川愛乃", "青木莉樺", "河村優愛", "池帆乃香", "衣笠彩実", "澁谷愛紗南", "中川朋香", "松本海日菜", "生野莉奈", "渋井美奈", "山内祐奈", "猪原絆愛", "立花心良", "清司麗菜", "北村優羽", "谷口茉妃菜", "尾崎世里花", "吉田彩良", "石原侑奈", "丸山ひなた", "久保田怜", "飯田ゆら", "善家侑莉花", "和田承子", "西川晴菜", "中田麻実", "佐藤歩夏", "小松奈侑", "道保琉南"],
-        graduated: ["福岡聖菜"],
+        graduated: [],
         underChain: {}
       },
       C: {
@@ -851,7 +851,7 @@
                 <div>
                   <div class="flex items-center gap-1.5">
                     <span class="font-bold text-amber-900 text-xs block leading-tight">${assignedMember}</span>
-                    ${isRegisteredSlide ? '<span class="text-[10px] bg-emerald-100 text-emerald-800 font-bold px-1.5 py-0.2 rounded border border-emerald-300 flex items-center gap-0.5">☑️ 登録済みスライド</span>' : ''}
+                    ${isRegisteredSlide ? '<span class="text-[10px] bg-emerald-100 text-emerald-800 font-bold px-1.5 py-0.2 rounded border border-emerald-300 flex items-center gap-0.5">︎︎︎︎︎︎☑︎出演あり</span>' : ''}
                   </div>
                   <span class="text-[10px] text-slate-400 ${fixedName ? 'line-through' : ''}">
                     ${fixedName ? '本: ' + fixedName + (isFixedGrad ? '(卒)' : '') : '固定なし'}
