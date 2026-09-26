@@ -136,7 +136,7 @@
           <h2 class="text-base font-bold text-slate-800">出演・休演予想シミュレーター</h2>
           <span id="memberCountBadge" class="text-xs bg-slate-100 text-slate-600 font-bold px-2 py-0.5 rounded-full">全38名</span>
         </div>
-        <p class="text-xs text-slate-500 mb-4">メンバーアイコンをタップして【休演】を選択すると、設定されたポジション連鎖（アンダーリスト）に従って自動補テンされます。</p>
+        <p class="text-xs text-slate-500 mb-4">メンバーアイコンをタップして【休演】を選択すると、設定されたポジション連鎖（アンダーリスト）に従って自動補填されます。</p>
 
         <!-- チーム全員一覧 -->
         <div class="mb-6">
@@ -151,7 +151,7 @@
         <div>
           <h3 class="text-xs font-bold text-pink-600 mb-2 border-b pb-1 flex justify-between items-center">
             <span>予想スターティング16名</span>
-            <span id="subCountText" class="text-xs text-slate-500 font-normal">アンダー補テン: 0名</span>
+            <span id="subCountText" class="text-xs text-slate-500 font-normal">アンダー補填: 0名</span>
           </h3>
           <div id="predictedLineup" class="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs"></div>
         </div>
@@ -620,6 +620,53 @@
       initPredictTab();
     }
 
+    // 過去のスケジュールデータから特定の固定メンバーに対する直近の出演者を検索するヘルパー
+    function getLastPerformerForPosition(teamKey, fixedName) {
+      if (!SCHEDULE_DATA || SCHEDULE_DATA.length === 0) return null;
+      for (let i = SCHEDULE_DATA.length - 1; i >= 0; i--) {
+        const item = SCHEDULE_DATA[i];
+        if (item.team === teamKey && item.positionChanges) {
+          for (let posStr of item.positionChanges) {
+            const members = posStr.split(/←|<-/).map(m => m.trim());
+            if (members[0] === fixedName && members.length > 1) {
+              return members[1]; // 直近でスライド出演した第1候補
+            }
+          }
+        }
+      }
+      return null;
+    }
+
+    // スライド予想理由の自動生成ロジック
+    function generatePredictionReason(teamKey, fixedName, assignedMember, candidateList, usedMembers) {
+      if (assignedMember === fixedName) {
+        return "固定メンバー（本出演）";
+      }
+
+      const lastPerformer = getLastPerformerForPosition(teamKey, fixedName);
+      
+      // 自分より優先順位が高かったもののスキップされた（休演または他ポ使用）メンバーを収集
+      let skipped = [];
+      for (let c of candidateList) {
+        if (c === assignedMember) break;
+        if (absentMembersMap[c]) {
+          skipped.push(`${c}(休演)`);
+        } else if (usedMembers.has(c)) {
+          skipped.push(`${c}(他ポジション出演中)`);
+        }
+      }
+
+      const skippedText = skipped.length > 0 ? ` [${skipped.join('・')}が不参加のため]` : "";
+
+      if (lastPerformer && lastPerformer !== assignedMember) {
+        return `前回の公演は ${lastPerformer} が出演したため${skippedText}、今回は ${assignedMember} と予想。`;
+      } else if (lastPerformer && lastPerformer === assignedMember) {
+        return `前回公演の実績（${lastPerformer}出演）に基づき${skippedText}、引き続き ${assignedMember} と予想。`;
+      } else {
+        return `${fixedName} の休演に伴い${skippedText}、優先順位に従い ${assignedMember} と予想。`;
+      }
+    }
+
     // 優先チェーンロジックに基づいたスターティング16名算出
     function renderPredictedLineup() {
       const team = RAW_TEAMS_DATA[currentTeamKey];
@@ -652,20 +699,36 @@
         }
 
         if (assignedMember) {
-          usedMembers.add(assignedMember);
           const isUnder = (assignedMember !== fixedName);
+          
+          // 既に登録済みのスライド・アンダーであるか判定 (underChain または過去の実績に存在)
+          const lastPerformer = getLastPerformerForPosition(currentTeamKey, fixedName);
+          const isRegisteredSlide = isUnder && (
+            (team.underChain && team.underChain[fixedName] && team.underChain[fixedName].includes(assignedMember)) ||
+            (lastPerformer === assignedMember)
+          );
+
+          // 予想理由を生成
+          const reasonText = generatePredictionReason(currentTeamKey, fixedName, assignedMember, candidateList, usedMembers);
+
+          usedMembers.add(assignedMember);
+
           lineup.push({
             pos: pos,
             name: assignedMember,
             fixedName: fixedName,
-            isUnder: isUnder
+            isUnder: isUnder,
+            isRegistered: isRegisteredSlide,
+            reason: reasonText
           });
         } else {
           lineup.push({
             pos: pos,
             name: "未定",
             fixedName: fixedName,
-            isUnder: true
+            isUnder: true,
+            isRegistered: false,
+            reason: "候補メンバー不足"
           });
         }
       }
@@ -680,34 +743,46 @@
         }
 
         if (!item.isUnder) {
-          div.className = "p-2 bg-slate-50 rounded-lg border border-slate-200 flex items-center justify-between";
+          div.className = "p-2.5 bg-slate-50 rounded-lg border border-slate-200 flex flex-col justify-between gap-1.5";
           div.innerHTML = `
-            <div class="flex items-center gap-2.5">
-              <span class="font-bold text-slate-500 text-xs w-8 text-center leading-tight">${posLabel}</span>
-              <img src="${getAvatar(item.name, 'E91E63')}" class="avatar-img-sm">
-              <span class="font-bold text-slate-800 text-xs">${item.name}</span>
+            <div class="flex items-center justify-between">
+              <div class="flex items-center gap-2.5">
+                <span class="font-bold text-slate-500 text-xs w-8 text-center leading-tight">${posLabel}</span>
+                <img src="${getAvatar(item.name, 'E91E63')}" class="avatar-img-sm">
+                <span class="font-bold text-slate-800 text-xs">${item.name}</span>
+              </div>
+              <span class="text-[10px] bg-slate-200 text-slate-600 font-semibold px-2 py-0.5 rounded-full">${item.pos}番手</span>
             </div>
-            <span class="text-[10px] bg-slate-200 text-slate-600 font-semibold px-2 py-0.5 rounded-full">${item.pos}番手</span>
           `;
         } else {
           subCount++;
-          div.className = "p-2 bg-amber-50 border border-amber-200 rounded-lg flex items-center justify-between";
+          div.className = "p-2.5 bg-amber-50 border border-amber-200 rounded-lg flex flex-col gap-2";
           div.innerHTML = `
-            <div class="flex items-center gap-2.5">
-              <span class="font-bold text-amber-700 text-xs w-8 text-center leading-tight">${posLabel}</span>
-              <img src="${getAvatar(item.name, '9C27B0')}" class="avatar-img-sm border border-amber-300">
-              <div>
-                <span class="font-bold text-amber-900 text-xs block leading-tight">${item.name}</span>
-                <span class="text-[10px] text-slate-400 ${item.fixedName ? 'line-through' : ''}">${item.fixedName ? '本: ' + item.fixedName : '固定なし'}</span>
+            <div class="flex items-center justify-between">
+              <div class="flex items-center gap-2.5">
+                <span class="font-bold text-amber-700 text-xs w-8 text-center leading-tight">${posLabel}</span>
+                <img src="${getAvatar(item.name, '9C27B0')}" class="avatar-img-sm border border-amber-300">
+                <div>
+                  <div class="flex items-center gap-1.5">
+                    <span class="font-bold text-amber-900 text-xs block leading-tight">${item.name}</span>
+                    ${item.isRegistered ? '<span class="text-[10px] bg-emerald-100 text-emerald-800 font-bold px-1.5 py-0.2 rounded border border-emerald-300 flex items-center gap-0.5">☑️ 登録済みスライド</span>' : ''}
+                  </div>
+                  <span class="text-[10px] text-slate-400 ${item.fixedName ? 'line-through' : ''}">${item.fixedName ? '本: ' + item.fixedName : '固定なし'}</span>
+                </div>
               </div>
+              <span class="text-[10px] bg-amber-200 text-amber-800 font-bold px-2 py-0.5 rounded-full shrink-0">アンダー/スライド</span>
             </div>
-            <span class="text-[10px] bg-amber-200 text-amber-800 font-bold px-2 py-0.5 rounded-full">アンダー/スライド</span>
+            
+            <!-- 予想理由表記欄 -->
+            <div class="text-[11px] text-amber-900 bg-amber-100/70 p-1.5 rounded border border-amber-200/60 leading-relaxed">
+              <span class="font-bold text-amber-800"><i class="fa-regular fa-comment-dots"></i> 予想理由:</span> ${item.reason}
+            </div>
           `;
         }
         lineupContainer.appendChild(div);
       });
 
-      document.getElementById('subCountText').innerText = `アンダー補テン: ${subCount}名`;
+      document.getElementById('subCountText').innerText = `アンダー補填: ${subCount}名`;
     }
   </script>
 </body>
