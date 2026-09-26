@@ -854,9 +854,11 @@
                     ${fixedName ? '本: ' + fixedName + (isFixedGrad ? '(卒)' : '') : '固定なし'}
                   </span>
                 </div>
-                ${isRegisteredSlide ? '<span class="text-[10px] bg-emerald-100 text-emerald-800 font-bold px-2 py-0.5 rounded-full shrink-0 inline-flex items-center gap-0.5">☑︎ポジ経験</span>' : ''}
               </div>
-              <span class="text-[10px] bg-amber-200 text-amber-800 font-bold px-2 py-0.5 rounded-full shrink-0">アンダー/スライド</span>
+              <div class="flex items-center gap-1.5 shrink-0">
+                ${isRegisteredSlide ? '<span class="text-[10px] bg-emerald-100 text-emerald-800 font-bold px-2 py-0.5 rounded-full inline-flex items-center gap-0.5">☑︎ポジ経験</span>' : ''}
+                <span class="text-[10px] bg-amber-200 text-amber-800 font-bold px-2 py-0.5 rounded-full">アンダー/スライド</span>
+              </div>
             </div>
             
             <div class="text-[11px] text-amber-900 bg-amber-100/70 p-1.5 rounded border border-amber-200/60 leading-relaxed">
@@ -872,3 +874,4 @@
   </script>
 </body>
 </html>
+
