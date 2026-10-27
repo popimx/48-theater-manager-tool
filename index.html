@@ -178,7 +178,7 @@
           </div>
         </div>
 
-        <!-- Full Team Member Status List -->
+        <!-- Full Team Member Status List (One-tap Toggle Roster) -->
         <div class="bg-slate-800/90 rounded-2xl p-5 border border-slate-700/60 shadow-xl space-y-3">
           <div class="flex items-center justify-between">
             <h2 class="text-sm font-bold text-slate-200 flex items-center gap-2">
@@ -186,15 +186,16 @@
               所属メンバーリスト
               <span id="roster-count-badge" class="text-xs font-normal text-slate-400 bg-slate-700/60 px-2 py-0.5 rounded-full">38名</span>
             </h2>
+            <span class="text-[11px] text-slate-400">タップで休演切替</span>
           </div>
 
           <!-- Quick Filter in Roster -->
           <div class="relative">
-            <input type="text" id="roster-filter" placeholder="メンバー検索..." class="w-full bg-slate-900/80 border border-slate-700/80 rounded-lg px-3 py-1.5 text-xs text-slate-200 focus:outline-none focus:border-indigo-500">
+            <input type="text" id="roster-filter" placeholder="メンバー絞り込み..." class="w-full bg-slate-900/80 border border-slate-700/80 rounded-lg px-3 py-1.5 text-xs text-slate-200 focus:outline-none focus:border-indigo-500">
           </div>
 
-          <!-- Roster Grid -->
-          <div id="team-roster-grid" class="grid grid-cols-2 gap-1.5 max-h-[360px] overflow-y-auto custom-scrollbar pr-1 pt-1">
+          <!-- Roster Grid with Quick Toggle Buttons -->
+          <div id="team-roster-grid" class="grid grid-cols-2 sm:grid-cols-2 gap-1.5 max-h-[380px] overflow-y-auto custom-scrollbar pr-1 pt-1">
             <!-- Populated dynamically -->
           </div>
         </div>
@@ -212,13 +213,13 @@
                 <span id="current-team-title" class="px-2.5 py-0.5 rounded-md text-xs font-bold bg-rose-500/20 text-rose-300 border border-rose-500/30">チームA</span>
                 <h2 id="current-song-title" class="text-base font-bold text-white">全体曲 ポジション配置</h2>
               </div>
-              <p class="text-xs text-slate-400 mt-1">スライド状態や出演ポジションの確認・枠クリックで個別補填が可能</p>
+              <p class="text-xs text-slate-400 mt-1">枠を直接タップで好きなメンバーを即座に割り当て可能</p>
             </div>
 
             <!-- Legend Badge -->
             <div class="flex flex-wrap items-center gap-3 text-[11px] bg-slate-900/60 px-3 py-1.5 rounded-xl border border-slate-700/50">
-              <span class="flex items-center gap-1"><span class="w-2.5 h-2.5 rounded-full bg-emerald-500"></span> オリジナル</span>
-              <span class="flex items-center gap-1"><span class="w-2.5 h-2.5 rounded-full bg-amber-500"></span> 補填・スライド</span>
+              <span class="flex items-center gap-1"><span class="w-2.5 h-2.5 rounded-full bg-emerald-500"></span> 正規</span>
+              <span class="flex items-center gap-1"><span class="w-2.5 h-2.5 rounded-full bg-amber-500"></span> スライド/指定</span>
               <span class="flex items-center gap-1"><span class="w-2.5 h-2.5 rounded-full bg-rose-500"></span> 休演</span>
               <span class="flex items-center gap-1"><span class="w-2.5 h-2.5 rounded-full bg-slate-600"></span> 空席</span>
             </div>
@@ -240,11 +241,12 @@
         <div class="bg-slate-800/60 rounded-2xl p-5 border border-slate-700/40 space-y-3">
           <h3 class="text-xs font-bold text-slate-300 flex items-center gap-2">
             <i data-lucide="info" class="w-4 h-4 text-sky-400"></i>
-            補填ロジックについて
+            補填および連動仕様について
           </h3>
           <p class="text-xs text-slate-400 leading-relaxed">
-            【自動連鎖補填】が有効な場合、ポジション保持者が休演すると、後ろのポジションの正規出演者が順次上位ポジションへスライド補填されます。空いた最下位枠にはチーム内の控えメンバーから未出演者が自動で補充されます。<br>
-            各ポジション枠をクリックすることで、手動で特定の補填メンバーを個別に選任・上書き変更（ハイブリッド運用）が可能です。
+            • メンバーリストをタップして休演を登録すると、<strong>全体曲とユニット曲の両方にリアルタイム連動</strong>して適用されます。<br>
+            • 自動補填がONの場合は休演者の後ろのメンバーが連鎖スライド補填され、最下位に控えメンバーが自動補充されます。<br>
+            • ポジション枠をタップすると、個別に任意のメンバーをダイレクト選任して上書き指定できます。
           </p>
         </div>
 
@@ -266,11 +268,12 @@
         </button>
       </div>
 
-      <p class="text-xs text-slate-300">出演させるメンバーを選択してください:</p>
-
-      <!-- Assignable Member List -->
-      <div id="modal-member-options" class="max-h-60 overflow-y-auto custom-scrollbar space-y-1.5 pr-1">
-        <!-- Options populated dynamically -->
+      <div class="space-y-2">
+        <label class="block text-xs text-slate-400">出演させるメンバーをリストから選択:</label>
+        <!-- Assignable Member List -->
+        <div id="modal-member-options" class="max-h-60 overflow-y-auto custom-scrollbar space-y-1.5 pr-1">
+          <!-- Options populated dynamically -->
+        </div>
       </div>
 
       <div class="flex items-center justify-between pt-2 border-t border-slate-700">
@@ -278,7 +281,7 @@
           この枠を空席にする
         </button>
         <button id="btn-modal-reset-default" class="text-xs text-slate-300 hover:text-white bg-slate-700 hover:bg-slate-600 py-1.5 px-3 rounded-lg transition">
-          自動補填に戻す
+          自動補填（規定値）に戻す
         </button>
       </div>
     </div>
@@ -824,16 +827,16 @@
         if (filterText && !member.toLowerCase().includes(filterText)) return;
 
         const isAbsent = absentSet.has(member);
-        const item = document.createElement('div');
-        item.className = `p-2 rounded-xl border text-xs font-medium flex items-center justify-between cursor-pointer transition ${
+        const item = document.createElement('button');
+        item.className = `p-2 rounded-xl border text-xs font-medium flex items-center justify-between cursor-pointer transition select-none ${
           isAbsent 
-            ? 'bg-rose-950/40 border-rose-800/60 text-rose-300' 
-            : 'bg-slate-900/60 border-slate-700/50 text-slate-300 hover:border-slate-600'
+            ? 'bg-rose-950/60 border-rose-600/80 text-rose-200 shadow-sm' 
+            : 'bg-slate-900/60 border-slate-700/50 text-slate-300 hover:border-slate-500 hover:bg-slate-800/80'
         }`;
 
         item.innerHTML = `
           <span class="truncate">${member}</span>
-          <span class="text-[10px] px-1.5 py-0.5 rounded font-bold ${
+          <span class="text-[10px] px-1.5 py-0.5 rounded font-bold shrink-0 ${
             isAbsent ? 'bg-rose-500 text-white' : 'bg-slate-800 text-slate-400'
           }">${isAbsent ? '休演' : '出演可'}</span>
         `;
@@ -869,7 +872,7 @@
           badgeClass = 'bg-emerald-500/20 text-emerald-300 border-emerald-500/30';
         } else if (slot.type === 'substitute') {
           borderBgClass = 'bg-slate-900/90 border-amber-500/40 hover:border-amber-400';
-          badgeText = 'スライド/補填';
+          badgeText = 'スライド/指定';
           badgeClass = 'bg-amber-500/20 text-amber-300 border-amber-500/30';
         } else if (slot.type === 'absent') {
           borderBgClass = 'bg-rose-950/30 border-rose-800/60 hover:border-rose-500';
