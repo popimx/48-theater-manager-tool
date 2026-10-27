@@ -8,1070 +8,193 @@
   <script src="https://cdn.tailwindcss.com"></script>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <style>
-    body { padding-bottom: 75px; }
-    .avatar-box {
-      width: 38px;
-      height: 38px;
-      border-radius: 9999px;
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      overflow: hidden;
-      flex-shrink: 0;
-    }
+    body { padding-bottom: 85px; }
     .avatar-img { object-fit: cover; width: 32px; height: 32px; border-radius: 9999px; flex-shrink: 0; }
     .avatar-img-lg { object-fit: cover; width: 48px; height: 48px; border-radius: 9999px; flex-shrink: 0; }
     .avatar-img-sm { object-fit: cover; width: 28px; height: 28px; border-radius: 9999px; flex-shrink: 0; }
     ::-webkit-scrollbar { width: 6px; height: 6px; }
     ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 3px; }
-    .member-first { color: #db2777; font-weight: 700; cursor: pointer; transition: opacity 0.2s; white-space: nowrap; display: inline-block; padding: 0.125rem 0; }
-    .member-first:hover { opacity: 0.7; }
-    .member-under { color: #b45309; font-weight: 700; cursor: pointer; transition: opacity 0.2s; white-space: nowrap; display: inline-block; padding: 0.125rem 0; }
-    .member-under:hover { opacity: 0.7; }
-    /* カレンダーグリッド用スタイル */
-    .cal-grid {
-      display: grid;
-      grid-template-columns: repeat(7, minmax(0, 1fr));
-      gap: 2px;
-      background-color: #e2e8f0;
-      border: 1px solid #e2e8f0;
-      border-radius: 0.5rem;
-      overflow: hidden;
-    }
-    .cal-cell {
-      background-color: #ffffff;
-      min-height: 70px;
-      padding: 4px;
-      display: flex;
-      flex-direction: column;
-    }
-    .cal-cell.other-month { background-color: #f8fafc; color: #94a3b8; }
-    .cal-cell.today { background-color: #fdf2f8; }
   </style>
 </head>
 <body class="bg-slate-100 text-slate-800 font-sans">
+
   <!-- Header -->
   <header class="bg-pink-600 text-white p-4 shadow-md sticky top-0 z-40">
-    <div class="max-w-4xl mx-auto flex items-center justify-between">
-      <h1 class="text-xl font-bold flex items-center gap-2 cursor-pointer" onclick="goHome()">
+    <div class="max-w-4xl mx-auto flex flex-col sm:flex-row justify-between items-center gap-3">
+      <h1 class="text-xl font-bold flex items-center gap-2 cursor-pointer" onclick="switchTab('calendar')">
         <i class="fa-solid fa-masks-theater"></i> 劇場公演 データサイト
       </h1>
+      
+      <!-- チーム選択 -->
+      <select id="teamSelector" onchange="switchTeam(this.value)" class="bg-pink-700 text-white font-bold text-sm rounded-lg px-3 py-1.5 border border-pink-500 focus:outline-none w-full sm:w-auto cursor-pointer">
+        <option value="A">チームA（ここからだ）</option>
+        <option value="B">チームB（RESET）</option>
+        <option value="C">チームC（M.T.に捧ぐ）</option>
+        <option value="D">チームD（シアターの女神）</option>
+        <option value="E">チームE（制服の芽）</option>
+        <option value="F">チームF（ここにだって天使はいる）</option>
+        <option value="G">チームG（目撃者）</option>
+      </select>
     </div>
+
     <!-- 検索バー ＆ サジェスト -->
     <div class="max-w-4xl mx-auto mt-3 relative">
       <div class="relative">
-        <input type="text" id="searchInput" oninput="onSearchInput(this.value)" placeholder="演目名 または メンバー名 で検索" 
+        <input type="text" id="searchInput" oninput="onSearchInput(this.value)" placeholder="メンバー名 / チーム名 / 演目名で検索..." 
                class="w-full pl-9 pr-4 py-2 bg-white text-slate-800 text-sm rounded-lg shadow-inner focus:outline-none focus:ring-2 focus:ring-pink-300">
         <i class="fa-solid fa-magnifying-glass absolute left-3 top-3 text-slate-400 text-sm"></i>
       </div>
-      <div id="searchSuggest" class="hidden absolute left-0 right-0 top-full mt-1 bg-white border border-slate-200 rounded-lg shadow-xl z-50 max-h-72 overflow-y-auto divide-y divide-slate-100 text-sm"></div>
+      <div id="searchSuggest" class="hidden absolute left-0 right-0 top-full mt-1 bg-white border border-slate-200 rounded-lg shadow-xl z-50 max-h-60 overflow-y-auto divide-y divide-slate-100 text-sm"></div>
     </div>
   </header>
 
   <!-- Main Content Container -->
   <main class="max-w-4xl mx-auto p-4">
-    <!-- 通常タブコンテンツ -->
-    <div id="mainTabsContainer">
-      <!-- Tab 1: カレンダー -->
-      <section id="tab-calendar" class="tab-content">
-        <div class="bg-white rounded-xl p-4 shadow-sm border border-slate-200 mb-4">
-          <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3 mb-4">
-            <h2 class="text-base font-bold text-slate-700 flex items-center gap-2">
-              <i class="fa-regular fa-calendar-days text-pink-500"></i> スケジュール
-            </h2>
-            <div class="flex items-center gap-2 w-full sm:w-auto justify-between sm:justify-end">
-              <!-- ビュー切り替えボタン -->
-              <div class="bg-slate-100 p-0.5 rounded-lg border border-slate-200 flex text-[10px]">
-                <button id="viewListBtn" onclick="toggleCalendarView('list')" class="px-2.5 py-1 rounded-md font-bold transition bg-white text-pink-600 shadow-sm">
-                  <i class="fa-solid fa-list mr-1"></i> リスト
-                </button>
-                <button id="viewGridBtn" onclick="toggleCalendarView('grid')" class="px-2.5 py-1 rounded-md font-bold transition text-slate-600 hover:text-pink-600">
-                  <i class="fa-solid fa-table-cells mr-1"></i> 月間
-                </button>
-              </div>
-              <div class="flex items-center gap-1 bg-slate-50 p-1 rounded-lg border border-slate-200">
-                <button onclick="changeMonth(-1)" class="p-1.5 text-slate-400 hover:text-pink-600 rounded hover:bg-slate-200"><i class="fa-solid fa-chevron-left"></i></button>
-                <select id="yearSelect" onchange="onDateChange()" class="bg-transparent text-slate-700 text-sm font-bold px-1 py-1 focus:outline-none cursor-pointer"></select>
-                <select id="monthSelect" onchange="onDateChange()" class="bg-transparent text-slate-700 text-sm font-bold px-1 py-1 focus:outline-none cursor-pointer"></select>
-                <button onclick="changeMonth(1)" class="p-1.5 text-slate-400 hover:text-pink-600 rounded hover:bg-slate-200"><i class="fa-solid fa-chevron-right"></i></button>
-              </div>
-            </div>
-          </div>
-          <!-- 劇場選択タブ -->
-          <div class="flex flex-nowrap overflow-x-auto gap-1.5 mb-4 pb-2">
-            <button onclick="filterSchedule('ALL', this)" class="filter-btn active bg-slate-800 text-white text-xs font-semibold px-3 py-1.5 rounded-full whitespace-nowrap">全劇場</button>
-            <button onclick="filterSchedule('AKB48', this)" class="filter-btn bg-slate-100 text-slate-600 border border-slate-200 text-xs font-semibold px-3 py-1.5 rounded-full whitespace-nowrap hover:bg-slate-200">AKB48劇場</button>
-            <button onclick="filterSchedule('SKE48', this)" class="filter-btn bg-slate-100 text-slate-600 border border-slate-200 text-xs font-semibold px-3 py-1.5 rounded-full whitespace-nowrap hover:bg-slate-200">SKE48劇場</button>
-            <button onclick="filterSchedule('NMB48', this)" class="filter-btn bg-slate-100 text-slate-600 border border-slate-200 text-xs font-semibold px-3 py-1.5 rounded-full whitespace-nowrap hover:bg-slate-200">NMB48劇場</button>
-            <button onclick="filterSchedule('HKT48', this)" class="filter-btn bg-slate-100 text-slate-600 border border-slate-200 text-xs font-semibold px-3 py-1.5 rounded-full whitespace-nowrap hover:bg-slate-200">HKT48劇場</button>
-            <button onclick="filterSchedule('NGT48', this)" class="filter-btn bg-slate-100 text-slate-600 border border-slate-200 text-xs font-semibold px-3 py-1.5 rounded-full whitespace-nowrap hover:bg-slate-200">NGT48劇場</button>
-            <button onclick="filterSchedule('STU48', this)" class="filter-btn bg-slate-100 text-slate-600 border border-slate-200 text-xs font-semibold px-3 py-1.5 rounded-full whitespace-nowrap hover:bg-slate-200">STU48劇場</button>
-          </div>
-          
-          <div id="calendarList" class="space-y-3"></div>
-          <div id="calendarGrid" class="hidden"></div>
-        </div>
-      </section>
 
-      <!-- Tab 2: 一覧表 -->
-      <section id="tab-positions" class="tab-content hidden space-y-4">
-        <div class="bg-white rounded-xl p-4 shadow-sm border border-slate-200">
-          <h2 id="posStageTitle" class="text-lg font-bold text-slate-800 mb-4">公演名</h2>
-          <div class="overflow-x-auto rounded-lg border border-slate-200 shadow-inner">
-            <table class="w-full text-left text-sm border-collapse min-w-max">
-              <thead><tr id="positionTableHeader" class="bg-slate-50 border-b border-slate-200"></tr></thead>
-              <tbody id="positionTableBody" class="divide-y divide-slate-100"></tbody>
-            </table>
-          </div>
-        </div>
-      </section>
-
-      <!-- Tab 3: 日別表 -->
-      <section id="tab-stage-daily" class="tab-content hidden space-y-4">
-        <div class="bg-white rounded-xl p-4 shadow-sm border border-slate-200">
-          <h2 class="text-base font-bold text-slate-800 mb-3 flex items-center gap-2">
-            <i class="fa-solid fa-table-cells text-pink-500"></i> 日別表
+    <!-- Tab 1: カレンダー -->
+    <section id="tab-calendar" class="tab-content">
+      <div class="bg-white rounded-xl p-4 shadow-sm border border-slate-200 mb-4">
+        
+        <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-2 mb-3">
+          <h2 class="text-base font-bold text-slate-700 flex items-center gap-2">
+            <i class="fa-regular fa-calendar-days text-pink-500"></i> 劇場スケジュール（<span id="currentMonthLabel">2026年10月</span>）
           </h2>
-          <div class="overflow-x-auto rounded-lg border border-slate-200 shadow-inner">
-            <table class="w-full text-left text-sm border-collapse min-w-max">
-              <thead><tr id="dailyTableHeader" class="bg-slate-50 border-b border-slate-200"></tr></thead>
-              <tbody id="dailyTableBody" class="divide-y divide-slate-100"></tbody>
-            </table>
-          </div>
+          <!-- JSONファイル手動読み込みボタン -->
+          <label class="cursor-pointer bg-pink-50 text-pink-600 hover:bg-pink-100 px-2.5 py-1 rounded border border-pink-200 text-xs font-semibold flex items-center gap-1 transition">
+            <i class="fa-solid fa-file-import"></i> 月別JSON読込
+            <input type="file" id="jsonFileInput" accept=".json" onchange="loadJsonFile(event)" class="hidden">
+          </label>
         </div>
-      </section>
 
-      <!-- Tab 4: 出演・休演予想シミュレーター（選択形式） -->
-      <section id="tab-forecast" class="tab-content hidden space-y-4">
-        <div class="bg-white rounded-xl p-4 shadow-sm border border-slate-200">
-          <div class="flex justify-between items-center mb-1">
-            <h2 class="text-base font-bold text-slate-800">出演・休演予想シミュレーター</h2>
-            <span id="memberCountBadge" class="text-xs bg-slate-100 text-slate-600 font-bold px-2 py-0.5 rounded-full">全0名</span>
-          </div>
-          <p class="text-xs text-slate-500 mb-4">メンバーアイコンをタップして【休演】を選択すると、ポジション履歴に従って自動補填されます。</p>
-          
-          <!-- メンバー全員一覧 -->
-          <div class="mb-6">
-            <h3 class="text-xs font-bold text-slate-600 mb-2 border-b pb-1 flex justify-between items-center">
-              <span>メンバー一覧（タップで休演切替）</span>
-              <button onclick="resetAbsence()" class="text-xs text-pink-600 hover:underline font-normal">休演リセット</button>
-            </h3>
-            <div id="memberGrid" class="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-6 gap-2.5"></div>
-          </div>
-
-          <!-- 予想スターティングラインナップ -->
-          <div>
-            <h3 class="text-xs font-bold text-pink-600 mb-2 border-b pb-1 flex justify-between items-center">
-              <span>予想スターティングラインナップ</span>
-              <span id="subCountText" class="text-xs text-slate-500 font-normal">アンダー補填: 0名</span>
-            </h3>
-            <div id="predictedLineup" class="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs"></div>
-          </div>
+        <!-- フィルターボタン（劇場別 ＆ チーム別） -->
+        <div class="flex flex-wrap gap-1.5 mb-4">
+          <button onclick="filterSchedule('ALL', this)" class="filter-btn active bg-slate-800 text-white text-xs font-semibold px-3 py-1 rounded-full">全スケジュール</button>
+          <button onclick="filterSchedule('AKB48', this)" class="filter-btn bg-slate-200 text-slate-700 text-xs font-semibold px-3 py-1 rounded-full">AKB48劇場</button>
+          <button onclick="filterSchedule('SKE48', this)" class="filter-btn bg-slate-200 text-slate-700 text-xs font-semibold px-3 py-1 rounded-full">SKE48劇場</button>
+          <button onclick="filterSchedule('NMB48', this)" class="filter-btn bg-slate-200 text-slate-700 text-xs font-semibold px-3 py-1 rounded-full">NMB48劇場</button>
+          <button onclick="filterSchedule('HKT48', this)" class="filter-btn bg-slate-200 text-slate-700 text-xs font-semibold px-3 py-1 rounded-full">HKT48劇場</button>
+          <button onclick="filterSchedule('NGT48', this)" class="filter-btn bg-slate-200 text-slate-700 text-xs font-semibold px-3 py-1 rounded-full">NGT48劇場</button>
+          <button onclick="filterSchedule('STU48', this)" class="filter-btn bg-slate-200 text-slate-700 text-xs font-semibold px-3 py-1 rounded-full">STU48劇場</button>
+          <button onclick="filterSchedule('TeamA', this)" class="filter-btn bg-slate-200 text-slate-700 text-xs font-semibold px-3 py-1 rounded-full">チームA</button>
+          <button onclick="filterSchedule('TeamB', this)" class="filter-btn bg-slate-200 text-slate-700 text-xs font-semibold px-3 py-1 rounded-full">チームB</button>
+          <button onclick="filterSchedule('TeamC', this)" class="filter-btn bg-slate-200 text-slate-700 text-xs font-semibold px-3 py-1 rounded-full">チームC</button>
+          <button onclick="filterSchedule('TeamD', this)" class="filter-btn bg-slate-200 text-slate-700 text-xs font-semibold px-3 py-1 rounded-full">チームD</button>
+          <button onclick="filterSchedule('TeamE', this)" class="filter-btn bg-slate-200 text-slate-700 text-xs font-semibold px-3 py-1 rounded-full">チームE</button>
+          <button onclick="filterSchedule('TeamF', this)" class="filter-btn bg-slate-200 text-slate-700 text-xs font-semibold px-3 py-1 rounded-full">チームF</button>
+          <button onclick="filterSchedule('TeamG', this)" class="filter-btn bg-slate-200 text-slate-700 text-xs font-semibold px-3 py-1 rounded-full">チームG</button>
         </div>
-      </section>
-    </div>
-
-    <!-- メンバー詳細コンテンツ -->
-    <section id="memberDetailContainer" class="hidden space-y-4">
-      <div class="bg-white rounded-xl p-4 shadow-sm border border-slate-200 flex justify-between items-center">
-        <div class="flex items-center gap-3">
-          <div class="avatar-box bg-pink-600 text-white text-base font-bold shadow">
-            <i class="fa-solid fa-user"></i>
-          </div>
-          <div>
-            <h2 id="detailMemberName" class="text-xl font-bold text-slate-800">メンバー名</h2>
-            <p class="text-xs text-pink-600 font-semibold">出演データ統計</p>
-          </div>
-        </div>
-        <button onclick="goHome()" class="text-xs bg-slate-100 hover:bg-slate-200 text-slate-600 px-3 py-1.5 rounded-lg font-bold border border-slate-200">
-          <i class="fa-solid fa-xmark mr-1"></i> 閉じる
-        </button>
-      </div>
-      <div class="bg-white rounded-xl p-4 shadow-sm border border-slate-200">
-        <div class="flex items-center justify-between border-b pb-2 mb-3">
-          <h3 class="text-sm font-bold text-slate-800 flex items-center gap-2">
-            <i class="fa-solid fa-chart-pie text-pink-500"></i> 出演統計
-          </h3>
-          <span id="totalPerfBadge" class="bg-pink-100 text-pink-700 text-xs font-bold px-3 py-1 rounded-full">総出演回数: 0回</span>
-        </div>
-        <h4 class="text-xs font-bold text-slate-500 mb-2">演目ごとの出演回数</h4>
-        <ul id="showsBreakdownList" class="space-y-2 text-xs"></ul>
-      </div>
-
-      <!-- 年別出演回数・ランキング・共演トップ10の表示エリア -->
-      <div class="bg-white rounded-xl p-4 shadow-sm border border-slate-200 space-y-4">
-        <div>
-          <h3 class="text-sm font-bold text-slate-800 border-b pb-2 mb-2 flex items-center gap-2">
-            <i class="fa-solid fa-calendar text-pink-500"></i> 年別出演回数
-          </h3>
-          <div id="yearlyBreakdownList" class="flex flex-wrap gap-2 text-xs"></div>
-        </div>
-        <div>
-          <h3 id="rankingSectionTitle" class="text-sm font-bold text-slate-800 border-b pb-2 mb-2 flex items-center gap-2">
-            <i class="fa-solid fa-trophy text-pink-500"></i> 出演回数ランキング
-          </h3>
-          <ol id="memberRankingList" class="space-y-1 text-xs divide-y divide-slate-100"></ol>
-        </div>
-        <div>
-          <h3 class="text-sm font-bold text-slate-800 border-b pb-2 mb-2 flex items-center gap-2">
-            <i class="fa-solid fa-users text-pink-500"></i> 共演回数ランキング
-          </h3>
-          <ol id="coappearanceTopList" class="space-y-1 text-xs divide-y divide-slate-100"></ol>
-        </div>
-      </div>
-
-      <div class="bg-white rounded-xl p-4 shadow-sm border border-slate-200">
-        <h3 class="text-sm font-bold text-slate-800 border-b pb-2 mb-3 flex items-center gap-2">
-          <i class="fa-solid fa-list-check text-pink-500"></i> 出演履歴
-        </h3>
-        <div id="memberShowsHistoryList" class="space-y-2 max-h-80 overflow-y-auto pr-1"></div>
+        <div id="calendarList" class="space-y-3"></div>
       </div>
     </section>
-  </main>
 
-  <!-- スケジュール詳細ポップアップ モーダル -->
-  <div id="scheduleModal" class="hidden fixed inset-0 bg-slate-900/50 backdrop-blur-sm z-50 flex items-center justify-center p-4">
-    <div class="bg-white rounded-xl max-w-lg w-full p-4 shadow-2xl border border-slate-100 space-y-4 max-h-[90vh] overflow-y-auto">
-      <div class="flex justify-between items-start border-b pb-3">
+    <!-- Tab 2: ポジション ＆ ユニット一覧 -->
+    <section id="tab-positions" class="tab-content hidden space-y-4">
+      
+      <!-- ① ポジション一覧 -->
+      <div class="bg-white rounded-xl p-4 shadow-sm border border-slate-200">
+        <div class="flex justify-between items-center mb-3">
+          <div>
+            <h2 id="posTeamTitle" class="text-lg font-bold text-slate-800">チームA</h2>
+            <p id="posStageTitle" class="text-xs text-pink-600 font-semibold">演目：「ここからだ」公演</p>
+          </div>
+          <span id="fixedCountBadge" class="bg-pink-100 text-pink-700 text-xs font-bold px-2.5 py-1 rounded-full">固定 16名</span>
+        </div>
+
+        <h3 class="text-xs font-bold text-slate-500 uppercase tracking-wider mb-2">ポジション一覧（16枠 / 固定メンバー ＆ アンダー）</h3>
+        <div class="overflow-x-auto">
+          <table class="w-full text-left text-xs border-collapse">
+            <thead>
+              <tr class="bg-slate-100 border-b border-slate-200 text-slate-600">
+                <th class="p-2 w-16 text-center">Pos</th>
+                <th class="p-2" colspan="2">固定メンバー</th>
+                <th class="p-2" colspan="2">アンダー</th>
+              </tr>
+            </thead>
+            <tbody id="positionTableBody" class="divide-y divide-slate-100"></tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- ② 日別ユニット一覧 -->
+      <div class="bg-white rounded-xl p-4 shadow-sm border border-slate-200">
+        <h3 class="text-xs font-bold text-slate-500 uppercase tracking-wider mb-1 flex items-center gap-1.5">
+          <i class="fa-solid fa-music text-pink-500"></i> 日別ユニットポジション一覧
+        </h3>
+        <p class="text-xs text-slate-400 mb-3">公演日付ごとのユニット出演記録</p>
+        
+        <div class="overflow-x-auto">
+          <table class="w-full text-left text-xs border-collapse border border-slate-200 whitespace-nowrap">
+            <thead id="unitTableHead" class="bg-slate-50 text-slate-700 border-b border-slate-200"></thead>
+            <tbody id="unitTableBody" class="divide-y divide-slate-100"></tbody>
+          </table>
+        </div>
+      </div>
+
+    </section>
+
+    <!-- Tab 3: 出演・休演予想（表形式デザイン） -->
+    <section id="tab-predict" class="tab-content hidden space-y-4">
+      <div class="bg-white rounded-xl p-4 shadow-sm border border-slate-200">
+        <div class="flex justify-between items-center mb-1">
+          <h2 class="text-base font-bold text-slate-800">出演・休演予想シミュレーター</h2>
+          <span id="memberCountBadge" class="text-xs bg-slate-100 text-slate-600 font-bold px-2 py-0.5 rounded-full">全38名</span>
+        </div>
+        <p class="text-xs text-slate-500 mb-4">メンバーアイコンをタップして【休演】を選択すると、設定されたポジション連鎖に従って自動補填されます。（卒マークは選択不可）</p>
+
+        <!-- チーム全員一覧 -->
+        <div class="mb-6">
+          <h3 class="text-xs font-bold text-slate-600 mb-2 border-b pb-1 flex justify-between items-center">
+            <span>チーム全員一覧（タップで休演切替）</span>
+            <button onclick="resetAbsence()" class="text-xs text-pink-600 hover:underline font-normal">休演リセット</button>
+          </h3>
+          <div id="memberGrid" class="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-6 gap-2.5"></div>
+        </div>
+
+        <!-- 予想スターティングラインナップ（表形式） -->
         <div>
-          <span id="modalTheater" class="text-[10px] font-bold px-2 py-0.5 rounded bg-pink-100 text-pink-700"></span>
-          <h3 id="modalTitle" class="text-base font-bold text-slate-800 mt-1"></h3>
-          <p id="modalDate" class="text-xs text-slate-500 font-medium"></p>
+          <div class="flex justify-between items-center mb-2 border-b pb-1">
+            <h3 class="text-xs font-bold text-pink-600">予想スターティング16名（表形式）</h3>
+            <span id="subCountText" class="text-xs text-slate-500 font-normal">アンダー補填: 0名</span>
+          </div>
+          <div class="overflow-x-auto rounded-lg border border-slate-200 shadow-inner">
+            <table class="w-full text-left text-xs border-collapse min-w-max">
+              <thead>
+                <tr class="bg-slate-50 border-b border-slate-200 text-slate-600">
+                  <th class="p-2.5 text-center w-16">Pos</th>
+                  <th class="p-2.5">予想メンバー</th>
+                  <th class="p-2.5">区分 / 固定</th>
+                  <th class="p-2.5">予想理由・詳細</th>
+                </tr>
+              </thead>
+              <tbody id="predictedLineupTableBody" class="divide-y divide-slate-100"></tbody>
+            </table>
+          </div>
         </div>
-        <button onclick="closeScheduleModal()" class="text-slate-400 hover:text-slate-600 text-lg p-1">
-          <i class="fa-solid fa-xmark"></i>
-        </button>
       </div>
-      <div id="modalMembersArea" class="bg-slate-50 border border-slate-200 rounded-lg p-3 text-xs space-y-2">
-        <div class="font-bold text-slate-700 flex justify-between items-center">
-          <span>【出演メンバー / ポジション】</span>
-          <span id="modalPosCount" class="text-[10px] text-pink-600 bg-pink-50 px-1.5 py-0.5 rounded border border-pink-200"></span>
-        </div>
-        <div id="modalMemberList" class="grid grid-cols-2 gap-1.5 pt-1"></div>
-      </div>
-      <div class="flex gap-2 pt-2">
-        <button id="modalBtnGoStage" class="flex-1 bg-pink-600 hover:bg-pink-700 text-white font-bold py-2 px-3 rounded-lg text-xs shadow transition text-center">
-          演目詳細を開く
-        </button>
-        <button onclick="closeScheduleModal()" class="bg-slate-100 hover:bg-slate-200 text-slate-600 font-bold py-2 px-3 rounded-lg text-xs transition">
-          閉じる
-        </button>
-      </div>
-    </div>
-  </div>
+    </section>
+
+  </main>
 
   <!-- Bottom Navigation -->
   <nav class="fixed bottom-0 left-0 right-0 bg-white border-t border-slate-200 shadow-lg z-50">
-    <div id="navNormal" class="max-w-4xl mx-auto flex justify-around">
-      <button onclick="switchTab('calendar')" id="nav-calendar" class="nav-btn active flex-1 py-3 text-center text-xs font-semibold text-pink-600">
-        <i class="fa-regular fa-calendar-days text-base block mb-0.5"></i> カレンダー
+    <div class="max-w-4xl mx-auto flex justify-around">
+      <button onclick="switchTab('calendar')" id="nav-calendar" class="nav-btn active flex-1 py-2.5 text-center text-xs font-semibold text-pink-600 transition">
+        <i class="fa-regular fa-calendar-days text-base block mb-0.5"></i>
+        カレンダー
       </button>
-    </div>
-    <div id="navStageDetail" class="hidden max-w-4xl mx-auto flex justify-around">
-      <button onclick="switchTab('positions')" id="nav-positions" class="nav-btn-stage flex-1 py-3 text-center text-xs font-semibold text-slate-400 transition hover:bg-pink-50">
-        <i class="fa-solid fa-users-rectangle text-base block mb-0.5"></i> 一覧表
+      <button onclick="switchTab('positions')" id="nav-positions" class="nav-btn flex-1 py-2.5 text-center text-xs font-semibold text-slate-400 hover:text-pink-500 transition">
+        <i class="fa-solid fa-users-rectangle text-base block mb-0.5"></i>
+        ポジション
       </button>
-      <button onclick="switchTab('stage-daily')" id="nav-stage-daily" class="nav-btn-stage flex-1 py-3 text-center text-xs font-semibold text-slate-400 transition hover:bg-pink-50">
-        <i class="fa-solid fa-table-cells text-base block mb-0.5"></i> 日別表
+      <button onclick="switchTab('predict')" id="nav-predict" class="nav-btn flex-1 py-2.5 text-center text-xs font-semibold text-slate-400 hover:text-pink-500 transition">
+        <i class="fa-solid fa-wand-magic-sparkles text-base block mb-0.5"></i>
+        予想
       </button>
-      <button onclick="switchTab('forecast')" id="nav-forecast" class="nav-btn-stage flex-1 py-3 text-center text-xs font-semibold text-slate-400 transition hover:bg-pink-50">
-        <i class="fa-solid fa-wand-magic-sparkles text-base block mb-0.5"></i> 予想
-      </button>
-      <button onclick="goHome()" id="nav-back" class="flex-1 py-3 text-center text-xs font-semibold text-slate-400 transition hover:bg-pink-50">
-        <i class="fa-solid fa-rotate-left text-base block mb-0.5"></i> 戻る
-      </button>
-    </div>
-    <div id="navMemberSearching" class="hidden max-w-4xl mx-auto flex justify-center py-3 bg-pink-50 text-pink-600 font-bold text-sm items-center gap-2 border-t-2 border-pink-500">
-      <i class="fa-solid fa-user-gear"></i>
-      <span>メンバー詳細表示中</span>
-      <button onclick="goHome()" class="text-xs bg-pink-600 text-white px-3 py-1 rounded ml-2 shadow-sm">戻る</button>
     </div>
   </nav>
 
-  <!-- JavaScript Logic -->
+  <!-- App Logic -->
   <script>
-    const MASTER_MEMBER_ORDER_BY_GROUP = {
-      AKB48: [
-        "秋山由奈", "新井彩永", "伊藤百花", "岩立沙穂", "太田有紀",
-        "奥本カイリ", "小栗有以", "川村結衣", "行天優莉奈", "工藤華純",
-        "久保姫菜乃", "倉野尾成美", "黒須遥香", "坂川陽香", "迫由芽実",
-        "佐藤綺星", "下尾みう", "髙橋彩音", "千葉恵里", "徳永羚海",
-        "長友彩海", "永野芹佳", "成田香姫奈", "橋本恵理子", "橋本陽菜",
-        "畠山希美", "平田侑希", "福岡聖菜", "布袋百椛", "正鋳真優",
-        "水島美結", "武藤小麟", "八木愛月", "山内瑞葵", "山口結愛",
-        "山﨑空", "山根涼羽", "大賀彩姫", "近藤沙樹", "丸山ひなた",
-        "髙橋舞桜", "田中沙友利", "牧戸愛茉", "森川優", "渡邉葵心",
-        "大西ゆな", "長谷川百々花", "前田衣澄", "山内利乃明"
-      ],
-      SKE48: [
-        "相川暖花", "石黒友月", "伊藤虹々美", "入内嶋涼", "熊崎晴香",
-        "倉島杏実", "桒原椿", "佐々木希美", "杉本りいな", "鈴木恋奈",
-        "野村実代", "原優寧", "松川みゆ", "南澤恋々", "山村さくら",
-        "荒野姫楓", "伊藤実希", "奥野心羽", "鎌田菜月", "川村昇子",
-        "北川愛乃", "久保田怜", "雲井紗菜", "倉本羽菜", "近藤海琴",
-        "佐藤佳穂", "篠原京香", "立花菖", "松本慈子", "宮本倫花",
-        "青木莉樺", "赤堀君江", "浅井裕華", "井田玲音名", "太田彩夏",
-        "太田愛恵", "大村杏", "河村優愛", "鈴木愛菜", "中坂美祐",
-        "西井美桜", "長谷川雅", "森本くるみ", "飯田ゆら", "池田有沙",
-        "高村紗弥", "竹下茉莉花", "田村真悠", "中尾楓華", "聖遥花",
-        "矢島凪", "横井志穂"
-      ],
-      NMB48: [
-        "青原優花", "石山千尋", "泉綾乃", "板垣心和", "内田愛彩",
-        "岡腰星来", "衣笠彩実", "木根彩呂花", "黒島咲花", "坂下真心",
-        "坂田心咲", "桜田彩叶", "塩月希依音", "澁谷愛紗南", "新澤菜央",
-        "高橋ことね", "竹田京加", "龍本弥生", "田中美空", "田中ミリア",
-        "中川朋香", "西島梨央", "西田帆花", "平山真衣", "福野杏実",
-        "松岡さくら", "松本海日菜", "三鴨くるみ", "宮崎紗衣", "宮原心音",
-        "宮本杏海", "村井悠莉", "山口美桜", "赤松昊", "桜井ひまり",
-        "善家侑莉花", "高橋樹奈", "田中れい", "谷口詩乃", "西住美咲妃",
-        "福原琴美", "藪内陽花"
-      ],
-      HKT48: [
-        "生野莉奈", "石川歩実優", "石松結菜", "市村愛里", "北川陽彩",
-        "栗原紗英", "渋井美奈", "豊永阿紀", "中野南実", "藤野心葉",
-        "渕上舞", "松永悠良", "梁瀬鈴雅", "山内祐奈", "吉田めい",
-        "龍頭綺音", "秋吉優花", "井澤美優", "石井彩音", "猪島莉玲亜",
-        "猪原絆愛", "今村麻莉愛", "江浦優香", "江口心々華", "大庭凜咲",
-        "栗山梨奈", "竹本くるみ", "立花心良", "田中伊桜莉", "長野らら",
-        "福井可憐", "松本苺花", "森﨑冴彩", "安井妃奈", "青木日菜子",
-        "靏川那智", "山川万里愛"
-      ],
-      NGT48: [
-        "清司麗菜", "西潟茉莉奈", "佐藤海里", "大塚七海", "三村妃乃",
-        "磯部瑠紅", "喜多花恵", "北村優羽", "水津菜月", "杉本萌",
-        "磯崎菜々", "木本杏菜", "佐藤広花", "新沢葵唯", "高島柚愛",
-        "西川晴菜", "安座間結", "阿達夢", "甲斐瑞季", "北澤百音",
-        "佐藤柚花", "須藤凜華", "中田麻実", "皆川日和", "相木茉采",
-        "猪股咲那", "大橋彩乃", "片山珠吏", "久我水羚", "佐藤歩夏",
-        "平井柚葉", "細矢夏帆"
-      ],
-      STU48: [
-        "甲斐心愛", "谷口茉妃菜", "兵頭葵", "福田朱里", "信濃宙花",
-        "中村舞", "池田裕楽", "内海里音", "尾崎世里花", "川又優菜",
-        "工藤理子", "迫姫華", "高雄さやか", "原田清花", "宗雪里香",
-        "吉田彩良", "渡辺菜月", "岡田あずみ", "岡村梨央", "久留島優果",
-        "諸葛望愛", "新井梨杏", "石原侑奈", "奥田唯菜", "北澤苺",
-        "濵田響", "森末妃奈", "石松陽菜", "井上久伶杏", "蕪竹真奈",
-        "木原姫花世", "小松奈侑", "坂木叶愛", "坂崎愛", "島田紗香",
-        "曽我部あこ", "髙村栞里", "田中奈菜子", "道保琉南", "野中莉央",
-        "濵田美惟", "藤田愛結", "三好真綺", "屋木優菜", "横井結菜"
-      ]
-    };
-
-    let MASTER_MEMBER_ORDER = [...MASTER_MEMBER_ORDER_BY_GROUP.AKB48];
-    let currentMemberOrderGroup = "AKB48";
-
-    function normalizeGroupName(groupName) {
-      const value = String(groupName || "").replace(/劇場/g, "").trim().toUpperCase();
-      const match = value.match(/(AKB48|SKE48|NMB48|HKT48|NGT48|STU48)/);
-      return match ? match[1] : null;
-    }
-
-    function setMasterMemberOrder(groupName) {
-      const group = normalizeGroupName(groupName) || "AKB48";
-      currentMemberOrderGroup = group;
-      MASTER_MEMBER_ORDER = [...(MASTER_MEMBER_ORDER_BY_GROUP[group] || [])];
-      return group;
-    }
-
-    let SCHEDULE_DATA = [];
-    let ALL_SCHEDULE_DATA = [];
-    let GLOBAL_STAGE_DATABASE = {};
-    let STAGE_DATABASE = {};
-    let currentStageKey = null;
-    let currentScheduleFilter = "ALL";
-    let selectedMemberName = null;
-    let currentSelectedMemberYear = null;
-    let currentRankingYear = null;
-    let showAllAppearanceRanking = false;
-    let showAllCoappearanceRanking = false;
-    let todayString = "";
-    let calendarViewMode = 'list';
-    let absentMembersMap = {};
-
-    const FALLBACK_SCHEDULE_2026 = [
-      {
-        "id": "akb_260807",
-        "date": "2026-08-07 18:30",
-        "theater": "AKB48劇場",
-        "title": "「夢のポップスター」公演 初日",
-        "members": ["新井彩永", "久保姫菜乃", "倉野尾成美", "坂川陽香", "髙橋彩音", "山内瑞葵", "山口結愛", "山﨑空"],
-        "positions": ["新井彩永", "久保姫菜乃", "倉野尾成美", "坂川陽香", "髙橋彩音", "山内瑞葵", "山口結愛", "山﨑空"]
-      },
-      {
-        "id": "akb_260826",
-        "date": "2026-08-26 18:30",
-        "time": "18:30",
-        "theater": "AKB48劇場",
-        "title": "「夢のポップスター」公演",
-        "members": ["秋山由奈", "奥本カイリ", "下尾みう", "成田香姫奈", "福岡聖菜", "正鋳真優", "近藤沙樹", "田中沙友利"],
-        "positions": ["福岡聖菜", "秋山由奈", "成田香姫奈", "奥本カイリ", "田中沙友利", "正鋳真優", "下尾みう", "近藤沙樹"]
-      },
-      {
-        "id": "akb_260831",
-        "date": "2026-08-31 18:30",
-        "time": "18:30",
-        "theater": "AKB48劇場",
-        "title": "「夢のポップスター」公演",
-        "members": ["太田有紀", "工藤華純", "黒須遥香", "迫由芽実", "佐藤綺星", "成田香姫奈", "福岡聖菜", "山内瑞葵"],
-        "positions": ["福岡聖菜", "佐藤綺星", "成田香姫奈", "迫由芽実", "太田有紀", "山内瑞葵", "黒須遥香", "工藤華純"]
-      }
-    ];
-
-    document.addEventListener("DOMContentLoaded", async () => {
-      initYearMonthDropdowns();
-      await loadAllYearsScheduleData(); 
-      await onDateChange();
-      document.addEventListener('click', (e) => {
-        const suggestBox = document.getElementById('searchSuggest');
-        const searchInput = document.getElementById('searchInput');
-        if (suggestBox && !suggestBox.contains(e.target) && e.target !== searchInput) suggestBox.classList.add('hidden');
-      });
-    });
-
-    function initYearMonthDropdowns() {
-      const yearSelect = document.getElementById("yearSelect");
-      const monthSelect = document.getElementById("monthSelect");
-      yearSelect.innerHTML = ''; monthSelect.innerHTML = '';
-      for (let y = 2026; y >= 2005; y--) yearSelect.appendChild(new Option(`${y}年`, y));
-      for (let m = 1; m <= 12; m++) monthSelect.appendChild(new Option(`${m}月`, m < 10 ? `0${m}` : `${m}`));
-      
-      const now = new Date();
-      yearSelect.value = now.getFullYear();
-      monthSelect.value = (now.getMonth() + 1).toString().padStart(2, '0');
-      
-      const yStr = now.getFullYear();
-      const mStr = (now.getMonth() + 1).toString().padStart(2, '0');
-      const dStr = now.getDate().toString().padStart(2, '0');
-      todayString = `${yStr}/${mStr}/${dStr}`;
-    }
-
-    function changeMonth(diff) {
-      const yearSelect = document.getElementById("yearSelect");
-      const monthSelect = document.getElementById("monthSelect");
-      let y = parseInt(yearSelect.value, 10);
-      let m = parseInt(monthSelect.value, 10);
-      m += diff;
-      if (m > 12) { m = 1; y++; }
-      else if (m < 1) { m = 12; y--; }
-      yearSelect.value = y.toString();
-      monthSelect.value = (m < 10 ? "0" : "") + m;
-      onDateChange();
-    }
-
-    async function fetchScheduleJson(groupName, year) {
-      const group = String(groupName || "akb48").toLowerCase();
-      const fileName = `schedule_${group}_${year}.json`;
-      try {
-        const response = await fetch(fileName);
-        if (!response.ok) throw new Error(`JSON not found: ${fileName}`);
-        const data = await response.json();
-        if (!Array.isArray(data)) return [];
-        return data;
-      } catch (err) {
-        if (group === "akb48" && Number(year) === 2026) {
-          return FALLBACK_SCHEDULE_2026;
-        }
-        return [];
-      }
-    }
-
-    async function loadAllYearsScheduleData() {
-      let allList = [];
-      const currentYear = new Date().getFullYear();
-      const groups = ["akb48", "ske48", "nmb48", "hkt48", "ngt48", "stu48"];
-      const promises = [];
-      for (const group of groups) {
-        for (let y = 2005; y <= currentYear; y++) {
-          promises.push(
-            fetchScheduleJson(group, y).then(rawData => ({ group, year: y, rawData }))
-          );
-        }
-      }
-      const results = await Promise.all(promises);
-      results.forEach(({ group, year, rawData }) => {
-        if (Array.isArray(rawData)) {
-          const normalizedData = normalizeScheduleData(rawData).map(item => ({
-            ...item,
-            sourceGroup: group.toUpperCase()
-          }));
-          allList = allList.concat(normalizedData);
-        }
-      });
-      ALL_SCHEDULE_DATA = allList;
-      generateGlobalStageDatabase();
-    }
-
-    function normalizeScheduleData(rawData) {
-      return rawData.map(item => {
-        let rawDateStr = item.date || "";
-        let datePart = "", timePart = item.time || "";
-        if (rawDateStr.includes(" ")) {
-          const parts = rawDateStr.split(" ");
-          datePart = parts[0].replace(/-/g, "/");
-          timePart = timePart || parts[1];
-        } else {
-          datePart = rawDateStr.replace(/-/g, "/");
-        }
-        let rawTitle = item.title || item.stage || "";
-        let mainTitle = rawTitle;
-        let subTitle = item.event || item.subTitle || "";
-        if (!subTitle) {
-          const match = rawTitle.match(/^(「.*?」公演)(?:\s+(.*))?$/);
-          if (match) {
-            mainTitle = match[1];
-            subTitle = match[2] || "";
-          }
-        }
-        let baseStage = mainTitle.replace(/「|」|『|』/g, '').replace(/公演.*$/, '').trim();
-        let membersArr = [];
-        let performersStr = "";
-        if (Array.isArray(item.members)) {
-          membersArr = item.members.filter(m => m && m !== "-" && m !== "－");
-          performersStr = membersArr.join("・");
-        }
-        let posArr = Array.isArray(item.positions) ? item.positions : [];
-        return {
-          id: item.id || `evt_${Math.random().toString(36).substring(2, 9)}`,
-          date: datePart,
-          time: timePart,
-          theater: item.theater || "AKB48劇場",
-          displayTitle: mainTitle,
-          subTitle: subTitle,
-          baseStageName: baseStage,
-          performersText: performersStr,
-          membersArray: membersArr,
-          positionsArray: posArr
-        };
-      });
-    }
-
-    function generateGlobalStageDatabase() {
-      GLOBAL_STAGE_DATABASE = {};
-      ALL_SCHEDULE_DATA.forEach(item => {
-        const base = item.baseStageName;
-        if (!base) return;
-        if (!GLOBAL_STAGE_DATABASE[base]) {
-          GLOBAL_STAGE_DATABASE[base] = {
-            id: base,
-            name: `「${base}」公演`,
-            group: item.theater.replace("劇場", "").trim() || "AKB48",
-            fixed: [],
-            allMembers: new Set(),
-            schedules: []
-          };
-        }
-        GLOBAL_STAGE_DATABASE[base].schedules.push(item);
-        item.membersArray.forEach(m => { 
-          if(m && m !== "-" && m !== "－") GLOBAL_STAGE_DATABASE[base].allMembers.add(m.trim()); 
-        });
-      });
-      Object.keys(GLOBAL_STAGE_DATABASE).forEach(key => {
-        const stage = GLOBAL_STAGE_DATABASE[key];
-        stage.schedules.sort((a, b) => (a.date + " " + a.time).localeCompare(b.date + " " + b.time));
-        const firstShow = stage.schedules.find(s => s.positionsArray && s.positionsArray.length > 0);
-        if (firstShow) {
-          stage.fixed = firstShow.positionsArray.map(m => (m === "-" || m === "－") ? "" : m);
-        }
-        const rawMembersSet = stage.allMembers;
-        stage.allMembers = MASTER_MEMBER_ORDER.filter(m => rawMembersSet.has(m) || MASTER_MEMBER_ORDER.includes(m));
-      });
-    }
-
-    function generateStageDatabase() {
-      STAGE_DATABASE = {};
-      SCHEDULE_DATA.forEach(item => {
-        const base = item.baseStageName;
-        if (!base) return;
-        if (!STAGE_DATABASE[base]) {
-          STAGE_DATABASE[base] = {
-            id: base,
-            name: `「${base}」公演`,
-            group: item.theater.replace("劇場", "").trim() || "AKB48",
-            fixed: [],
-            allMembers: new Set(),
-            schedules: []
-          };
-        }
-        STAGE_DATABASE[base].schedules.push(item);
-        item.membersArray.forEach(m => { 
-          if(m && m !== "-" && m !== "－") STAGE_DATABASE[base].allMembers.add(m.trim()); 
-        });
-      });
-      Object.keys(STAGE_DATABASE).forEach(key => {
-        const stage = STAGE_DATABASE[key];
-        stage.schedules.sort((a, b) => (a.date + " " + a.time).localeCompare(b.date + " " + b.time));
-        if (GLOBAL_STAGE_DATABASE[key] && GLOBAL_STAGE_DATABASE[key].fixed.length > 0) {
-          stage.fixed = GLOBAL_STAGE_DATABASE[key].fixed;
-        } else {
-          const firstShow = stage.schedules.find(s => s.positionsArray && s.positionsArray.length > 0);
-          if (firstShow) {
-            stage.fixed = firstShow.positionsArray.map(m => (m === "-" || m === "－") ? "" : m);
-          }
-        }
-        const rawMembersSet = stage.allMembers;
-        stage.allMembers = MASTER_MEMBER_ORDER.filter(m => rawMembersSet.has(m) || MASTER_MEMBER_ORDER.includes(m));
-      });
-    }
-
-    function getAllUniqueMembers() {
-      const set = new Set(MASTER_MEMBER_ORDER);
-      const dataSource = ALL_SCHEDULE_DATA.length > 0 ? ALL_SCHEDULE_DATA : SCHEDULE_DATA;
-      dataSource.forEach(item => {
-        if (item.membersArray) {
-          item.membersArray.forEach(m => { if (m && m !== "-" && m !== "－") set.add(m.trim()); });
-        }
-        if (item.positionsArray) {
-          item.positionsArray.forEach(m => { if (m && m !== "-" && m !== "－") set.add(m.trim()); });
-        }
-      });
-      return Array.from(set);
-    }
-
-    async function onDateChange() {
-      const yearSelect = document.getElementById("yearSelect");
-      if (!yearSelect) return;
-      const year = Number(yearSelect.value);
-      const groups = ["akb48", "ske48", "nmb48", "hkt48", "ngt48", "stu48"];
-      try {
-        const results = await Promise.all(
-          groups.map(async group => {
-            const rawData = await fetchScheduleJson(group, year);
-            return normalizeScheduleData(rawData).map(item => ({
-              ...item,
-              sourceGroup: group.toUpperCase()
-            }));
-          })
-        );
-        SCHEDULE_DATA = results.flat();
-        generateStageDatabase();
-        renderCalendar();
-      } catch (error) {
-        console.error("スケジュール更新エラー:", error);
-      }
-    }
-
-    function toggleCalendarView(mode) {
-      calendarViewMode = mode;
-      const listBtn = document.getElementById('viewListBtn');
-      const gridBtn = document.getElementById('viewGridBtn');
-      const listContainer = document.getElementById('calendarList');
-      const gridContainer = document.getElementById('calendarGrid');
-      if (mode === 'list') {
-        listBtn.className = "px-2.5 py-1 rounded-md font-bold transition bg-white text-pink-600 shadow-sm";
-        gridBtn.className = "px-2.5 py-1 rounded-md font-bold transition text-slate-600 hover:text-pink-600";
-        listContainer.classList.remove('hidden');
-        gridContainer.classList.add('hidden');
-      } else {
-        gridBtn.className = "px-2.5 py-1 rounded-md font-bold transition bg-white text-pink-600 shadow-sm";
-        listBtn.className = "px-2.5 py-1 rounded-md font-bold transition text-slate-600 hover:text-pink-600";
-        gridContainer.classList.remove('hidden');
-        listContainer.classList.add('hidden');
-      }
-      renderCalendar();
-    }
-
-    function goHome() {
-      selectedMemberName = null;
-      document.getElementById('mainTabsContainer').classList.remove('hidden');
-      document.getElementById('memberDetailContainer').classList.add('hidden');
-      document.getElementById('navNormal').classList.remove('hidden');
-      document.getElementById('navStageDetail').classList.add('hidden');
-      document.getElementById('navMemberSearching').classList.add('hidden');
-      switchTab('calendar');
-    }
-
-    function selectStage(stageKey) {
-      currentStageKey = stageKey;
-      const stage = GLOBAL_STAGE_DATABASE[stageKey] || STAGE_DATABASE[stageKey];
-      if (!stage) return;
-      setMasterMemberOrder(stage.group);
-      absentMembersMap = {};
-
-      document.getElementById('mainTabsContainer').classList.remove('hidden');
-      document.getElementById('memberDetailContainer').classList.add('hidden');
-      document.getElementById('navNormal').classList.add('hidden');
-      document.getElementById('navMemberSearching').classList.add('hidden');
-      document.getElementById('navStageDetail').classList.remove('hidden');
-      document.getElementById('navStageDetail').classList.add('flex');
-
-      renderPositions();
-      renderDailyTable();
-      initPredictTab();
-
-      switchTab('positions');
-    }
-
-    function switchTab(tabName) {
-      document.querySelectorAll('.tab-content').forEach(el => el.classList.add('hidden'));
-      document.getElementById(`tab-${tabName}`).classList.remove('hidden');
-      document.querySelectorAll('.nav-btn, .nav-btn-stage').forEach(btn => {
-        btn.classList.remove('text-pink-600', 'border-t-[3px]', 'border-pink-500');
-        btn.classList.add('text-slate-400');
-      });
-      const activeBtn = document.getElementById(`nav-${tabName}`);
-      if (activeBtn) {
-        activeBtn.classList.remove('text-slate-400');
-        activeBtn.classList.add('text-pink-600');
-        if (activeBtn.classList.contains('nav-btn-stage')) {
-          activeBtn.classList.add('border-t-[3px]', 'border-pink-500');
-        }
-      }
-      if (tabName === 'forecast') {
-        initPredictTab();
-      }
-    }
-
-    function filterSchedule(filter, button) {
-      currentScheduleFilter = filter;
-      document.querySelectorAll('.filter-btn').forEach(btn => {
-        btn.className = 'filter-btn bg-slate-100 text-slate-600 border border-slate-200 text-xs font-semibold px-3 py-1.5 rounded-full whitespace-nowrap hover:bg-slate-200';
-      });
-      if (button) {
-        button.className = 'filter-btn active bg-black text-white border border-black text-xs font-semibold px-3 py-1.5 rounded-full whitespace-nowrap';
-      }
-      renderCalendar();
-    }
-
-    function getFilteredSchedules() {
-      const year = document.getElementById("yearSelect").value;
-      const month = document.getElementById("monthSelect").value;
-      const datePrefix = `${year}/${month}`;
-      return SCHEDULE_DATA.filter(item => {
-        const matchesDate = item.date ? item.date.startsWith(datePrefix) : true;
-        if (!matchesDate) return false;
-        if (currentScheduleFilter === 'ALL') return true;
-        return item.theater && item.theater.includes(currentScheduleFilter);
-      });
-    }
-
-    function renderCalendar() {
-      if (calendarViewMode === 'grid') {
-        renderCalendarGrid();
-      } else {
-        renderCalendarList();
-      }
-    }
-
-    function renderCalendarList() {
-      const listContainer = document.getElementById('calendarList');
-      listContainer.innerHTML = '';
-      const filtered = getFilteredSchedules();
-      const todayShows = [];
-      const otherShows = [];
-      filtered.forEach(item => {
-        if (item.date === todayString) todayShows.push(item);
-        else otherShows.push(item);
-      });
-      const finalSchedules = [...todayShows, ...otherShows];
-      if (finalSchedules.length === 0) {
-        listContainer.innerHTML = `<p class="text-xs text-slate-400 text-center py-6 bg-slate-50 rounded-lg border border-slate-200">指定された年月のスケジュールはありません。</p>`;
-        return;
-      }
-      finalSchedules.forEach(item => {
-        const isToday = item.date === todayString;
-        const card = document.createElement('div');
-        card.id = `sched-${item.id}`;
-        card.className = `sched-card p-3 rounded-lg border shadow-sm transition cursor-pointer ${isToday ? 'bg-pink-50 border-pink-300' : 'bg-white border-slate-200 hover:border-pink-300'}`;
-        card.onclick = () => openScheduleModal(item);
-        
-        const dateParts = item.date.split('/');
-        const monthDay = dateParts.length >= 3 ? `${dateParts[1]}/${dateParts[2]}` : item.date;
-        card.innerHTML = `
-          <div class="flex flex-col gap-2">
-            <div class="flex items-center justify-between">
-              <div class="flex items-center gap-3">
-                <div class="text-center bg-white border border-slate-200 px-2.5 py-1 rounded w-16">
-                  <span class="block text-xs text-slate-500 font-bold">${monthDay}</span>
-                  <span class="block text-xs font-bold text-pink-600">${item.time}</span>
-                </div>
-                <div>
-                  ${isToday ? '<span class="text-[10px] font-bold px-2 py-0.5 rounded bg-pink-500 text-white mr-1 inline-block">本日</span>' : ''}
-                  <span class="text-[10px] font-bold px-2 py-0.5 rounded bg-pink-100 text-pink-700">${item.theater}</span>
-                  <h4 class="font-bold text-slate-800 text-xs mt-0.5">${escapeHtml(item.displayTitle)}</h4>
-                  ${item.subTitle ? `<div class="text-xs text-pink-600 font-bold mt-0.5">${escapeHtml(item.subTitle)}</div>` : ''}
-                </div>
-              </div>
-            </div>
-            ${item.performersText ? `
-              <div class="bg-slate-50 border border-slate-100 rounded p-2 text-xs text-slate-600">
-                <span class="font-bold text-slate-700 block mb-0.5">【出演メンバー】</span>
-                <span class="break-words">${escapeHtml(item.performersText)}</span>
-              </div>
-            ` : ''}
-          </div>
-        `;
-        listContainer.appendChild(card);
-      });
-    }
-
-    function renderCalendarGrid() {
-      const gridContainer = document.getElementById('calendarGrid');
-      gridContainer.innerHTML = '';
-      const year = parseInt(document.getElementById("yearSelect").value, 10);
-      const month = parseInt(document.getElementById("monthSelect").value, 10);
-      const firstDay = new Date(year, month - 1, 1);
-      const lastDay = new Date(year, month, 0);
-      const startDayOfWeek = firstDay.getDay(); 
-      const totalDays = lastDay.getDate();
-      const filtered = getFilteredSchedules();
-      const schedMap = {};
-      filtered.forEach(item => {
-        const dStr = item.date;
-        if (!schedMap[dStr]) schedMap[dStr] = [];
-        schedMap[dStr].push(item);
-      });
-      let html = `<div class="cal-grid">`;
-      const dayLabels = ['日', '月', '火', '水', '木', '金', '土'];
-      dayLabels.forEach((label, i) => {
-        const color = i === 0 ? 'text-red-500' : (i === 6 ? 'text-blue-500' : 'text-slate-600');
-        html += `<div class="bg-slate-100 p-1 text-center font-bold text-xs ${color}">${label}</div>`;
-      });
-      for (let i = 0; i < startDayOfWeek; i++) {
-        html += `<div class="cal-cell other-month"></div>`;
-      }
-      for (let day = 1; day <= totalDays; day++) {
-        const mStr = month.toString().padStart(2, '0');
-        const dStr = day.toString().padStart(2, '0');
-        const fullDateStr = `${year}/${mStr}/${dStr}`;
-        const isToday = fullDateStr === todayString;
-        const dayShows = schedMap[fullDateStr] || [];
-        html += `
-          <div class="cal-cell ${isToday ? 'today border border-pink-400' : ''}">
-            <span class="text-[10px] font-bold ${isToday ? 'text-pink-600' : 'text-slate-600'}">${day}</span>
-            <div class="space-y-1 mt-1 overflow-y-auto max-h-16 flex-1">
-        `;
-        dayShows.forEach(s => {
-          html += `
-            <div onclick="openScheduleModalById('${s.id}')" class="bg-pink-100 hover:bg-pink-200 text-pink-800 text-[9px] p-0.5 rounded leading-tight cursor-pointer truncate" title="${escapeHtml(s.baseStageName)}">
-              ${escapeHtml(s.baseStageName)}
-            </div>
-          `;
-        });
-        html += `</div></div>`;
-      }
-      const totalCells = startDayOfWeek + totalDays;
-      const remainingCells = (7 - (totalCells % 7)) % 7;
-      for (let i = 0; i < remainingCells; i++) {
-        html += `<div class="cal-cell other-month"></div>`;
-      }
-      html += `</div>`;
-      gridContainer.innerHTML = html;
-    }
-
-    function openScheduleModalById(id) {
-      const item = SCHEDULE_DATA.find(s => s.id === id);
-      if (item) openScheduleModal(item);
-    }
-
-    function openScheduleModal(item) {
-      document.getElementById('modalTheater').innerText = item.theater || 'AKB48劇場';
-      let titleText = item.displayTitle;
-      if (item.subTitle) {
-        const isFirstOrFinal = item.subTitle.includes("初日") || item.subTitle.includes("千秋楽");
-        const space = isFirstOrFinal ? " " : "  ";
-        titleText += `${space}${item.subTitle}`;
-      }
-      document.getElementById('modalTitle').innerText = titleText;
-      document.getElementById('modalDate').innerText = `${item.date} ${item.time || ''}`;
-      
-      const listEl = document.getElementById('modalMemberList');
-      const posCountEl = document.getElementById('modalPosCount');
-      listEl.innerHTML = '';
-      const stageObj = GLOBAL_STAGE_DATABASE[item.baseStageName] || STAGE_DATABASE[item.baseStageName];
-      if (item.positionsArray && item.positionsArray.length > 0) {
-        posCountEl.innerText = `${item.positionsArray.length}人公演`;
-        item.positionsArray.forEach((m, idx) => {
-          const posName = (stageObj && stageObj.fixed && stageObj.fixed[idx]) ? stageObj.fixed[idx] : `Pos.${idx+1}`;
-          const isOrig = (m === posName);
-          const div = document.createElement('div');
-          div.className = "bg-white p-1.5 rounded border border-slate-200 flex items-center justify-between";
-          div.innerHTML = `
-            <span class="text-[10px] text-slate-400 truncate">${escapeHtml(posName)}ポジ</span>
-            <span class="${isOrig ? 'member-first' : 'member-under'} text-xs" onclick="openMemberDetail('${escapeHtml(m)}'); closeScheduleModal();">${escapeHtml(m)}</span>
-          `;
-          listEl.appendChild(div);
-        });
-      } else if (item.membersArray && item.membersArray.length > 0) {
-        posCountEl.innerText = `${item.membersArray.length}名出演`;
-        item.membersArray.forEach(m => {
-          const div = document.createElement('div');
-          div.className = "bg-white p-1.5 rounded border border-slate-200 flex items-center justify-between";
-          div.innerHTML = `
-            <span class="member-first text-xs" onclick="openMemberDetail('${escapeHtml(m)}'); closeScheduleModal();">${escapeHtml(m)}</span>
-          `;
-          listEl.appendChild(div);
-        });
-      } else {
-        posCountEl.innerText = '情報なし';
-        listEl.innerHTML = '<p class="text-slate-400 text-center col-span-2 py-2">メンバー情報がありません。</p>';
-      }
-      const btnGo = document.getElementById('modalBtnGoStage');
-      btnGo.onclick = () => {
-        closeScheduleModal();
-        selectStage(item.baseStageName);
-      };
-      document.getElementById('scheduleModal').classList.remove('hidden');
-    }
-
-    function closeScheduleModal() {
-      document.getElementById('scheduleModal').classList.add('hidden');
-    }
-
-    function jumpToSchedule(dateStr, elementId) {
-      const parts = dateStr.split('/');
-      if (parts.length === 3) {
-        document.getElementById('yearSelect').value = parts[0];
-        document.getElementById('monthSelect').value = parts[1];
-        onDateChange();
-      }
-      goHome();
-      setTimeout(() => {
-        if (calendarViewMode === 'grid') {
-          const item = SCHEDULE_DATA.find(s => s.id === elementId);
-          if (item) openScheduleModal(item);
-        } else {
-          document.querySelectorAll('.sched-card').forEach(el => {
-            el.classList.remove('bg-pink-100', 'border-pink-500', 'ring-2', 'ring-pink-500', 'border-pink-400');
-          });
-          const target = document.getElementById(`sched-${elementId}`);
-          if(target) {
-            target.scrollIntoView({ behavior: 'smooth', block: 'center' });
-            target.classList.add('bg-pink-100', 'border-pink-500', 'ring-2', 'ring-pink-500');
-          }
-        }
-      }, 200);
-    }
-
-    function renderPositions() {
-      const stage = GLOBAL_STAGE_DATABASE[currentStageKey] || STAGE_DATABASE[currentStageKey];
-      if (!stage) return;
-      document.getElementById('posStageTitle').innerText = stage.name;
-      const headerTr = document.getElementById('positionTableHeader');
-      const tbody = document.getElementById('positionTableBody');
-      headerTr.innerHTML = '';
-      tbody.innerHTML = '';
-      if (stage.fixed.length === 0) return;
-
-      const validShows = stage.schedules.filter(s => s.positionsArray && s.positionsArray.length > 0);
-      const rowDataList = [];
-      let maxCols = 0;
-
-      stage.fixed.forEach((fixedMember, colIdx) => {
-        const experiencedSet = new Set();
-        validShows.forEach(show => {
-          if (show.positionsArray && show.positionsArray[colIdx]) {
-            const m = show.positionsArray[colIdx].trim();
-            if (m && m !== '-' && m !== '－') experiencedSet.add(m);
-          }
-        });
-        const undersOrdered = MASTER_MEMBER_ORDER.filter(m => m !== fixedMember && experiencedSet.has(m));
-        const initialMembers = fixedMember ? [fixedMember, ...undersOrdered] : undersOrdered;
-        const orderedMembers = initialMembers.filter(m => m && m !== '-' && m !== '－');
-        if (orderedMembers.length > 0) {
-          rowDataList.push({ fixedMember, orderedMembers });
-          if (orderedMembers.length > maxCols) maxCols = orderedMembers.length;
-        }
-      });
-
-      for (let i = 0; i < maxCols; i++) {
-        const th = document.createElement('th');
-        th.className = 'p-2.5 min-w-[110px] text-center border-r border-slate-200 whitespace-nowrap';
-        th.innerHTML = `<span class="text-xs font-bold text-slate-600">${i === 0 ? '初日' : `${i + 1}人目`}</span>`;
-        headerTr.appendChild(th);
-      }
-
-      rowDataList.forEach(({ fixedMember, orderedMembers }) => {
-        const tr = document.createElement('tr');
-        tr.className = 'border-b border-slate-100 hover:bg-slate-50';
-        for (let i = 0; i < maxCols; i++) {
-          const td = document.createElement('td');
-          td.className = 'p-2.5 text-center border-r border-slate-100 whitespace-nowrap';
-          const member = orderedMembers[i];
-          if (member && member !== '-' && member !== '－') {
-            const isOriginal = member === fixedMember;
-            const className = isOriginal ? 'member-first' : 'member-under';
-            td.innerHTML = `<span class="${className}" style="color: #000; font-weight: ${isOriginal ? 'bold' : 'normal'}; cursor: pointer;" onclick="openMemberDetail('${escapeHtml(member)}')">${escapeHtml(member)}</span>`;
-          }
-          tr.appendChild(td);
-        }
-        tbody.appendChild(tr);
-      });
-    }
-
-    function formatShortDate(dateStr) {
-      if (!dateStr) return "";
-      const parts = dateStr.replace(/-/g, '/').split('/');
-      if (parts.length === 3) {
-        const yy = parts[0].slice(-2);
-        const m = parseInt(parts[1], 10);
-        const d = parseInt(parts[2], 10);
-        return `${yy}/${m}/${d}`;
-      }
-      return dateStr;
-    }
-
-    function renderDailyTable() {
-      const stage = GLOBAL_STAGE_DATABASE[currentStageKey] || STAGE_DATABASE[currentStageKey];
-      const headerTr = document.getElementById('dailyTableHeader');
-      const tbody = document.getElementById('dailyTableBody');
-      headerTr.innerHTML = '';
-      tbody.innerHTML = '';
-      if (!stage || !stage.fixed || stage.fixed.length === 0) return;
-
-      const validShows = stage.schedules.filter(s => s.positionsArray && s.positionsArray.length > 0);
-      const sortedShows = [...validShows].sort((a, b) => `${a.date || ''} ${a.time || ''}`.localeCompare(`${b.date || ''} ${b.time || ''}`));
-      
-      const firstAppearanceByPosition = stage.fixed.map((_, idx) => {
-        const firstAppearance = new Map();
-        sortedShows.forEach((show, showIndex) => {
-          const member = String(show.positionsArray[idx] || '').trim();
-          if (!member || member === '-' || member === '－') return;
-          if (!firstAppearance.has(member)) firstAppearance.set(member, showIndex);
-        });
-        return firstAppearance;
-      });
-
-      validShows.forEach(show => {
-        const shortDateStr = formatShortDate(show.date);
-        const th = document.createElement('th');
-        th.className = "p-2.5 min-w-[90px] text-center border-r border-slate-200 whitespace-nowrap cursor-pointer hover:bg-pink-50 transition group";
-        th.title = "クリックしてスケジュールを表示";
-        th.onclick = () => jumpToSchedule(show.date, show.id);
-        th.innerHTML = `<span class="text-xs font-bold text-slate-600 group-hover:text-pink-600">${escapeHtml(shortDateStr)}</span>`;
-        headerTr.appendChild(th);
-      });
-
-      stage.fixed.forEach((fixedMember, idx) => {
-        const tr = document.createElement('tr');
-        tr.className = "border-b border-slate-100 hover:bg-slate-50";
-        validShows.forEach(show => {
-          const member = String(show.positionsArray[idx] || '').trim();
-          const td = document.createElement('td');
-          td.className = "p-2.5 text-center border-r border-slate-100";
-          if (member && member !== '-' && member !== '－') {
-            const firstShowIndex = sortedShows.findIndex(s => s === show);
-            const isFirstAppearance = firstAppearanceByPosition[idx].get(member) === firstShowIndex;
-            const isInitialMember = member === stage.fixed[idx];
-            if (isFirstAppearance && !isInitialMember) {
-              td.style.backgroundColor = '#FFFBEB';
-            }
-            const span = document.createElement('span');
-            span.style.color = '#111827';
-            span.style.cursor = 'pointer';
-            span.textContent = member;
-            span.onclick = () => openMemberDetail(member);
-            td.appendChild(span);
-          }
-          tr.appendChild(td);
-        });
-        tbody.appendChild(tr);
-      });
-    }
-
-    // --- 出演・休演予想シミュレーター（選択形式ロジック） ---
-
     function getAvatar(name, color = "E91E63") {
       if (name === "－" || name === "未定" || !name) {
         return `https://ui-avatars.com/api/?name=-&background=CBD5E1&color=fff&size=128&bold=true&rounded=true`;
@@ -1079,40 +202,443 @@
       return `https://ui-avatars.com/api/?name=${encodeURIComponent(name)}&background=${color}&color=fff&size=128&bold=true&rounded=true`;
     }
 
-    function initPredictTab() {
-      const stage = GLOBAL_STAGE_DATABASE[currentStageKey] || STAGE_DATABASE[currentStageKey];
-      if (!stage) return;
+    // マスターデータ (チームA〜チームG)
+    const RAW_TEAMS_DATA = {
+      A: {
+        name: "チームA", stage: "ここからだ",
+        posNames: ["小栗", "山内", "村山", "倉野尾", "佐藤", "八木", "下尾", "秋山", "伊藤", "向井地", "千葉", "水島", "山口", "永野", "鈴木", "山﨑"],
+        predictPosNames: ["小栗", "佐藤", "倉野尾", "八木", "伊藤", "秋山", "下尾", "村山", "山内", "千葉", "山口", "水島", "山﨑", "向井地", "永野", "鈴木"],
+        fixed: ["大村杏", "塩月希依音", "甲斐心愛", "青原優花", "竹本くるみ", "岡腰星来", "梁瀬鈴雅", "栗原紗英", "近藤沙樹", "倉島杏実", "工藤華純", "新井梨杏", "喜多花恵", "内海里音", "松岡さくら", "平田侑希"],
+        allMembers: ["岩立沙穂", "髙橋彩音", "武藤小麟", "平田侑希", "工藤華純", "奥本カイリ", "倉島杏実", "松川みゆ", "鎌田菜月", "松本慈子", "大村杏", "青原優花", "岡腰星来", "塩月希依音", "田中ミリア", "松岡さくら", "山口美桜", "栗原紗英", "梁瀬鈴雅", "猪島莉玲亜", "竹本くるみ", "安井妃奈", "喜多花恵", "甲斐心愛", "内海里音", "宗雪里香", "新井梨杏", "近藤沙樹", "川村昇子", "横井志穂", "桜井ひまり", "藪内陽花", "高島柚愛", "須藤凜華", "久我水羚", "木原姫花世", "田中奈菜子", "横井結菜"],
+        graduated: [],
+        underChain: {}
+      },
+      B: {
+        name: "チームB", stage: "RESET",
+        fixed: ["河村優愛", "吉田彩良", "北村優羽", "山内瑞葵", "尾崎世里花", "川村結衣", "池帆乃香", "清司麗菜", "山内祐奈", "猪原絆愛", "渋井美奈", "青木莉樺", "徳永羚海", "北川愛乃", "久保姫菜乃", "布袋百椛"],
+        allMembers: ["福岡聖菜", "徳永羚海", "山内瑞葵", "布袋百椛", "久保姫菜乃", "川村結衣", "桒原椿", "南澤恋々", "北川愛乃", "青木莉樺", "河村優愛", "池帆乃香", "衣笠彩実", "澁谷愛紗南", "中川朋香", "松本海日菜", "生野莉奈", "渋井美奈", "山内祐奈", "猪原絆愛", "立花心良", "清司麗菜", "北村優羽", "谷口茉妃菜", "尾崎世里花", "吉田彩良", "石原侑奈", "丸山ひなた", "久保田怜", "飯田ゆら", "善家侑莉花", "和田承子", "西川晴菜", "中田麻実", "佐藤歩夏", "小松奈侑", "道保琉南"],
+        graduated: [],
+        underChain: {}
+      },
+      C: {
+        name: "チームC", stage: "M.T.に捧ぐ",
+        fixed: ["小栗有以", "西潟茉莉奈", "新澤菜央", "豊永阿紀", "兵頭葵", "水津菜月", "三鴨くるみ", "坂本真凛", "今村麻莉愛", "相川暖花", "池田典愛", "田中伊桜莉", "正鋳真優", "山根涼羽", "赤堀君江", "迫由芽実"],
+        allMembers: ["小栗有以", "永野芹佳", "山根涼羽", "正鋳真優", "迫由芽実", "相川暖花", "坂本真凛", "山村さくら", "雲井紗菜", "赤堀君江", "鈴木愛菜", "池田典愛", "木根彩呂花", "新澤菜央", "西島梨央", "三鴨くるみ", "石川歩実優", "豊永阿紀", "吉田めい", "今村麻莉愛", "田中伊桜莉", "西潟茉莉奈", "水津菜月", "兵頭葵", "川又優菜", "渡辺菜月", "奥田唯菜", "髙橋舞桜", "佐々木希美", "池田有沙", "高橋樹奈", "青木日菜子", "安座間結", "皆川日和", "平井柚葉", "坂木叶愛", "野中莉央"],
+        graduated: [],
+        underChain: {}
+      },
+      D: {
+        name: "チームD", stage: "シアターの女神",
+        fixed: ["石橋颯", "浅井裕華", "福田朱里", "龍頭綺音", "荒野姫楓", "江浦優香", "杉本萌", "佐藤海里", "岡田あずみ", "石山千尋", "水島美結", "田中れい", "高橋ことね", "工藤理子", "成田香姫奈", "橋本陽菜"],
+        allMembers: ["行天優莉奈", "橋本陽菜", "太田有紀", "水島美結", "成田香姫奈", "石黒友月", "杉本りいな", "荒野姫楓", "倉本羽菜", "浅井裕華", "中坂美祐", "石山千尋", "黒島咲花", "高橋ことね", "西田帆花", "宮崎紗衣", "石橋颯", "中野南実", "龍頭綺音", "江浦優香", "長野らら", "佐藤海里", "杉本萌", "福田朱里", "工藤理子", "岡田あずみ", "北澤苺", "田中沙友利", "立花菖", "竹下茉莉花", "田中れい", "呉優菜", "阿達夢", "相木茉采", "細矢夏帆", "坂崎愛", "濵田美惟"],
+        graduated: [],
+        underChain: {}
+      },
+      E: {
+        name: "チームE", stage: "制服の芽",
+        fixed: ["佐藤綺星", "泉綾乃", "八木愛月", "江口心々華", "倉野尾成美", "大塚七海", "伊藤虹々美", "坂下真心", "岡村梨央", "千葉恵里", "濵田響", "伊藤実希", "島田紗香", "甲斐瑞季", "信濃宙花", "山﨑空"],
+        allMembers: ["倉野尾成美", "千葉恵里", "佐藤綺星", "山﨑空", "八木愛月", "伊藤虹々美", "鈴木恋奈", "伊藤実希", "近藤海琴", "井田玲音名", "西井美桜", "泉綾乃", "坂下真心", "竹田京加", "宮原心音", "石松結菜", "藤野心葉", "秋吉優花", "江口心々華", "福井可憐", "大塚七海", "磯崎菜々", "信濃宙花", "迫姫華", "岡村梨央", "濵田響", "牧戸愛茉", "田村真悠", "中尾楓華", "谷口詩乃", "靏川那智", "甲斐瑞季", "猪股咲那", "石松陽菜", "島田紗香", "藤田愛結"],
+        graduated: [],
+        underChain: {},
+        unitHeaders: ["思い出以上", "思い出以上", "思い出以上", "狼とプライド", "狼とプライド", "女の子の第六感", "女の子の第六感", "女の子の第六感", "枯葉のステーション", "万華鏡", "万華鏡", "万華鏡"],
+        unitLogs: [
+          { date: "10/1", performers: ["泉綾乃", "八木愛月", "江口心々華", "佐藤綺星", "信濃宙花", "倉野尾成美", "芳賀礼", "大塚七海", "坂下真心", "千葉恵里", "濵田響", "伊藤実希"] },
+          { date: "10/2", performers: ["鈴木恋奈", "八木愛月", "江口心々華", "佐藤綺星", "信濃宙花", "倉野尾成美", "芳賀礼", "大塚七海", "秋吉優花", "千葉恵里", "濵田響", "伊藤実希"] }
+        ]
+      },
+      F: {
+        name: "チームF", stage: "ここにだって天使はいる",
+        fixed: ["中村舞", "高雄さやか", "野村実代", "秋山由奈", "坂田心咲", "久留島優果", "佐藤佳穂", "井澤美優", "市村愛里", "入内嶋涼", "森末妃奈", "平山真衣", "橋本恵理子", "太田彩夏", "井上瑠夏", "龍本弥生"],
+        allMembers: ["坂川陽香", "黒須遥香", "橋本恵理子", "秋山由奈", "山口結愛", "入内嶋涼", "野村実代", "井上瑠夏", "佐藤佳穂", "太田彩夏", "長谷川雅", "板垣心和", "坂田心咲", "龍本弥生", "平山真衣", "宮本杏海", "市村愛里", "渕上舞", "井澤美優", "大庭凜咲", "松本苺花", "三村妃乃", "木本杏菜", "中村舞", "高雄さやか", "久留島優果", "森末妃奈", "森川優", "聖遥花", "矢島凪", "西住美咲妃", "山川万里愛", "北澤百音", "大橋彩乃", "井上久伶杏", "曽我部あこ", "三好真綺"],
+        graduated: [],
+        underChain: {}
+      },
+      G: {
+        name: "チームG", stage: "目撃者",
+        fixed: ["伊藤百花", "森本くるみ", "原田清花", "熊崎晴香", "桜田彩叶", "新井彩永", "佐藤広花", "下尾みう", "栗山梨奈", "長友彩海", "磯部瑠紅", "池田裕楽", "篠原京香", "諸葛望愛", "田中美空", "森﨑冴彩"],
+        allMembers: ["下尾みう", "長友彩海", "畠山希美", "新井彩永", "伊藤百花", "熊崎晴香", "原優寧", "奥野心羽", "篠原京香", "太田愛恵", "森本くるみ", "内田愛彩", "桜田彩叶", "田中美空", "福野杏実", "村井悠莉", "北川陽彩", "松永悠良", "石井彩音", "栗山梨奈", "森﨑冴彩", "磯部瑠紅", "佐藤広花", "池田裕楽", "原田清花", "諸葛望愛", "大賀彩姫", "渡邉葵心", "宮本倫花", "赤松昊", "福原琴美", "新沢葵唯", "佐藤柚花", "片山珠吏", "蕪竹真奈", "髙村栞里", "屋木優菜"],
+        graduated: [],
+        underChain: {}
+      }
+    };
 
+    let SCHEDULE_DATA = [];
+    let currentTeamKey = 'A';
+    let currentScheduleFilter = 'ALL';
+    let absentMembersMap = {};
+
+    document.addEventListener("DOMContentLoaded", () => {
+      loadScheduleJson('schedule_202610.json');
+    });
+
+    function isGraduated(memberName, teamKey = currentTeamKey) {
+      const team = RAW_TEAMS_DATA[teamKey];
+      return !!(team && team.graduated && team.graduated.includes(memberName));
+    }
+
+    // --- JSONデータ読み込み機能 ---
+    async function loadScheduleJson(jsonPath) {
+      try {
+        const response = await fetch(jsonPath);
+        if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
+        const data = await response.json();
+        processAndSetScheduleData(data);
+      } catch (err) {
+        console.warn("fetchによる自動読み込みスキップ:", err);
+      }
+    }
+
+    function loadJsonFile(event) {
+      const file = event.target.files[0];
+      if (!file) return;
+
+      const reader = new FileReader();
+      reader.onload = function(e) {
+        try {
+          const data = JSON.parse(e.target.result);
+          processAndSetScheduleData(data);
+        } catch (err) {
+          alert("JSONファイルの読み込みに失敗しました。");
+        }
+      };
+      reader.readAsText(file);
+    }
+
+    function processAndSetScheduleData(data) {
+      if (data.month) {
+        const parts = data.month.split('-');
+        if (parts.length === 2) {
+          document.getElementById('currentMonthLabel').innerText = `${parts[0]}年${parseInt(parts[1])}月`;
+        }
+      }
+
+      const events = data.events || (Array.isArray(data) ? data : []);
+
+      SCHEDULE_DATA = events.map(item => {
+        const positionChanges = item.positions || item.positionChanges || [];
+        const teamKey = item.team;
+
+        if (teamKey && positionChanges.length > 0) {
+          updateUnderChainsFromPositions(positionChanges, teamKey);
+        }
+
+        return {
+          ...item,
+          time: item.time || "18:30",
+          theater: item.theater || (item.team === "A" ? "AKB48劇場" : "劇場"),
+          stage: item.stage || (RAW_TEAMS_DATA[item.team] ? RAW_TEAMS_DATA[item.team].stage : ""),
+          performersText: Array.isArray(item.members) ? item.members.join('・') : (item.performersText || ""),
+          positionChanges: positionChanges
+        };
+      });
+
+      renderCalendar();
+      renderPositionsAndUnits();
+      initPredictTab();
+    }
+
+    function updateUnderChainsFromPositions(positions, teamKey) {
+      const team = RAW_TEAMS_DATA[teamKey];
+      if (!team) return;
+      if (!team.underChain) team.underChain = {};
+
+      positions.forEach(posStr => {
+        if (typeof posStr !== 'string') return;
+        const members = posStr.split(/←|<-/).map(m => m.trim()).filter(Boolean);
+        if (members.length < 2) return;
+
+        for (let i = 0; i < members.length - 1; i++) {
+          const target = members[i];
+          const under = members[i + 1];
+
+          if (!team.underChain[target]) {
+            team.underChain[target] = [];
+          }
+          if (!team.underChain[target].includes(under)) {
+            team.underChain[target].push(under);
+          }
+        }
+      });
+    }
+
+    function switchTab(tabName) {
+      document.querySelectorAll('.tab-content').forEach(el => el.classList.add('hidden'));
+      document.getElementById(`tab-${tabName}`).classList.remove('hidden');
+
+      document.querySelectorAll('.nav-btn').forEach(btn => {
+        btn.classList.remove('active', 'text-pink-600');
+        btn.classList.add('text-slate-400');
+      });
+      const activeBtn = document.getElementById(`nav-${tabName}`);
+      activeBtn.classList.add('active', 'text-pink-600');
+      activeBtn.classList.remove('text-slate-400');
+    }
+
+    function switchTeam(teamKey) {
+      currentTeamKey = teamKey;
+      document.getElementById('teamSelector').value = teamKey;
+      absentMembersMap = {};
+      
+      if (teamKey === 'A') {
+        absentMembersMap = { "大村杏": true, "青原優花": true, "塩月希依音": true };
+      }
+
+      renderPositionsAndUnits();
+      initPredictTab();
+    }
+
+    // 検索機能 ＆ サジェスト
+    function onSearchInput(val) {
+      const suggestBox = document.getElementById('searchSuggest');
+      if (!val.trim()) {
+        suggestBox.classList.add('hidden');
+        return;
+      }
+      const query = val.toLowerCase();
+      let matches = [];
+
+      Object.keys(RAW_TEAMS_DATA).forEach(key => {
+        const t = RAW_TEAMS_DATA[key];
+        if (t.name.toLowerCase().includes(query) || t.stage.toLowerCase().includes(query)) {
+          matches.push({ type: 'team', label: `${t.name} (演目: ${t.stage})`, key: key });
+        }
+        t.allMembers.forEach(name => {
+          if (name.toLowerCase().includes(query)) {
+            const fixedIdx = t.fixed.indexOf(name);
+            const roleStr = (fixedIdx >= 0 && fixedIdx < 16) ? `${fixedIdx + 1}番手` : 'アンダー';
+            const gradStr = isGraduated(name, key) ? ' (卒業)' : '';
+            matches.push({ type: 'member', label: `${name}${gradStr} (${t.name} ${roleStr})`, key: key });
+          }
+        });
+      });
+
+      if (matches.length === 0) {
+        suggestBox.classList.add('hidden');
+        return;
+      }
+
+      suggestBox.innerHTML = matches.slice(0, 8).map(m => `
+        <div onclick="selectSuggest('${m.key}')" class="p-2.5 hover:bg-pink-50 cursor-pointer flex justify-between items-center">
+          <span class="font-medium text-slate-800">${m.label}</span>
+          <span class="text-xs text-pink-600 font-bold">${m.type === 'team' ? 'チーム' : 'メンバー'}</span>
+        </div>
+      `).join('');
+      suggestBox.classList.remove('hidden');
+    }
+
+    function selectSuggest(teamKey) {
+      document.getElementById('searchSuggest').classList.add('hidden');
+      document.getElementById('searchInput').value = '';
+      switchTeam(teamKey);
+      switchTab('positions');
+    }
+
+    function getTheaterBadgeClass(theater) {
+      if (theater.includes('AKB48')) return 'bg-pink-100 text-pink-700';
+      if (theater.includes('SKE48')) return 'bg-orange-100 text-orange-800';
+      if (theater.includes('NMB48')) return 'bg-amber-100 text-amber-900';
+      if (theater.includes('HKT48')) return 'bg-gray-200 text-gray-700';
+      if (theater.includes('NGT48')) return 'bg-red-100 text-red-800';
+      if (theater.includes('STU48')) return 'bg-sky-100 text-sky-800';
+      return 'bg-pink-100 text-pink-700';
+    }
+
+    function filterSchedule(filter, btnElement) {
+      currentScheduleFilter = filter;
+      document.querySelectorAll('.filter-btn').forEach(btn => {
+        btn.classList.remove('bg-slate-800', 'text-white');
+        btn.classList.add('bg-slate-200', 'text-slate-700');
+      });
+      btnElement.classList.remove('bg-slate-200', 'text-slate-700');
+      btnElement.classList.add('bg-slate-800', 'text-white');
+      renderCalendar();
+    }
+
+    function renderCalendar() {
+      const listContainer = document.getElementById('calendarList');
+      listContainer.innerHTML = '';
+
+      const filtered = SCHEDULE_DATA.filter(item => {
+        if (currentScheduleFilter === 'ALL') return true;
+        if (currentScheduleFilter.startsWith('Team')) {
+          const teamLetter = currentScheduleFilter.replace('Team', '');
+          return item.team === teamLetter;
+        }
+        return item.theater.includes(currentScheduleFilter);
+      });
+
+      if (filtered.length === 0) {
+        listContainer.innerHTML = `<p class="text-xs text-slate-400 text-center py-4">表示するスケジュールがありません。</p>`;
+        return;
+      }
+
+      filtered.forEach(item => {
+        const card = document.createElement('div');
+        card.className = "p-3 bg-slate-50 rounded-lg border border-slate-200 shadow-sm";
+
+        let detailHTML = '';
+        if (item.performersText || (item.positionChanges && item.positionChanges.length > 0)) {
+          const posFormatted = item.positionChanges.join('<br>');
+
+          detailHTML = `
+            <div class="mt-2.5 pt-2 border-t border-slate-200 text-xs space-y-1.5 bg-pink-50/40 p-2.5 rounded-md">
+              ${item.performersText ? `
+              <div>
+                <span class="font-bold text-slate-700 block mb-0.5">【出演メンバー】</span>
+                <p class="text-slate-700 leading-relaxed">${item.performersText}</p>
+              </div>` : ''}
+              ${item.positionChanges.length > 0 ? `
+              <div>
+                <span class="font-bold text-slate-700 block mb-0.5">【ポジション】</span>
+                <div class="text-slate-700 font-mono text-xs leading-relaxed">${posFormatted}</div>
+              </div>` : ''}
+            </div>
+          `;
+        }
+
+        const badgeClass = getTheaterBadgeClass(item.theater);
+
+        card.innerHTML = `
+          <div class="flex items-center justify-between">
+            <div class="flex items-center gap-3">
+              <div class="text-center bg-white border border-slate-200 px-2 py-1 rounded w-16">
+                <span class="block text-xs text-slate-500 font-bold">${item.date}</span>
+                <span class="block text-xs font-bold text-pink-600">${item.time}</span>
+              </div>
+              <div>
+                <span class="text-xs font-bold px-2 py-0.5 rounded ${badgeClass}">${item.theater}</span>
+                <h4 class="font-bold text-slate-800 text-xs mt-0.5">チーム${item.team}「${item.stage}」</h4>
+              </div>
+            </div>
+            <span class="text-xs bg-slate-200 text-slate-600 px-2 py-1 rounded-full font-semibold">16名</span>
+          </div>
+          ${detailHTML}
+        `;
+        listContainer.appendChild(card);
+      });
+    }
+
+    // Tab 2: ポジション ＆ ユニット一覧
+    function renderPositionsAndUnits() {
+      const team = RAW_TEAMS_DATA[currentTeamKey];
+      document.getElementById('posTeamTitle').innerText = team.name;
+      document.getElementById('posStageTitle').innerText = `演目：「${team.stage}」公演`;
+      document.getElementById('fixedCountBadge').innerText = `固定 ${team.fixed.length}名`;
+
+      const tbody = document.getElementById('positionTableBody');
+      tbody.innerHTML = '';
+
+      for (let pos = 1; pos <= 16; pos++) {
+        const fixedName = team.fixed[pos - 1];
+        const isPresent = !!fixedName;
+        const nameText = isPresent ? fixedName : "－";
+        const isGrad = isGraduated(nameText);
+        const imgUrl = getAvatar(nameText, isGrad ? "94A3B8" : "E91E63");
+
+        const posName = (team.posNames && team.posNames[pos - 1]) ? team.posNames[pos - 1] : "";
+        const posDisplay = posName ? `${pos}<br><span class="text-[10px] text-slate-500 font-normal">${posName}</span>` : `${pos}`;
+
+        let subName = "";
+        if (team.underChain && team.underChain[fixedName] && team.underChain[fixedName].length > 0) {
+          subName = team.underChain[fixedName].join('・');
+        }
+
+        let subImgTd = `<td class="p-1.5 w-10"></td>`;
+        let subNameTd = `<td class="p-2 font-bold text-pink-600"></td>`;
+
+        if (subName) {
+          const firstSub = team.underChain[fixedName][0];
+          const subImg = getAvatar(firstSub, "9C27B0");
+          subImgTd = `<td class="p-1.5 w-10"><img src="${subImg}" alt="${firstSub}" class="avatar-img"></td>`;
+          subNameTd = `<td class="p-2 font-bold text-pink-600">${subName}</td>`;
+        }
+
+        const tr = document.createElement('tr');
+        tr.className = "hover:bg-slate-50";
+        tr.innerHTML = `
+          <td class="p-2 text-center font-bold text-slate-600 leading-tight">${posDisplay}</td>
+          <td class="p-1.5 w-10"><img src="${imgUrl}" alt="${nameText}" class="avatar-img ${isGrad ? 'grayscale' : ''}"></td>
+          <td class="p-2 font-bold ${isGrad ? 'text-slate-400 line-through' : isPresent ? 'text-slate-800' : 'text-slate-400'}">
+            ${nameText} ${isGrad ? '<span class="text-[10px] bg-slate-500 text-white font-normal px-1 rounded no-underline inline-block">卒</span>' : ''} ${pos === 1 && isPresent && !isGrad ? '🌟' : ''}
+          </td>
+          ${subImgTd}
+          ${subNameTd}
+        `;
+        tbody.appendChild(tr);
+      }
+
+      // ユニット表の更新
+      const uHead = document.getElementById('unitTableHead');
+      const uBody = document.getElementById('unitTableBody');
+      uHead.innerHTML = '';
+      uBody.innerHTML = '';
+
+      if (!team.unitHeaders || team.unitHeaders.length === 0) {
+        uBody.innerHTML = `<tr><td class="p-3 text-slate-400 text-center">ユニット履歴準備中</td></tr>`;
+        return;
+      }
+
+      let headHTML = `<tr class="divide-x divide-slate-200"><th class="p-2 font-bold text-center bg-slate-100">公演日付</th>`;
+      team.unitHeaders.forEach(uName => {
+        headHTML += `<th class="p-2 font-bold text-center">${uName}</th>`;
+      });
+      headHTML += `</tr>`;
+      uHead.innerHTML = headHTML;
+
+      (team.unitLogs || []).forEach(log => {
+        let rowHTML = `<tr class="divide-x divide-slate-100 hover:bg-slate-50"><td class="p-2 font-bold text-center text-pink-600">${log.date}</td>`;
+        log.performers.forEach(pName => {
+          rowHTML += `<td class="p-2 text-center text-slate-700">${pName}</td>`;
+        });
+        rowHTML += `</tr>`;
+        uBody.innerHTML += rowHTML;
+      });
+    }
+
+    // Tab 3: 出演・休演予想シミュレーター
+    function initPredictTab() {
+      const team = RAW_TEAMS_DATA[currentTeamKey];
       const grid = document.getElementById('memberGrid');
       grid.innerHTML = '';
-      document.getElementById('memberCountBadge').innerText = `全${stage.allMembers.length}名`;
 
-      stage.allMembers.forEach(name => {
-        const fixedIdx = stage.fixed.indexOf(name);
+      document.getElementById('memberCountBadge').innerText = `全${team.allMembers.length}名`;
+
+      team.allMembers.forEach(name => {
+        const fixedIdx = team.fixed.indexOf(name);
         const isFixed16 = fixedIdx >= 0 && fixedIdx < 16;
         const roleLabel = isFixed16 ? `${fixedIdx + 1}番手` : 'アンダー';
+        
+        const isGrad = isGraduated(name);
         const isAbsent = !!absentMembersMap[name];
-        const imgUrl = getAvatar(name, isFixed16 ? "E91E63" : "9C27B0");
+        const imgUrl = getAvatar(name, isGrad ? "94A3B8" : (isFixed16 ? "E91E63" : "9C27B0"));
 
         const card = document.createElement('div');
-        card.onclick = () => toggleAbsence(name);
+        if (!isGrad) {
+          card.onclick = () => toggleAbsence(name);
+        }
+
         card.className = `p-2 rounded-xl border flex flex-col items-center justify-center transition select-none ${
+          isGrad ? 'bg-slate-200/60 border-slate-300 opacity-60 cursor-not-allowed' :
           isAbsent ? 'bg-red-50 border-red-300 shadow-inner cursor-pointer' : 'bg-white border-slate-200 hover:border-pink-300 shadow-sm cursor-pointer'
         }`;
+
         card.innerHTML = `
           <div class="relative mb-1">
-            <img src="${imgUrl}" alt="${name}" class="avatar-img-lg ${isAbsent ? 'grayscale opacity-50' : ''}">
-            ${isAbsent ? '<span class="absolute -top-1 -right-1 bg-red-600 text-white text-[10px] font-bold px-1.5 py-0.2 rounded-full border border-white">休</span>' : ''}
+            <img src="${imgUrl}" alt="${name}" class="avatar-img-lg ${isGrad || isAbsent ? 'grayscale opacity-50' : ''}">
+            ${isGrad ? '<span class="absolute -top-1 -right-1 bg-slate-700 text-white text-[10px] font-bold px-1.5 py-0.2 rounded-full border border-white">卒</span>' : 
+              isAbsent ? '<span class="absolute -top-1 -right-1 bg-red-600 text-white text-[10px] font-bold px-1.5 py-0.2 rounded-full border border-white">休</span>' : ''}
           </div>
-          <span class="text-xs font-bold text-center leading-tight ${isAbsent ? 'text-red-500 line-through' : 'text-slate-800'}">${name}</span>
-          <span class="text-[10px] ${isFixed16 ? 'text-pink-600 font-bold' : 'text-slate-400'}">${roleLabel}</span>
+          <span class="text-xs font-bold text-center leading-tight ${isGrad ? 'text-slate-500 line-through' : isAbsent ? 'text-red-500 line-through' : 'text-slate-800'}">${name}</span>
+          <span class="text-[10px] ${isGrad ? 'text-slate-400' : isFixed16 ? 'text-pink-600 font-bold' : 'text-slate-400'}">${isGrad ? '卒業' : roleLabel}</span>
         `;
         grid.appendChild(card);
       });
-      renderPredictedLineup();
+
+      renderPredictedLineupTable();
     }
 
     function toggleAbsence(memberName) {
+      if (isGraduated(memberName)) return;
       absentMembersMap[memberName] = !absentMembersMap[memberName];
       initPredictTab();
     }
@@ -1122,14 +648,15 @@
       initPredictTab();
     }
 
-    function getLastPerformerForPosition(stage, fixedName) {
-      if (!stage || !stage.schedules || stage.schedules.length === 0) return null;
-      for (let i = stage.schedules.length - 1; i >= 0; i--) {
-        const item = stage.schedules[i];
-        if (item.positionsArray) {
-          for (let posIdx = 0; posIdx < stage.fixed.length; posIdx++) {
-            if (stage.fixed[posIdx] === fixedName && item.positionsArray[posIdx]) {
-              return item.positionsArray[posIdx];
+    function getLastPerformerForPosition(teamKey, fixedName) {
+      if (!SCHEDULE_DATA || SCHEDULE_DATA.length === 0) return null;
+      for (let i = SCHEDULE_DATA.length - 1; i >= 0; i--) {
+        const item = SCHEDULE_DATA[i];
+        if (item.team === teamKey && item.positionChanges) {
+          for (let posStr of item.positionChanges) {
+            const members = posStr.split(/←|<-/).map(m => m.trim());
+            if (members[0] === fixedName && members.length > 1) {
+              return members[1];
             }
           }
         }
@@ -1137,18 +664,20 @@
       return null;
     }
 
-    function getOldestCandidate(stage, fixedName, candidates) {
+    function getOldestCandidate(teamKey, fixedName, candidates) {
       if (!candidates || candidates.length === 0) return null;
       if (candidates.length === 1) return candidates[0];
+
       const lastAppearance = {};
       candidates.forEach(c => lastAppearance[c] = -1);
 
-      if (stage && stage.schedules) {
-        stage.schedules.forEach((item, idx) => {
-          if (item.positionsArray) {
-            stage.fixed.forEach((fName, posIdx) => {
-              if (fName === fixedName) {
-                const perf = item.positionsArray[posIdx];
+      if (SCHEDULE_DATA && SCHEDULE_DATA.length > 0) {
+        SCHEDULE_DATA.forEach((item, idx) => {
+          if (item.team === teamKey && item.positionChanges) {
+            item.positionChanges.forEach(posStr => {
+              const members = posStr.split(/←|<-/).map(m => m.trim());
+              if (members[0] === fixedName && members.length > 1) {
+                const perf = members[1];
                 if (candidates.includes(perf)) {
                   lastAppearance[perf] = idx;
                 }
@@ -1160,78 +689,75 @@
 
       let oldestCandidate = candidates[0];
       let minIdx = Infinity;
+
       candidates.forEach(c => {
         if (lastAppearance[c] < minIdx) {
           minIdx = lastAppearance[c];
           oldestCandidate = c;
         }
       });
+
       return oldestCandidate;
     }
 
-    function renderPredictedLineup() {
-      const stage = GLOBAL_STAGE_DATABASE[currentStageKey] || STAGE_DATABASE[currentStageKey];
-      const lineupContainer = document.getElementById('predictedLineup');
-      if (!stage || !lineupContainer) return;
-      lineupContainer.innerHTML = '';
+    // --- 予想ラインナップを表形式でレンダリング ---
+    function renderPredictedLineupTable() {
+      const team = RAW_TEAMS_DATA[currentTeamKey];
+      const tbody = document.getElementById('predictedLineupTableBody');
+      tbody.innerHTML = '';
 
       const usedMembers = new Set();
       const assignedPosMap = {};
       const intermediateLineup = [];
 
-      // 各ポジションのアンダー候補リストを動的に生成
-      const underChainMap = {};
-      stage.fixed.forEach((fixedName, posIdx) => {
-        const experienced = new Set();
-        stage.schedules.forEach(show => {
-          if (show.positionsArray && show.positionsArray[posIdx]) {
-            const m = show.positionsArray[posIdx].trim();
-            if (m && m !== '-' && m !== '－' && m !== fixedName) experienced.add(m);
-          }
-        });
-        underChainMap[fixedName] = Array.from(experienced);
-      });
-
-      // Pass 1: 各ポジションの出演者判定
-      stage.fixed.forEach((fixedName, posIdx) => {
+      for (let pos = 1; pos <= 16; pos++) {
+        const fixedName = team.fixed[pos - 1];
+        const isFixedGrad = isGraduated(fixedName);
         const isFixedAbsent = !!absentMembersMap[fixedName];
-        let registeredUnderList = underChainMap[fixedName] || [];
+
+        let registeredUnderList = (team.underChain && team.underChain[fixedName]) ? [...team.underChain[fixedName]] : [];
         let assignedMember = null;
 
-        if (!isFixedAbsent && !usedMembers.has(fixedName)) {
+        if (!isFixedGrad && !isFixedAbsent && !usedMembers.has(fixedName)) {
           assignedMember = fixedName;
         } else {
-          let availUnders = registeredUnderList.filter(u => !absentMembersMap[u] && !usedMembers.has(u));
+          let availUnders = registeredUnderList.filter(u => !isGraduated(u) && !absentMembersMap[u] && !usedMembers.has(u));
+
           if (availUnders.length > 0) {
-            assignedMember = getOldestCandidate(stage, fixedName, availUnders);
+            assignedMember = getOldestCandidate(currentTeamKey, fixedName, availUnders);
           } else {
-            for (let m of stage.allMembers) {
-              if (!absentMembersMap[m] && !usedMembers.has(m)) {
+            for (let m of team.allMembers) {
+              if (!isGraduated(m) && !absentMembersMap[m] && !usedMembers.has(m)) {
                 assignedMember = m;
                 break;
               }
             }
           }
         }
+
         if (assignedMember) {
           usedMembers.add(assignedMember);
           assignedPosMap[assignedMember] = fixedName;
         }
+
         intermediateLineup.push({
-          pos: posIdx + 1,
+          pos: pos,
           fixedName: fixedName,
           assignedMember: assignedMember || "未定",
           registeredUnderList: registeredUnderList
         });
-      });
+      }
 
-      // Pass 2: 予想理由文の組み立て
       let subCount = 0;
-      intermediateLineup.forEach((item) => {
+
+      intermediateLineup.forEach((item, index) => {
         const { pos, fixedName, assignedMember, registeredUnderList } = item;
         const isUnder = (assignedMember !== fixedName);
-        const lastPerformer = getLastPerformerForPosition(stage, fixedName);
-        const isRegisteredSlide = isUnder && (registeredUnderList.includes(assignedMember) || (lastPerformer === assignedMember));
+        const isFixedGrad = isGraduated(fixedName);
+        const lastPerformer = getLastPerformerForPosition(currentTeamKey, fixedName);
+        const isRegisteredSlide = isUnder && (
+          registeredUnderList.includes(assignedMember) || (lastPerformer === assignedMember)
+        );
 
         let reasonText = "";
         if (!isUnder) {
@@ -1242,7 +768,10 @@
           const uStatus = registeredUnderList.map(u => {
             let status = 'avail';
             let detail = '';
-            if (absentMembersMap[u]) {
+            if (isGraduated(u)) {
+              status = 'graduated';
+              detail = `${u} が卒業`;
+            } else if (absentMembersMap[u]) {
               status = 'absent';
               detail = `${u} が休演`;
             } else if (assignedPosMap[u] && assignedPosMap[u] !== fixedName) {
@@ -1251,443 +780,56 @@
             }
             return { name: u, status, detail };
           });
+
           const availList = uStatus.filter(s => s.status === 'avail');
 
           if (N === 0) {
-            reasonText = `これまでの傾向を元に、今回は ${assignedMember} と予想。`;
+            reasonText = isFixedGrad ? `${fixedName} 卒業のため、今回は ${assignedMember} と予想。` : `これまでの傾向を元に、今回は ${assignedMember} と予想。`;
           } else if (availList.length === 0) {
             const detailsText = uStatus.map(s => s.detail).join('、');
-            reasonText = `${detailsText}ため、これまでの傾向を元に、今回は ${assignedMember} と予想。`;
+            reasonText = `${detailsText}ため、今回は ${assignedMember} と予想。`;
           } else if (N === 1 && availList.length === 1) {
             reasonText = `経験に基づき ${assignedMember} と予想。`;
           } else if (N === 2 && availList.length === 1) {
             const unavail = uStatus.find(s => s.status !== 'avail');
-            if (unavail.status === 'other_pos') {
-              reasonText = `${unavail.name} が ${assignedPosMap[unavail.name]} ポジで出演するため、${assignedMember} と予想。`;
-            } else {
-              reasonText = `${unavail.name} が休演のため、${assignedMember} と予想。`;
-            }
+            reasonText = `${unavail.name} が${unavail.status === 'other_pos' ? '他ポジ出演' : '不在'}のため、${assignedMember} と予想。`;
           } else {
-            if (lastPerformer) {
-              reasonText = `前回は ${lastPerformer} が出演したので、今回は ${assignedMember} と予想。`;
-            } else {
-              reasonText = `これまでの傾向を元に、今回は ${assignedMember} と予想。`;
-            }
+            reasonText = lastPerformer ? `前回は ${lastPerformer} が出演したため今回は ${assignedMember} と予想。` : `これまでの傾向を元に予想。`;
           }
         }
 
-        const div = document.createElement('div');
-        const posLabel = `P${pos}`;
-        if (!isUnder) {
-          div.className = "p-2.5 bg-slate-50 rounded-lg border border-slate-200 flex flex-col justify-between gap-1.5";
-          div.innerHTML = `
-            <div class="flex items-center justify-between">
-              <div class="flex items-center gap-2.5">
-                <span class="font-bold text-slate-500 text-xs w-8 text-center leading-tight">${posLabel}</span>
-                <img src="${getAvatar(assignedMember, 'E91E63')}" class="avatar-img-sm">
-                <span class="font-bold text-slate-800 text-xs">${assignedMember}</span>
-              </div>
-              <span class="text-[10px] bg-slate-200 text-slate-600 font-semibold px-2 py-0.5 rounded-full">${pos}番手</span>
-            </div>
-          `;
-        } else {
-          div.className = "p-2.5 bg-amber-50 border border-amber-200 rounded-lg flex flex-col gap-2";
-          div.innerHTML = `
-            <div class="flex items-center justify-between">
-              <div class="flex items-center gap-2.5">
-                <span class="font-bold text-amber-700 text-xs w-8 text-center leading-tight">${posLabel}</span>
-                <img src="${getAvatar(assignedMember, '9C27B0')}" class="avatar-img-sm border border-amber-300">
-                <div>
-                  <span class="font-bold text-amber-900 text-xs block leading-tight">${assignedMember}</span>
-                  <span class="text-[10px] text-slate-400">
-                    ${fixedName ? '本: ' + fixedName : '固定なし'}
-                  </span>
-                </div>
-              </div>
-              <div class="flex items-center gap-1.5 shrink-0">
-                ${isRegisteredSlide ? '<span class="text-[10px] bg-emerald-100 text-emerald-800 font-bold px-2 py-0.5 rounded-full inline-flex items-center gap-0.5">☑︎ポジ経験</span>' : ''}
-                <span class="text-[10px] bg-amber-200 text-amber-800 font-bold px-2 py-0.5 rounded-full">アンダー/スライド</span>
-              </div>
-            </div>
-            <div class="text-[11px] text-amber-900 bg-amber-100/70 p-1.5 rounded border border-amber-200/60 leading-relaxed">
-              <span class="font-bold text-amber-800"><i class="fa-regular fa-comment-dots"></i> 予想理由:</span> ${reasonText}
-            </div>
-          `;
+        let posLabel = `P${pos}`;
+        if (currentTeamKey === 'A' && team.predictPosNames && team.predictPosNames[index]) {
+          posLabel = `${index + 1} (${team.predictPosNames[index]})`;
         }
-        lineupContainer.appendChild(div);
+
+        const tr = document.createElement('tr');
+        tr.className = isUnder ? "bg-amber-50/50 hover:bg-amber-50" : "hover:bg-slate-50";
+        tr.innerHTML = `
+          <td class="p-2.5 text-center font-bold text-slate-600">${posLabel}</td>
+          <td class="p-2.5">
+            <div class="flex items-center gap-2">
+              <img src="${getAvatar(assignedMember, isUnder ? '9C27B0' : 'E91E63')}" class="avatar-img-sm">
+              <span class="font-bold text-slate-800">${assignedMember}</span>
+            </div>
+          </td>
+          <td class="p-2.5">
+            ${isUnder ? `
+              <span class="text-[10px] bg-amber-200 text-amber-800 font-bold px-2 py-0.5 rounded-full inline-block mb-0.5">アンダー/スライド</span>
+              <div class="text-[10px] text-slate-400 ${fixedName ? 'line-through' : ''}">本: ${fixedName || 'なし'}</div>
+            ` : `
+              <span class="text-[10px] bg-slate-200 text-slate-600 font-semibold px-2 py-0.5 rounded-full">固定 (${pos}番手)</span>
+            `}
+          </td>
+          <td class="p-2.5 text-slate-700">
+            ${isRegisteredSlide ? '<span class="text-[10px] bg-emerald-100 text-emerald-800 font-bold px-1.5 py-0.5 rounded mr-1">☑︎ポジ経験</span>' : ''}
+            <span>${reasonText}</span>
+          </td>
+        `;
+        tbody.appendChild(tr);
       });
+
       document.getElementById('subCountText').innerText = `アンダー補填: ${subCount}名`;
-    }
-
-    // --- メンバー詳細・各種統計ロジック ---
-
-    function openMemberDetail(memberName) {
-      selectedMemberName = memberName;
-      document.getElementById('mainTabsContainer').classList.add('hidden');
-      document.getElementById('memberDetailContainer').classList.remove('hidden');
-      document.getElementById('navNormal').classList.add('hidden');
-      document.getElementById('navStageDetail').classList.add('hidden');
-      document.getElementById('navMemberSearching').classList.remove('hidden');
-      document.getElementById('navMemberSearching').classList.add('flex');
-
-      document.getElementById('detailMemberName').innerText = memberName;
-      const defaultYear = getDefaultYearForMember(memberName);
-      currentSelectedMemberYear = defaultYear;
-      currentRankingYear = defaultYear;
-      showAllAppearanceRanking = false;
-      showAllCoappearanceRanking = false;
-
-      renderMemberDetail();
-    }
-
-    function getDefaultYearForMember(memberName) {
-      if (MASTER_MEMBER_ORDER.includes(memberName)) return "2026";
-      let lastYear = null;
-      ALL_SCHEDULE_DATA.forEach(item => {
-        const isPerformer = (item.membersArray && item.membersArray.includes(memberName)) ||
-                            (item.positionsArray && item.positionsArray.includes(memberName));
-        if (isPerformer && item.date) {
-          const year = item.date.split('/')[0];
-          if (!lastYear || year > lastYear) lastYear = year;
-        }
-      });
-      return lastYear || "2026";
-    }
-
-    function renderMemberDetail() {
-      if (!selectedMemberName) return;
-      const memberName = selectedMemberName;
-      const memberPerfs = ALL_SCHEDULE_DATA.filter(item => {
-        return (item.membersArray && item.membersArray.includes(memberName)) ||
-               (item.positionsArray && item.positionsArray.includes(memberName));
-      });
-
-      memberPerfs.sort((a, b) => (a.date + " " + a.time).localeCompare(b.date + " " + b.time));
-      memberPerfs.forEach((item, index) => { item._perfNumber = index + 1; });
-
-      document.getElementById('totalPerfBadge').innerText = `総出演回数: ${memberPerfs.length}回`;
-
-      const yearCounts = {};
-      memberPerfs.forEach(item => {
-        const y = item.date.split('/')[0];
-        yearCounts[y] = (yearCounts[y] || 0) + 1;
-      });
-
-      const yearsSorted = Object.keys(yearCounts).sort((a, b) => b.localeCompare(a));
-      const yearlyList = document.getElementById('yearlyBreakdownList');
-      yearlyList.innerHTML = '';
-      
-      const allBtn = document.createElement('button');
-      const isAllActive = currentSelectedMemberYear === 'ALL';
-      allBtn.className = `px-3 py-1.5 rounded-lg border text-xs font-bold transition ${isAllActive ? 'bg-pink-600 text-white border-pink-600' : 'bg-slate-50 border-slate-200 text-slate-700 hover:bg-pink-50'}`;
-      allBtn.innerText = `通算 : ${memberPerfs.length}回`;
-      allBtn.onclick = () => {
-        currentSelectedMemberYear = 'ALL';
-        currentRankingYear = 'ALL';
-        renderMemberDetail();
-      };
-      yearlyList.appendChild(allBtn);
-
-      yearsSorted.forEach(y => {
-        const btn = document.createElement('button');
-        const isActive = currentSelectedMemberYear === y;
-        btn.className = `px-3 py-1.5 rounded-lg border text-xs font-bold transition ${isActive ? 'bg-pink-600 text-white border-pink-600' : 'bg-slate-50 border-slate-200 text-slate-700 hover:bg-pink-50'}`;
-        btn.innerText = `${y}年 : ${yearCounts[y]}回`;
-        btn.onclick = () => {
-          currentSelectedMemberYear = y;
-          currentRankingYear = y;
-          renderMemberDetail();
-        };
-        yearlyList.appendChild(btn);
-      });
-
-      const filteredPerfs = currentSelectedMemberYear === 'ALL' 
-        ? memberPerfs 
-        : memberPerfs.filter(item => item.date.startsWith(currentSelectedMemberYear));
-
-      const stageGroup = {};
-      filteredPerfs.forEach(item => {
-        const stage = item.baseStageName;
-        if (!stageGroup[stage]) stageGroup[stage] = { total: 0, positions: {} };
-        stageGroup[stage].total++;
-
-        let posName = "";
-        const stageObj = GLOBAL_STAGE_DATABASE[stage] || STAGE_DATABASE[stage];
-        if (item.positionsArray && item.positionsArray.length > 0) {
-          const pIdx = item.positionsArray.indexOf(memberName);
-          if (pIdx !== -1) {
-            posName = (stageObj && stageObj.fixed && stageObj.fixed[pIdx]) ? stageObj.fixed[pIdx] : `Pos.${pIdx+1}`;
-          }
-        }
-        if (!posName) posName = memberName;
-        stageGroup[stage].positions[posName] = (stageGroup[stage].positions[posName] || 0) + 1;
-      });
-
-      const showsList = document.getElementById('showsBreakdownList');
-      showsList.innerHTML = '';
-      const stagesSorted = Object.keys(stageGroup).sort((a, b) => stageGroup[b].total - stageGroup[a].total);
-
-      if (stagesSorted.length === 0) {
-        showsList.innerHTML = `<li class="text-slate-400 text-xs text-center py-2">該当する公演はありません。</li>`;
-      } else {
-        stagesSorted.forEach(st => {
-          const info = stageGroup[st];
-          const posBreakdownArr = [];
-          Object.keys(info.positions).forEach(pName => {
-            posBreakdownArr.push(`${pName} ${info.positions[pName]}回`);
-          });
-          const li = document.createElement('li');
-          li.className = "bg-slate-50 border border-slate-200 rounded-lg p-2.5 space-y-1";
-          li.innerHTML = `
-            <div class="flex justify-between items-center text-xs font-bold text-slate-800">
-              <span>「${escapeHtml(st)}」公演</span>
-              <span class="text-pink-600 font-bold ml-auto">${info.total}回</span>
-            </div>
-            <div class="text-[10px] text-slate-500 font-medium">
-              ${escapeHtml(posBreakdownArr.join('　'))}
-            </div>
-          `;
-          showsList.appendChild(li);
-        });
-      }
-
-      renderMemberRankings();
-
-      const historyList = document.getElementById('memberShowsHistoryList');
-      historyList.innerHTML = '';
-      const historyPerfs = [...memberPerfs].sort((a, b) => (b.date + " " + b.time).localeCompare(a.date + " " + a.time));
-
-      if (historyPerfs.length === 0) {
-        historyList.innerHTML = `<p class="text-xs text-slate-400 text-center py-4">出演履歴がありません。</p>`;
-      } else {
-        historyPerfs.forEach(item => {
-          let posName = "";
-          const stageObj = GLOBAL_STAGE_DATABASE[item.baseStageName] || STAGE_DATABASE[item.baseStageName];
-          if (item.positionsArray && item.positionsArray.length > 0) {
-            const pIdx = item.positionsArray.indexOf(memberName);
-            if (pIdx !== -1) {
-              posName = (stageObj && stageObj.fixed && stageObj.fixed[pIdx]) ? stageObj.fixed[pIdx] : `Pos.${pIdx+1}`;
-            }
-          }
-          if (!posName) posName = memberName;
-
-          let stageTitleWithSub = `「${item.baseStageName}」`;
-          if (item.subTitle && item.subTitle.trim()) {
-            stageTitleWithSub += ` ${item.subTitle.trim()}`;
-          }
-
-          const div = document.createElement('div');
-          div.className = "bg-slate-50 border border-slate-200 rounded-lg p-2.5 space-y-1 cursor-pointer hover:border-pink-300 transition";
-          div.onclick = () => jumpToSchedule(item.date, item.id);
-          div.innerHTML = `
-            <div class="flex items-center gap-2 text-xs">
-              <span class="font-bold text-pink-600">${item._perfNumber}回</span>
-              <span class="text-slate-500 font-medium">${item.date}</span>
-              <span class="text-[10px] font-bold px-2 py-0.5 rounded bg-pink-100 text-pink-700">${escapeHtml(item.theater)}</span>
-            </div>
-            <div class="flex justify-between items-center text-xs">
-              <span class="font-bold text-slate-800">${escapeHtml(stageTitleWithSub)}</span>
-              <span class="text-[10px] text-slate-500 font-medium ml-auto whitespace-nowrap">${escapeHtml(posName)}ポジ</span>
-            </div>
-          `;
-          historyList.appendChild(div);
-        });
-      }
-    }
-
-    function renderMemberRankings() {
-      const targetYear = currentRankingYear;
-      const titleEl = document.getElementById('rankingSectionTitle');
-      titleEl.innerHTML = `<i class="fa-solid fa-trophy text-pink-500"></i> 出演回数ランキング`;
-
-      const yearPerfs = targetYear === 'ALL' 
-        ? ALL_SCHEDULE_DATA 
-        : ALL_SCHEDULE_DATA.filter(item => item.date.startsWith(targetYear));
-
-      const appearanceCounts = {};
-      const allUnique = getAllUniqueMembers();
-      allUnique.forEach(m => { appearanceCounts[m] = 0; });
-
-      yearPerfs.forEach(item => {
-        const uniqueInShow = new Set([...(item.membersArray || []), ...(item.positionsArray || [])]);
-        uniqueInShow.forEach(m => {
-          if (m && m !== "-" && m !== "－") appearanceCounts[m] = (appearanceCounts[m] || 0) + 1;
-        });
-      });
-
-      const rankingArr = Object.keys(appearanceCounts)
-        .filter(m => appearanceCounts[m] > 0)
-        .map(m => ({ name: m, count: appearanceCounts[m] }));
-
-      sortMemberRankings(rankingArr);
-
-      const rankingList = document.getElementById('memberRankingList');
-      rankingList.innerHTML = '';
-      const displayRanking = showAllAppearanceRanking ? rankingArr : rankingArr.slice(0, 10);
-
-      displayRanking.forEach((item, index) => {
-        const li = document.createElement('li');
-        li.className = "flex justify-between items-center py-1.5 border-b border-slate-100 text-xs";
-        li.innerHTML = `
-          <div class="flex items-center gap-2">
-            <span class="w-6 text-right font-bold text-slate-400">${index + 1}</span>
-            <span class="font-bold text-slate-700 cursor-pointer hover:text-pink-600" onclick="openMemberDetail('${escapeHtml(item.name)}')">${escapeHtml(item.name)}</span>
-          </div>
-          <span class="font-bold text-pink-600 ml-auto">${item.count}回</span>
-        `;
-        rankingList.appendChild(li);
-      });
-
-      if (rankingArr.length > 10) {
-        const btn = document.createElement('button');
-        btn.className = "w-full mt-2 py-1.5 text-xs text-pink-600 font-bold bg-pink-50 hover:bg-pink-100 rounded-lg border border-pink-200 transition";
-        btn.innerText = showAllAppearanceRanking ? "閉じる" : "もっと見る";
-        btn.onclick = () => {
-          showAllAppearanceRanking = !showAllAppearanceRanking;
-          renderMemberRankings();
-        };
-        rankingList.appendChild(btn);
-      }
-
-      const coappCounts = {};
-      const memberShows = yearPerfs.filter(item => {
-        return (item.membersArray && item.membersArray.includes(selectedMemberName)) ||
-               (item.positionsArray && item.positionsArray.includes(selectedMemberName));
-      });
-
-      memberShows.forEach(item => {
-        const uniqueInShow = new Set([...(item.membersArray || []), ...(item.positionsArray || [])]);
-        uniqueInShow.forEach(m => {
-          if (m && m !== "-" && m !== "－" && m !== selectedMemberName) {
-            coappCounts[m] = (coappCounts[m] || 0) + 1;
-          }
-        });
-      });
-
-      const coappArr = Object.keys(coappCounts).map(m => ({ name: m, count: coappCounts[m] }));
-      sortMemberRankings(coappArr);
-
-      const coappList = document.getElementById('coappearanceTopList');
-      coappList.innerHTML = '';
-      const displayCoapp = showAllCoappearanceRanking ? coappArr : coappArr.slice(0, 10);
-
-      displayCoapp.forEach((item, index) => {
-        const li = document.createElement('li');
-        li.className = "flex justify-between items-center py-1.5 border-b border-slate-100 text-xs";
-        li.innerHTML = `
-          <div class="flex items-center gap-2">
-            <span class="w-6 text-right font-bold text-slate-400">${index + 1}</span>
-            <span class="font-bold text-slate-700 cursor-pointer hover:text-pink-600" onclick="openMemberDetail('${escapeHtml(item.name)}')">${escapeHtml(item.name)}</span>
-          </div>
-          <span class="font-bold text-pink-600 ml-auto">${item.count}回</span>
-        `;
-        coappList.appendChild(li);
-      });
-
-      if (coappArr.length > 10) {
-        const btn = document.createElement('button');
-        btn.className = "w-full mt-2 py-1.5 text-xs text-pink-600 font-bold bg-pink-50 hover:bg-pink-100 rounded-lg border border-pink-200 transition";
-        btn.innerText = showAllCoappearanceRanking ? "閉じる" : "もっと見る";
-        btn.onclick = () => {
-          showAllCoappearanceRanking = !showAllCoappearanceRanking;
-          renderMemberRankings();
-        };
-        coappList.appendChild(btn);
-      }
-    }
-
-    function sortMemberRankings(arr) {
-      arr.sort((a, b) => {
-        if (b.count !== a.count) return b.count - a.count;
-        const idxA = MASTER_MEMBER_ORDER.indexOf(a.name);
-        const idxB = MASTER_MEMBER_ORDER.indexOf(b.name);
-        if (idxA !== -1 && idxB !== -1) return idxA - idxB;
-        if (idxA !== -1) return -1;
-        if (idxB !== -1) return 1;
-        return a.name.localeCompare(b.name, 'ja');
-      });
-    }
-
-    function onSearchInput(val) {
-      const suggestBox = document.getElementById('searchSuggest');
-      if (!val || val.trim() === '') {
-        suggestBox.innerHTML = '';
-        suggestBox.classList.add('hidden');
-        return;
-      }
-      const query = val.trim().toLowerCase();
-      const stageSet = new Set();
-      const stageMatches = [];
-      const dataSource = ALL_SCHEDULE_DATA.length > 0 ? ALL_SCHEDULE_DATA : SCHEDULE_DATA;
-      
-      dataSource.forEach(item => {
-        if (item.baseStageName && !stageSet.has(item.baseStageName)) {
-          stageSet.add(item.baseStageName);
-          if (item.baseStageName.toLowerCase().includes(query) || `「${item.baseStageName}」公演`.toLowerCase().includes(query)) {
-            stageMatches.push(item.baseStageName);
-          }
-        }
-      });
-
-      const allMembers = getAllUniqueMembers();
-      const memberMatches = allMembers.filter(m => m.toLowerCase().includes(query));
-
-      if (stageMatches.length === 0 && memberMatches.length === 0) {
-        suggestBox.innerHTML = '';
-        suggestBox.classList.add('hidden');
-        return;
-      }
-
-      suggestBox.innerHTML = '';
-      stageMatches.forEach(stageKey => {
-        const btn = document.createElement('button');
-        btn.type = 'button';
-        btn.className = 'w-full text-left px-4 py-2.5 hover:bg-pink-50 flex items-center justify-between transition border-b border-slate-100 last:border-none';
-        btn.innerHTML = `
-          <div class="flex items-center gap-2">
-            <i class="fa-solid fa-masks-theater text-pink-500 text-xs"></i>
-            <span class="font-bold text-slate-700">「${escapeHtml(stageKey)}」公演</span>
-          </div>
-          <span class="text-[10px] bg-pink-100 text-pink-700 px-2 py-0.5 rounded font-bold">演目</span>
-        `;
-        btn.onclick = () => {
-          selectStage(stageKey);
-          suggestBox.classList.add('hidden');
-          document.getElementById('searchInput').value = '';
-        };
-        suggestBox.appendChild(btn);
-      });
-
-      memberMatches.forEach(memberName => {
-        const btn = document.createElement('button');
-        btn.type = 'button';
-        btn.className = 'w-full text-left px-4 py-2.5 hover:bg-pink-50 flex items-center justify-between transition border-b border-slate-100 last:border-none';
-        btn.innerHTML = `
-          <div class="flex items-center gap-2">
-            <i class="fa-solid fa-user text-pink-500 text-xs"></i>
-            <span class="font-bold text-slate-700">　${escapeHtml(memberName)}</span>
-          </div>
-          <span class="text-[10px] bg-slate-100 text-slate-600 px-2 py-0.5 rounded font-bold">メンバー</span>
-        `;
-        btn.onclick = () => {
-          openMemberDetail(memberName);
-          suggestBox.classList.add('hidden');
-          document.getElementById('searchInput').value = '';
-        };
-        suggestBox.appendChild(btn);
-      });
-
-      suggestBox.classList.remove('hidden');
-    }
-
-    function escapeHtml(str) {
-      if (!str) return '';
-      return String(str)
-        .replace(/&/g, '&amp;')
-        .replace(/</g, '&lt;')
-        .replace(/>/g, '&gt;')
-        .replace(/"/g, '&quot;')
-        .replace(/'/g, '&#39;');
     }
   </script>
 </body>
