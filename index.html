@@ -120,7 +120,7 @@
       </div>
     </div>
 
-    <!-- Layout Grid: Left Panel (Absentee Controls) + Right Panel (Position Stage View) -->
+    <!-- Layout Grid -->
     <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
 
       <!-- Left Column: Member Absentee Controls & Team Roster -->
@@ -136,9 +136,8 @@
             <span class="text-xs text-slate-400">選択 / 直入力 併用可能</span>
           </div>
 
-          <!-- Dual Input: Combobox & Direct Search Textbox -->
+          <!-- Dual Input -->
           <div class="space-y-3">
-            <!-- Dropdown Select -->
             <div>
               <label class="block text-xs font-medium text-slate-400 mb-1">リストから選択して追加</label>
               <select id="select-absent-member" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-3 py-2 text-sm text-slate-200 focus:outline-none focus:border-rose-500 focus:ring-1 focus:ring-rose-500 transition">
@@ -151,7 +150,6 @@
               <span class="bg-slate-800 px-2 text-[10px] text-slate-500 uppercase tracking-widest absolute">OR</span>
             </div>
 
-            <!-- Direct Text Search / Auto-complete Input -->
             <div class="relative">
               <label class="block text-xs font-medium text-slate-400 mb-1">名前を検索入力</label>
               <div class="relative">
@@ -162,10 +160,7 @@
                 </button>
               </div>
 
-              <!-- Search Auto-complete Suggestions Dropdown -->
-              <div id="search-suggestions" class="hidden absolute left-0 right-0 top-full mt-1 bg-slate-900 border border-slate-700 rounded-xl shadow-2xl z-50 max-h-48 overflow-y-auto custom-scrollbar divide-y divide-slate-800">
-                <!-- Items populated dynamically -->
-              </div>
+              <div id="search-suggestions" class="hidden absolute left-0 right-0 top-full mt-1 bg-slate-900 border border-slate-700 rounded-xl shadow-2xl z-50 max-h-48 overflow-y-auto custom-scrollbar divide-y divide-slate-800"></div>
             </div>
           </div>
 
@@ -181,7 +176,7 @@
           </div>
         </div>
 
-        <!-- Full Team Member Status List (One-tap Toggle Roster) -->
+        <!-- Full Team Member Status List -->
         <div class="bg-slate-800/90 rounded-2xl p-5 border border-slate-700/60 shadow-xl space-y-3">
           <div class="flex items-center justify-between">
             <h2 class="text-sm font-bold text-slate-200 flex items-center gap-2">
@@ -192,23 +187,18 @@
             <span class="text-[11px] text-slate-400">タップで休演切替</span>
           </div>
 
-          <!-- Quick Filter in Roster -->
           <div class="relative">
             <input type="text" id="roster-filter" placeholder="メンバー絞り込み..." class="w-full bg-slate-900/80 border border-slate-700/80 rounded-lg px-3 py-1.5 text-xs text-slate-200 focus:outline-none focus:border-indigo-500">
           </div>
 
-          <!-- Roster Grid with Quick Toggle Buttons -->
-          <div id="team-roster-grid" class="grid grid-cols-2 gap-1.5 max-h-[380px] overflow-y-auto custom-scrollbar pr-1 pt-1">
-            <!-- Populated dynamically -->
-          </div>
+          <div id="team-roster-grid" class="grid grid-cols-2 gap-1.5 max-h-[380px] overflow-y-auto custom-scrollbar pr-1 pt-1"></div>
         </div>
 
       </div>
 
-      <!-- Right Column: Stage Formation & Position Slot Grid -->
+      <!-- Right Column: Stage Formation -->
       <div class="lg:col-span-8 space-y-6">
 
-        <!-- Stage Formation Visualization Card -->
         <div class="bg-slate-800/90 rounded-2xl p-5 border border-slate-700/60 shadow-xl space-y-5">
           <div class="flex flex-wrap items-center justify-between gap-3 border-b border-slate-700/60 pb-4">
             <div>
@@ -219,7 +209,6 @@
               <p class="text-xs text-slate-400 mt-1">枠をタップで個別にアンダー・出演者を即時割り当て変更可能</p>
             </div>
 
-            <!-- Legend Badge -->
             <div class="flex flex-wrap items-center gap-3 text-[11px] bg-slate-900/60 px-3 py-1.5 rounded-xl border border-slate-700/50">
               <span class="flex items-center gap-1"><span class="w-2.5 h-2.5 rounded-full bg-emerald-500"></span> 正規担当</span>
               <span class="flex items-center gap-1"><span class="w-2.5 h-2.5 rounded-full bg-amber-500"></span> 代役 / アンダー</span>
@@ -228,19 +217,14 @@
             </div>
           </div>
 
-          <!-- Stage Front Graphic Indicator -->
           <div class="relative py-2 text-center">
             <div class="w-full h-1 bg-gradient-to-r from-transparent via-rose-500/50 to-transparent mb-1"></div>
             <span class="text-[10px] font-bold uppercase tracking-widest text-slate-500 bg-slate-800 px-3 py-0.5 rounded-full border border-slate-700">ステージ最前列 (観客席側)</span>
           </div>
 
-          <!-- Position Slots Grid (16 Position Slots) -->
-          <div id="position-slots-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
-            <!-- 16 Position Cards Rendered via JS -->
-          </div>
+          <div id="position-slots-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3"></div>
         </div>
 
-        <!-- Position Sequence & Backup Priority Information Box -->
         <div class="bg-slate-800/60 rounded-2xl p-5 border border-slate-700/40 space-y-2.5">
           <h3 class="text-xs font-bold text-slate-300 flex items-center gap-2">
             <i data-lucide="info" class="w-4 h-4 text-sky-400"></i>
@@ -248,7 +232,7 @@
           </h3>
           <ul class="text-xs text-slate-400 space-y-1.5 leading-relaxed list-disc list-inside">
             <li><strong>休演マルチトグル</strong>: リスト上のメンバーを何人でもタップして休演・復帰を切り替えられます。全体曲・ユニット曲の両方に即座に共通適用されます。</li>
-            <li><strong>全曲アンダー連動</strong>: ONの場合、全体曲でメンバー（例：大村杏）の代役として別メンバー（例：栗原紗英）を直接指定すると、ユニット曲で「大村杏」が出演する枠にも自動的に「栗原紗英」が配置されます。</li>
+            <li><strong>全曲アンダー連動</strong>: ONの場合、全体曲でメンバーの代役として別メンバーを直接指定すると、ユニット曲で同メンバーが出演する枠にも自動的に配置されます。</li>
             <li><strong>自動連鎖補填</strong>: 休演者が出た場合、初期ポジション順（または控えメンバー）から繰り上がりで自動補填されます。</li>
           </ul>
         </div>
@@ -258,7 +242,7 @@
     </div>
   </main>
 
-  <!-- Slot Manual Selection Modal Dialog -->
+  <!-- Modal Dialog -->
   <div id="slot-modal" class="fixed inset-0 bg-slate-950/80 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
     <div class="bg-slate-800 border border-slate-700 rounded-2xl max-w-md w-full p-5 shadow-2xl space-y-4">
       <div class="flex items-center justify-between border-b border-slate-700 pb-3">
@@ -274,15 +258,9 @@
       <div class="space-y-2">
         <div class="flex items-center justify-between">
           <label class="block text-xs text-slate-400">この枠に出演させるメンバーを選択:</label>
-          <span class="text-[10px] text-slate-500">（直接入力検索対応）</span>
         </div>
-
         <input type="text" id="modal-search-input" placeholder="メンバー名で絞り込み..." class="w-full bg-slate-900 border border-slate-700 rounded-xl px-3 py-2 text-xs text-slate-200 focus:outline-none focus:border-amber-500 mb-2">
-
-        <!-- Assignable Member List -->
-        <div id="modal-member-options" class="max-h-56 overflow-y-auto custom-scrollbar space-y-1.5 pr-1">
-          <!-- Options populated dynamically -->
-        </div>
+        <div id="modal-member-options" class="max-h-56 overflow-y-auto custom-scrollbar space-y-1.5 pr-1"></div>
       </div>
 
       <div class="flex items-center justify-between pt-3 border-t border-slate-700">
@@ -302,10 +280,9 @@
     <span id="toast-message" class="text-xs font-medium">通知メッセージ</span>
   </div>
 
-  <!-- App Logic Code -->
   <script>
     // ==========================================
-    // Master Data Definition
+    // Master Data Definition (Team A-G Songs Updated)
     // ==========================================
     const TEAMS_DATA = {
       'A': {
@@ -331,22 +308,22 @@
             { original: "山﨑空", defaultAssign: "平田侑希" }
           ],
           unit: [
-            { original: "小栗有以", defaultAssign: "大村杏" },
-            { original: "山内瑞葵", defaultAssign: "近藤沙樹" },
-            { original: "千葉恵里", defaultAssign: "倉島杏実" },
-            { original: "佐藤綺星", defaultAssign: "塩月希依音" },
-            { original: "秋山由奈", defaultAssign: "岡腰星来" },
-            { original: "水島美結", defaultAssign: "新井梨杏" },
-            { original: "山﨑空", defaultAssign: "喜多花恵" },
-            { original: "倉野尾成美", defaultAssign: "甲斐心愛" },
-            { original: "下尾みう", defaultAssign: "梁瀬鈴雅" },
-            { original: "山口結愛", defaultAssign: "工藤華純" },
-            { original: "永野芹佳", defaultAssign: "松岡さくら" },
-            { original: "鈴木くるみ", defaultAssign: "平田侑希" },
-            { original: "八木愛月", defaultAssign: "青原優花" },
-            { original: "伊藤百花", defaultAssign: "竹本くるみ" },
-            { original: "村山彩希", defaultAssign: "栗原紗英" },
-            { original: "向井地美音", defaultAssign: "内海里音" }
+            { original: "小栗有以 (Lollipop)", defaultAssign: "大村杏" },
+            { original: "山内瑞葵 (Lollipop)", defaultAssign: "近藤沙樹" },
+            { original: "千葉恵里 (Lollipop)", defaultAssign: "倉島杏実" },
+            { original: "佐藤綺星 (風の待ち伏せ)", defaultAssign: "塩月希依音" },
+            { original: "秋山由奈 (風の待ち伏せ)", defaultAssign: "岡腰星来" },
+            { original: "水島美結 (風の待ち伏せ)", defaultAssign: "新井梨杏" },
+            { original: "山﨑空 (風の待ち伏せ)", defaultAssign: "喜多花恵" },
+            { original: "倉野尾成美 (クリスマスリング)", defaultAssign: "甲斐心愛" },
+            { original: "下尾みう (クリスマスリング)", defaultAssign: "梁瀬鈴雅" },
+            { original: "山口結愛 (クリスマスリング)", defaultAssign: "工藤華純" },
+            { original: "永野芹佳 (クリスマスリング)", defaultAssign: "松岡さくら" },
+            { original: "鈴木くるみ (クリスマスリング)", defaultAssign: "平田侑希" },
+            { original: "八木愛月 (2月のMermaid)", defaultAssign: "青原優花" },
+            { original: "伊藤百花 (振り向きざまのキッス)", defaultAssign: "竹本くるみ" },
+            { original: "村山彩希 (振り向きざまのキッス)", defaultAssign: "栗原紗英" },
+            { original: "向井地美音 (振り向きざまのキッス)", defaultAssign: "内海里音" }
           ]
         }
       },
@@ -373,22 +350,22 @@
             { original: "田名部生来", defaultAssign: "布袋百椛" }
           ],
           unit: [
-            { original: "板野友美", defaultAssign: "河村優愛" },
-            { original: "仁藤萌乃", defaultAssign: "猪原絆愛" },
-            { original: "小野恵令奈", defaultAssign: "徳永羚海" },
-            { original: "宮澤佐江", defaultAssign: "山内瑞葵" },
-            { original: "米沢瑠美", defaultAssign: "清司麗菜" },
-            { original: "野中美郷", defaultAssign: "青木莉樺" },
-            { original: "峯岸みなみ", defaultAssign: "北村優羽" },
-            { original: "中塚智実", defaultAssign: "川村結衣" },
-            { original: "内田眞由美", defaultAssign: "布袋百椛" },
-            { original: "秋元才加", defaultAssign: "尾崎世里花" },
-            { original: "菊地あやか", defaultAssign: "山内祐奈" },
-            { original: "松井咲子", defaultAssign: "渋井美奈" },
-            { original: "田名部生来", defaultAssign: "久保姫菜乃" },
-            { original: "大島優子", defaultAssign: "吉田彩良" },
-            { original: "藤江れいな", defaultAssign: "池帆乃香" },
-            { original: "梅田彩佳", defaultAssign: "北川愛乃" }
+            { original: "板野友美 (制服レジスタンス)", defaultAssign: "河村優愛" },
+            { original: "仁藤萌乃 (制服レジスタンス)", defaultAssign: "猪原絆愛" },
+            { original: "小野恵令奈 (制服レジスタンス)", defaultAssign: "徳永羚海" },
+            { original: "宮澤佐江 (奇跡は間に合わない)", defaultAssign: "山内瑞葵" },
+            { original: "米沢瑠美 (奇跡は間に合わない)", defaultAssign: "清司麗菜" },
+            { original: "野中美郷 (奇跡は間に合わない)", defaultAssign: "青木莉樺" },
+            { original: "峯岸みなみ (逆転王子様)", defaultAssign: "北村優羽" },
+            { original: "中塚智実 (逆転王子様)", defaultAssign: "川村結衣" },
+            { original: "内田眞由美 (逆転王子様)", defaultAssign: "布袋百椛" },
+            { original: "秋元才加 (明日のためにキスを)", defaultAssign: "尾崎世里花" },
+            { original: "菊地あやか (明日のためにキスを)", defaultAssign: "山内祐奈" },
+            { original: "松井咲子 (明日のためにキスを)", defaultAssign: "渋井美奈" },
+            { original: "田名部生来 (明日のためにキスを)", defaultAssign: "久保姫菜乃" },
+            { original: "大島優子 (心の端のソファー)", defaultAssign: "吉田彩良" },
+            { original: "藤江れいな (心の端のソファー)", defaultAssign: "池帆乃香" },
+            { original: "梅田彩佳 (心の端のソファー)", defaultAssign: "北川愛乃" }
           ]
         }
       },
@@ -415,28 +392,28 @@
             { original: "大家志津香", defaultAssign: "迫由芽実" }
           ],
           unit: [
-            { original: "小嶋陽菜", defaultAssign: "兵頭葵" },
-            { original: "島崎遥香", defaultAssign: "三鴨くるみ" },
-            { original: "大和田南那", defaultAssign: "小栗有以" },
-            { original: "樋渡結依", defaultAssign: "水津菜月" },
-            { original: "山田菜々美", defaultAssign: "迫由芽実" },
-            { original: "入山杏奈", defaultAssign: "坂本真凛" },
-            { original: "白間美瑠", defaultAssign: "今村麻莉愛" },
-            { original: "佐々木優佳里", defaultAssign: "田中伊桜莉" },
-            { original: "谷口めぐ", defaultAssign: "赤堀君江" },
-            { original: "宮脇咲良", defaultAssign: "新澤菜央" },
-            { original: "宮崎美穂", defaultAssign: "西潟茉莉奈" },
-            { original: "中西智代梨", defaultAssign: "相川暖花" },
-            { original: "小笠原茉由", defaultAssign: "池田典愛" },
-            { original: "大家志津香", defaultAssign: "正鋳真優" },
-            { original: "中村麻里子", defaultAssign: "山根涼羽" },
-            { original: "横山由依", defaultAssign: "豊永阿紀" }
+            { original: "小嶋陽菜 (リスケ)", defaultAssign: "兵頭葵" },
+            { original: "島崎遥香 (リスケ)", defaultAssign: "三鴨くるみ" },
+            { original: "大和田南那 (制服ビキニ)", defaultAssign: "小栗有以" },
+            { original: "樋渡結依 (制服ビキニ)", defaultAssign: "水津菜月" },
+            { original: "山田菜々美 (制服ビキニ)", defaultAssign: "迫由芽実" },
+            { original: "入山杏奈 (She's gone)", defaultAssign: "坂本真凛" },
+            { original: "白間美瑠 (She's gone)", defaultAssign: "今村麻莉愛" },
+            { original: "佐々木優佳里 (She's gone)", defaultAssign: "田中伊桜莉" },
+            { original: "谷口めぐ (She's gone)", defaultAssign: "赤堀君江" },
+            { original: "宮脇咲良 (夢でKiss me!)", defaultAssign: "新澤菜央" },
+            { original: "宮崎美穂 (負け男)", defaultAssign: "西潟茉莉奈" },
+            { original: "中西智代梨 (負け男)", defaultAssign: "相川暖花" },
+            { original: "小笠原茉由 (負け男)", defaultAssign: "池田典愛" },
+            { original: "大家志津香 (負け男)", defaultAssign: "正鋳真優" },
+            { original: "中村麻里子 (負け男)", defaultAssign: "山根涼羽" },
+            { original: "横山由依 (月と水鏡)", defaultAssign: "豊永阿紀" }
           ]
         }
       },
       'D': {
         name: 'チームD',
-        members: ["行天優莉奈", "橋本陽菜", "太田有紀", "水島美結", "成田香姫奈", "石黒友月", "杉本りいな", "荒野姫楓", "倉本羽菜", "浅井裕華", "中坂美祐", "石山千尋", "黒島咲花", "高橋ことね", "西田帆花", "宮崎紗衣", "石橋颯", "中野南実", "龍頭綺音", "江浦優香", "長野らら", "佐藤海里", "杉本萌", "福田朱里", "工藤理子", "岡田あずみ", "北澤苺", "田中沙友利", "立花菖", "竹下茉莉花", "田中れい", "呉優菜", "阿達夢", "相木茉采", "細矢夏帆", "坂崎愛", "濵田美惟"],
+        members: ["行天優莉奈", "橋本陽菜", "太田有紀", "水島美結", "成田香姫奈", "石黒友月", "杉本りいな", "荒野姫楓", "倉本羽菜", "浅井裕華", "中坂美祐", "石山千尋", "黒島咲花", "高橋ことね", "西田帆花", "宮崎紗衣", "石橋颯", "中野南実", "龍頭綺音", "江浦優香", "長野らら", "佐藤海里", "杉本萌", "福田朱里", "工藤理子", "岡田あずみ", "北澤苺", "田中沙友利", "立花菖", "竹下茉莉花", "田中れい", "呉優菜", "阿達夢", "相木茉采", "細矢夏帆", "坂崎愛", "濵田美悩"],
         songs: {
           group: [
             { original: "渡辺麻友", defaultAssign: "石橋颯" },
@@ -457,22 +434,22 @@
             { original: "近野莉菜", defaultAssign: "橋本陽菜" }
           ],
           unit: [
-            { original: "渡辺麻友", defaultAssign: "浅井裕華" },
-            { original: "佐藤すみれ", defaultAssign: "江浦優香" },
-            { original: "奥真奈美", defaultAssign: "田中れい" },
-            { original: "宮崎美穂", defaultAssign: "荒野姫楓" },
-            { original: "小森美果", defaultAssign: "杉本萌" },
-            { original: "佐藤夏希", defaultAssign: "岡田あずみ" },
-            { original: "鈴木まりや", defaultAssign: "成田香姫奈" },
-            { original: "河西智美", defaultAssign: "石橋颯" },
-            { original: "佐藤亜美菜", defaultAssign: "水島美結" },
-            { original: "増田有華", defaultAssign: "橋本陽菜" },
-            { original: "北原里英", defaultAssign: "福田朱里" },
-            { original: "近野莉菜", defaultAssign: "佐藤海里" },
-            { original: "小林香菜", defaultAssign: "石山千尋" },
-            { original: "平嶋夏海", defaultAssign: "高橋ことね" },
-            { original: "石田晴香", defaultAssign: "工藤理子" },
-            { original: "柏木由紀", defaultAssign: "龍頭綺音" }
+            { original: "渡辺麻友 (初恋よ こんにちは)", defaultAssign: "浅井裕華" },
+            { original: "佐藤すみれ (初恋よ こんにちは)", defaultAssign: "江浦優香" },
+            { original: "奥真奈美 (初恋よ こんにちは)", defaultAssign: "田中れい" },
+            { original: "宮崎美穂 (嵐の夜には)", defaultAssign: "荒野姫楓" },
+            { original: "小森美果 (嵐の夜には)", defaultAssign: "杉本萌" },
+            { original: "佐藤夏希 (嵐の夜には)", defaultAssign: "岡田あずみ" },
+            { original: "鈴木まりや (嵐の夜には)", defaultAssign: "成田香姫奈" },
+            { original: "河西智美 (キャンディー)", defaultAssign: "石橋颯" },
+            { original: "佐藤亜美菜 (キャンディー)", defaultAssign: "水島美結" },
+            { original: "増田有華 (キャンディー)", defaultAssign: "橋本陽菜" },
+            { original: "北原里英 (ロッカールームボーイ)", defaultAssign: "福田朱里" },
+            { original: "近野莉菜 (ロッカールームボーイ)", defaultAssign: "佐藤海里" },
+            { original: "小林香菜 (ロッカールームボーイ)", defaultAssign: "石山千尋" },
+            { original: "平嶋夏海 (ロッカールームボーイ)", defaultAssign: "高橋ことね" },
+            { original: "石田晴香 (ロッカールームボーイ)", defaultAssign: "工藤理子" },
+            { original: "柏木由紀 (夜風の仕業)", defaultAssign: "龍頭綺音" }
           ]
         }
       },
@@ -499,22 +476,22 @@
             { original: "小野晴香", defaultAssign: "山﨑空" }
           ],
           unit: [
-            { original: "松井珠理奈", defaultAssign: "泉綾乃" },
-            { original: "山下もえ", defaultAssign: "岡村梨央" },
-            { original: "平松可奈子", defaultAssign: "山﨑空" },
-            { original: "矢神久美", defaultAssign: "佐藤綺星" },
-            { original: "森紗雪", defaultAssign: "八木愛月" },
-            { original: "桑原みずき", defaultAssign: "江口心々華" },
-            { original: "高田志織", defaultAssign: "伊藤虹々美" },
-            { original: "大矢真那", defaultAssign: "千葉恵里" },
-            { original: "新海里奈", defaultAssign: "濵田響" },
-            { original: "若林倫香", defaultAssign: "甲斐瑞季" },
-            { original: "松井玲奈", defaultAssign: "倉野尾成美" },
-            { original: "松下唯", defaultAssign: "大塚七海" },
-            { original: "小野晴香", defaultAssign: "坂下真心" },
-            { original: "出口陽", defaultAssign: "伊藤実希" },
-            { original: "平田璃香子", defaultAssign: "島田紗香" },
-            { original: "中西優香", defaultAssign: "信濃宙花" }
+            { original: "松井珠理奈 (思い出以上)", defaultAssign: "泉綾乃" },
+            { original: "山下もえ (思い出以上)", defaultAssign: "岡村梨央" },
+            { original: "平松可奈子 (思い出以上)", defaultAssign: "山﨑空" },
+            { original: "矢神久美 (狼とプライド)", defaultAssign: "佐藤綺星" },
+            { original: "森紗雪 (狼とプライド)", defaultAssign: "八木愛月" },
+            { original: "桑原みずき (女の子の第六感)", defaultAssign: "江口心々華" },
+            { original: "高田志織 (女の子の第六感)", defaultAssign: "伊藤虹々美" },
+            { original: "大矢真那 (女の子の第六感)", defaultAssign: "千葉恵里" },
+            { original: "新海里奈 (女の子の第六感)", defaultAssign: "濵田響" },
+            { original: "若林倫香 (女の子の第六感)", defaultAssign: "甲斐瑞季" },
+            { original: "松井玲奈 (枯葉のステーション)", defaultAssign: "倉野尾成美" },
+            { original: "松下唯 (万華鏡)", defaultAssign: "大塚七海" },
+            { original: "小野晴香 (万華鏡)", defaultAssign: "坂下真心" },
+            { original: "出口陽 (万華鏡)", defaultAssign: "伊藤実希" },
+            { original: "平田璃香子 (万華鏡)", defaultAssign: "島田紗香" },
+            { original: "中西優香 (万華鏡)", defaultAssign: "信濃宙花" }
           ]
         }
       },
@@ -541,22 +518,22 @@
             { original: "林萌々香", defaultAssign: "龍本弥生" }
           ],
           unit: [
-            { original: "山本彩", defaultAssign: "野村実代" },
-            { original: "小谷里歩", defaultAssign: "秋山由奈" },
-            { original: "小笠原茉由", defaultAssign: "井澤美優" },
-            { original: "木下春奈", defaultAssign: "平山真衣" },
-            { original: "門脇佳奈子", defaultAssign: "橋本恵理子" },
-            { original: "林萌々香", defaultAssign: "龍本弥生" },
-            { original: "市川美織", defaultAssign: "高雄さやか" },
-            { original: "白間美瑠", defaultAssign: "久留島優果" },
-            { original: "近藤里奈", defaultAssign: "井上瑠夏" },
-            { original: "岸野里香", defaultAssign: "坂田心咲" },
-            { original: "西村愛華", defaultAssign: "入内嶋涼" },
-            { original: "山口夕輝", defaultAssign: "森末妃奈" },
-            { original: "古賀成美", defaultAssign: "太田彩夏" },
-            { original: "渡辺美優紀", defaultAssign: "中村舞" },
-            { original: "吉田朱里", defaultAssign: "佐藤佳穂" },
-            { original: "上西恵", defaultAssign: "市村愛里" }
+            { original: "山本彩 (夢のdead body)", defaultAssign: "野村実代" },
+            { original: "小谷里歩 (何度も狙え！)", defaultAssign: "秋山由奈" },
+            { original: "小笠原茉由 (何度も狙え！)", defaultAssign: "井澤美優" },
+            { original: "木下春奈 (何度も狙え！)", defaultAssign: "平山真衣" },
+            { original: "門脇佳奈子 (何度も狙え！)", defaultAssign: "橋本恵理子" },
+            { original: "林萌々香 (何度も狙え！)", defaultAssign: "龍本弥生" },
+            { original: "市川美織 (おNEWの上履き)", defaultAssign: "高雄さやか" },
+            { original: "白間美瑠 (おNEWの上履き)", defaultAssign: "久留島優果" },
+            { original: "近藤里奈 (おNEWの上履き)", defaultAssign: "井上瑠夏" },
+            { original: "岸野里香 (この世界が雪の中に埋もれる前に)", defaultAssign: "坂田心咲" },
+            { original: "西村愛華 (この世界が雪の中に埋もれる前に)", defaultAssign: "入内嶋涼" },
+            { original: "山口夕輝 (この世界が雪の中に埋もれる前に)", defaultAssign: "森末妃奈" },
+            { original: "古賀成美 (この世界が雪の中に埋もれる前に)", defaultAssign: "太田彩夏" },
+            { original: "渡辺美優紀 (ジッパー)", defaultAssign: "中村舞" },
+            { original: "吉田朱里 (ジッパー)", defaultAssign: "佐藤佳穂" },
+            { original: "上西恵 (ジッパー)", defaultAssign: "市村愛里" }
           ]
         }
       },
@@ -583,74 +560,76 @@
             { original: "大家志津香", defaultAssign: "森﨑冴彩" }
           ],
           unit: [
-            { original: "前田敦子", defaultAssign: "原田清花" },
-            { original: "倉持明日香", defaultAssign: "下尾みう" },
-            { original: "仲谷明香", defaultAssign: "篠原京香" },
-            { original: "高城亜樹", defaultAssign: "伊藤百花" },
-            { original: "指原莉乃", defaultAssign: "桜田彩叶" },
-            { original: "高橋みなみ", defaultAssign: "熊崎晴香" },
-            { original: "小嶋陽菜", defaultAssign: "新井彩永" },
-            { original: "多田愛佳", defaultAssign: "栗山梨奈" },
-            { original: "岩佐美咲", defaultAssign: "長友彩海" },
-            { original: "中田ちさと", defaultAssign: "森﨑冴彩" },
-            { original: "篠田麻里子", defaultAssign: "森本くるみ" },
-            { original: "仲川遥香", defaultAssign: "佐藤広花" },
-            { original: "前田亜美", defaultAssign: "磯部瑠紅" },
-            { original: "片山陽加", defaultAssign: "池田裕楽" },
-            { original: "松原夏海", defaultAssign: "諸葛望愛" },
-            { original: "大家志津香", defaultAssign: "田中美空" }
+            { original: "前田敦子 (腕を組んで)", defaultAssign: "原田清花" },
+            { original: "倉持明日香 (腕を組んで)", defaultAssign: "下尾みう" },
+            { original: "仲谷明香 (腕を組んで)", defaultAssign: "篠原京香" },
+            { original: "高城亜樹 (炎上路線)", defaultAssign: "伊藤百花" },
+            { original: "指原莉乃 (炎上路線)", defaultAssign: "桜田彩叶" },
+            { original: "高橋みなみ (愛しさのアクセル)", defaultAssign: "熊崎晴香" },
+            { original: "小嶋陽菜 (☆の向こう側)", defaultAssign: "新井彩永" },
+            { original: "多田愛佳 (☆の向こう側)", defaultAssign: "栗山梨奈" },
+            { original: "岩佐美咲 (☆の向こう側)", defaultAssign: "長友彩海" },
+            { original: "中田ちさと (☆の向こう側)", defaultAssign: "森﨑冴彩" },
+            { original: "篠田麻里子 (サボテンとゴールドラッシュ)", defaultAssign: "森本くるみ" },
+            { original: "仲川遥香 (サボテンとゴールドラッシュ)", defaultAssign: "佐藤広花" },
+            { original: "前田亜美 (サボテンとゴールドラッシュ)", defaultAssign: "磯部瑠紅" },
+            { original: "片山陽加 (サボテンとゴールドラッシュ)", defaultAssign: "池田裕楽" },
+            { original: "松原夏海 (サボテンとゴールドラッシュ)", defaultAssign: "諸葛望愛" },
+            { original: "大家志津香 (サボテンとゴールドラッシュ)", defaultAssign: "田中美空" }
           ]
         }
       }
     };
 
     // ==========================================
-    // Reactive State Management
+    // Reactive State Management (Fixed Multi-Absentee Handling)
     // ==========================================
     let currentTeamKey = 'A';
     let currentSongType = 'group'; // 'group' or 'unit'
     let autoCascadeEnabled = true;
-    let understudySyncEnabled = true; // Overall Sync Across Group/Unit for same defaultAssignee
+    let understudySyncEnabled = true;
 
-    // Map: teamKey -> Set of absent member names
+    // Map: teamKey -> Set of absent member names (Persistent Set across operations)
     const absenteesByTeam = {
       'A': new Set(), 'B': new Set(), 'C': new Set(),
       'D': new Set(), 'E': new Set(), 'F': new Set(), 'G': new Set()
     };
 
-    // Slot Overrides:
-    // Slot Overrides Map: teamKey -> { group: { index: memberName }, unit: { index: memberName } }
     const manualSlotOverrides = {
       'A': { group: {}, unit: {} }, 'B': { group: {}, unit: {} }, 'C': { group: {}, unit: {} },
       'D': { group: {}, unit: {} }, 'E': { group: {}, unit: {} }, 'F': { group: {}, unit: {} }, 'G': { group: {}, unit: {} }
     };
 
-    // Shared Member Understudy Mapping (For Global Under Sync mode)
-    // Map: teamKey -> { defaultMemberName: assignedSubstituteName | null }
     const sharedUnderstudyMap = {
       'A': {}, 'B': {}, 'C': {}, 'D': {}, 'E': {}, 'F': {}, 'G': {}
     };
 
     let activeModalSlotIndex = null;
 
+    // Helper: get current team's Set safely
+    function getAbsentSet() {
+      if (!absenteesByTeam[currentTeamKey]) {
+        absenteesByTeam[currentTeamKey] = new Set();
+      }
+      return absenteesByTeam[currentTeamKey];
+    }
+
     // ==========================================
-    // Simulation Logic (Cascading & Shared Sync)
+    // Simulation Logic
     // ==========================================
     function calculatePositionAssignments() {
       const team = TEAMS_DATA[currentTeamKey];
       const positions = team.songs[currentSongType];
-      const absentSet = absenteesByTeam[currentTeamKey];
+      const absentSet = getAbsentSet();
       const slotOverrides = manualSlotOverrides[currentTeamKey][currentSongType];
       const sharedMap = sharedUnderstudyMap[currentTeamKey];
 
       const result = [];
-      const assignedMembers = new Set(); // Tracks members already placed in positions
+      const assignedMembers = new Set();
 
-      // Step 1: Pre-evaluate Manual & Shared Overrides to reserve members
       const activePositions = positions.map((pos, idx) => {
         let explicitOverride = slotOverrides[idx];
 
-        // If shared understudy sync is enabled and no explicit song-slot override exists, check shared map
         if (explicitOverride === undefined && understudySyncEnabled) {
           if (sharedMap[pos.defaultAssign] !== undefined) {
             explicitOverride = sharedMap[pos.defaultAssign];
@@ -666,7 +645,6 @@
       });
 
       if (!autoCascadeEnabled) {
-        // Mode A: Pure Fixed Assignment without Cascading
         activePositions.forEach((pos) => {
           const isAbsent = absentSet.has(pos.defaultAssign);
           let chosen = null;
@@ -692,8 +670,7 @@
         return result;
       }
 
-      // Mode B: Cascading Auto-fill Algorithm
-      // 1. Gather all default members who are NOT absent
+      // Cascading Auto-fill
       const activeDefaultQueue = [];
       positions.forEach(p => {
         if (!absentSet.has(p.defaultAssign)) {
@@ -701,26 +678,20 @@
         }
       });
 
-      // 2. Gather team reserves (members not assigned to defaults and not absent)
       const defaultSet = new Set(positions.map(p => p.defaultAssign));
       const availableReserves = team.members.filter(m => !defaultSet.has(m) && !absentSet.has(m));
-
-      // Candidate Queue for auto-fill
       const candidateQueue = [...activeDefaultQueue, ...availableReserves];
 
-      // Mark explicit overrides first into assignedMembers
       activePositions.forEach(pos => {
         if (pos.override !== undefined && pos.override !== null) {
           assignedMembers.add(pos.override);
         }
       });
 
-      // Assign positions top to bottom
       activePositions.forEach((pos) => {
         const isAbsentDefault = absentSet.has(pos.defaultAssign);
 
         if (pos.override !== undefined) {
-          // Dedicated explicit override (or synced understudy)
           const chosen = pos.override;
           result.push({
             positionIndex: pos.positionIndex,
@@ -731,7 +702,6 @@
             isAbsentDefault: isAbsentDefault
           });
         } else {
-          // Automatic candidate selection
           let chosen = null;
           while (candidateQueue.length > 0) {
             const candidate = candidateQueue.shift();
@@ -759,7 +729,7 @@
     }
 
     // ==========================================
-    // DOM Initialization & Rendering Functions
+    // DOM Initialization & Rendering
     // ==========================================
     document.addEventListener('DOMContentLoaded', () => {
       initTeamTabs();
@@ -815,7 +785,7 @@
 
     function renderHeaderStats() {
       document.getElementById('header-team-badge').textContent = TEAMS_DATA[currentTeamKey].name;
-      const count = absenteesByTeam[currentTeamKey].size;
+      const count = getAbsentSet().size;
       document.getElementById('header-absent-count').textContent = `${count}名`;
       document.getElementById('tag-absent-count').textContent = count;
       document.getElementById('current-team-title').textContent = TEAMS_DATA[currentTeamKey].name;
@@ -827,7 +797,7 @@
       const container = document.getElementById('absentee-tags-container');
       const emptyMsg = document.getElementById('empty-absentee-msg');
       const clearBtn = document.getElementById('btn-clear-absentees');
-      const absentSet = absenteesByTeam[currentTeamKey];
+      const absentSet = getAbsentSet();
 
       container.innerHTML = '';
 
@@ -841,10 +811,10 @@
       emptyMsg.classList.add('hidden');
       clearBtn.classList.remove('hidden');
 
-      // Convert Set to array to ensure all items are rendered correctly
+      // Iterating through Array from Set guarantees multiple tags render properly
       Array.from(absentSet).forEach(member => {
         const tag = document.createElement('span');
-        tag.className = 'inline-flex items-center gap-1 px-2.5 py-1 rounded-lg text-xs font-medium bg-rose-500/20 text-rose-300 border border-rose-500/30 shadow-sm animate-fade-in';
+        tag.className = 'inline-flex items-center gap-1 px-2.5 py-1 rounded-lg text-xs font-medium bg-rose-500/20 text-rose-300 border border-rose-500/30 shadow-sm';
         tag.innerHTML = `
           <span>${member}</span>
           <button class="hover:text-white p-0.5 rounded focus:outline-none ml-1 btn-remove-tag">
@@ -865,7 +835,7 @@
     function renderTeamRoster() {
       const container = document.getElementById('team-roster-grid');
       const filterText = (document.getElementById('roster-filter').value || '').trim().toLowerCase();
-      const absentSet = absenteesByTeam[currentTeamKey];
+      const absentSet = getAbsentSet();
       const team = TEAMS_DATA[currentTeamKey];
 
       container.innerHTML = '';
@@ -889,11 +859,7 @@
         `;
 
         item.addEventListener('click', () => {
-          if (absentSet.has(member)) {
-            removeAbsentee(member);
-          } else {
-            addAbsentee(member);
-          }
+          toggleAbsentee(member);
         });
 
         container.appendChild(item);
@@ -964,28 +930,39 @@
     }
 
     // ==========================================
-    // Absentee Actions
+    // Absentee Actions (Safe Multiple Absentees)
     // ==========================================
+    function toggleAbsentee(memberName) {
+      if (!memberName) return;
+      const absentSet = getAbsentSet();
+      if (absentSet.has(memberName)) {
+        absentSet.delete(memberName);
+      } else {
+        absentSet.add(memberName);
+      }
+      renderAll();
+    }
+
     function addAbsentee(memberName) {
       if (!memberName) return;
-      absenteesByTeam[currentTeamKey].add(memberName);
+      getAbsentSet().add(memberName);
       document.getElementById('select-absent-member').value = '';
       renderAll();
     }
 
     function removeAbsentee(memberName) {
       if (!memberName) return;
-      absenteesByTeam[currentTeamKey].delete(memberName);
+      getAbsentSet().delete(memberName);
       renderAll();
     }
 
     function clearAllAbsentees() {
-      absenteesByTeam[currentTeamKey].clear();
+      getAbsentSet().clear();
       renderAll();
     }
 
     // ==========================================
-    // Slot Modal & Understudy Assignment
+    // Slot Modal Functions
     // ==========================================
     function openSlotModal(slotIndex, slotData) {
       activeModalSlotIndex = slotIndex;
@@ -999,7 +976,6 @@
       subtitle.textContent = `初期担当: ${slotData.defaultAssign} ${understudySyncEnabled ? ' (全曲連動モード中)' : ''}`;
 
       renderModalOptions(slotData);
-
       filterInput.oninput = () => renderModalOptions(slotData);
 
       modal.classList.remove('hidden');
@@ -1011,7 +987,7 @@
       optionsContainer.innerHTML = '';
 
       const team = TEAMS_DATA[currentTeamKey];
-      const absentSet = absenteesByTeam[currentTeamKey];
+      const absentSet = getAbsentSet();
 
       team.members.forEach(m => {
         if (filterText && !m.toLowerCase().includes(filterText)) return;
@@ -1040,11 +1016,9 @@
 
     function setSlotUnderstudy(slotIndex, defaultAssignee, selectedSubstitute) {
       if (understudySyncEnabled) {
-        // Shared sync for all songs for this default assignee
         sharedUnderstudyMap[currentTeamKey][defaultAssignee] = selectedSubstitute;
         showToast(`${defaultAssignee} のアンダーとして ${selectedSubstitute} を全曲に連動設定しました`);
       } else {
-        // Specific to current song type and slot
         manualSlotOverrides[currentTeamKey][currentSongType][slotIndex] = selectedSubstitute;
         showToast(`POS ${slotIndex + 1} の出演者を指定しました`);
       }
@@ -1057,10 +1031,9 @@
     }
 
     // ==========================================
-    // Event Listeners Setup
+    // Event Listeners
     // ==========================================
     function setupEventListeners() {
-      // Song type toggles
       const btnGroup = document.getElementById('song-type-group');
       const btnUnit = document.getElementById('song-type-unit');
 
@@ -1078,27 +1051,23 @@
         renderAll();
       });
 
-      // Understudy Sync Toggle Switch
       document.getElementById('toggle-under-sync').addEventListener('change', (e) => {
         understudySyncEnabled = e.target.checked;
         showToast(understudySyncEnabled ? 'アンダー全曲自動連動を有効化しました' : '楽曲個別の指定モードに切り替えました');
         renderAll();
       });
 
-      // Auto Cascade Toggle Switch
       document.getElementById('toggle-cascade').addEventListener('change', (e) => {
         autoCascadeEnabled = e.target.checked;
         renderAll();
       });
 
-      // Dropdown Absent Select
       document.getElementById('select-absent-member').addEventListener('change', (e) => {
         if (e.target.value) {
           addAbsentee(e.target.value);
         }
       });
 
-      // Direct Textbox Search & Auto-complete
       const searchInput = document.getElementById('input-search-member');
       const suggestionsBox = document.getElementById('search-suggestions');
       const clearSearchBtn = document.getElementById('btn-clear-search');
@@ -1142,24 +1111,20 @@
         clearSearchBtn.classList.add('hidden');
       });
 
-      // Roster Filter Search
       document.getElementById('roster-filter').addEventListener('input', () => {
         renderTeamRoster();
       });
 
-      // Clear all absentees
       document.getElementById('btn-clear-absentees').addEventListener('click', clearAllAbsentees);
 
-      // Reset All Controls
       document.getElementById('btn-reset-all').addEventListener('click', () => {
-        absenteesByTeam[currentTeamKey].clear();
+        getAbsentSet().clear();
         manualSlotOverrides[currentTeamKey] = { group: {}, unit: {} };
         sharedUnderstudyMap[currentTeamKey] = {};
         renderAll();
         showToast('設定を全リセットしました');
       });
 
-      // Modal buttons
       document.getElementById('btn-close-modal').addEventListener('click', closeModal);
       
       document.getElementById('btn-modal-clear-slot').addEventListener('click', () => {
@@ -1189,7 +1154,6 @@
         }
       });
 
-      // Export Summary Button
       document.getElementById('btn-export').addEventListener('click', exportSummary);
     }
 
@@ -1199,7 +1163,7 @@
     function exportSummary() {
       const team = TEAMS_DATA[currentTeamKey];
       const assignments = calculatePositionAssignments();
-      const absentList = Array.from(absenteesByTeam[currentTeamKey]);
+      const absentList = Array.from(getAbsentSet());
 
       let text = `【${team.name}】${currentSongType === 'group' ? '全体曲' : 'ユニット曲'} ポジション予想結果\n`;
       text += `------------------------------------\n`;
@@ -1210,7 +1174,6 @@
         text += `POS ${idx + 1} (${slot.defaultAssign}): ${slot.assigned || '空席'}\n`;
       });
 
-      // Copy using document.execCommand fallback
       const textarea = document.createElement('textarea');
       textarea.value = text;
       textarea.style.position = 'fixed';
