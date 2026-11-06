@@ -22,7 +22,7 @@
     ::-webkit-scrollbar { width: 6px; height: 6px; }
     ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 3px; }
     .member-link { color: #111827; font-weight: 500; cursor: pointer; transition: opacity 0.2s; white-space: nowrap; display: inline-block; padding: 0.125rem 0; }
-    .member-link:hover { opacity: 0.7; color: #db2777; }
+    .member-link:hover { opacity: 0.7; color: #059669; }
     
     /* カレンダーグリッド用スタイル */
     .cal-grid {
@@ -42,7 +42,7 @@
       flex-direction: column;
     }
     .cal-cell.other-month { background-color: #f8fafc; color: #94a3b8; }
-    .cal-cell.today { background-color: #fdf2f8; }
+    .cal-cell.today { background-color: #ecfdf5; }
     
     /* 表の列固定用 */
     .sticky-col-1 {
@@ -55,7 +55,7 @@
 </head>
 <body class="bg-slate-100 text-slate-800 font-sans">
   <!-- Header -->
-  <header class="bg-pink-600 text-white p-4 shadow-md sticky top-0 z-40">
+  <header class="bg-emerald-600 text-white p-4 shadow-md sticky top-0 z-40">
     <div class="max-w-4xl mx-auto flex items-center justify-between">
       <h1 class="text-xl font-bold flex items-center gap-2 cursor-pointer" onclick="goHome()">
         <i class="fa-solid fa-masks-theater"></i> 劇場公演 データサイト
@@ -65,7 +65,7 @@
     <div class="max-w-4xl mx-auto mt-3 relative">
       <div class="relative">
         <input type="text" id="searchInput" oninput="onSearchInput(this.value)" placeholder="演目名 または メンバー名 で検索" 
-               class="w-full pl-9 pr-4 py-2 bg-white text-slate-800 text-sm rounded-lg shadow-inner focus:outline-none focus:ring-2 focus:ring-pink-300">
+               class="w-full pl-9 pr-4 py-2 bg-white text-slate-800 text-sm rounded-lg shadow-inner focus:outline-none focus:ring-2 focus:ring-emerald-300">
         <i class="fa-solid fa-magnifying-glass absolute left-3 top-3 text-slate-400 text-sm"></i>
       </div>
       <div id="searchSuggest" class="hidden absolute left-0 right-0 top-full mt-1 bg-white border border-slate-200 rounded-lg shadow-xl z-50 max-h-72 overflow-y-auto divide-y divide-slate-100 text-sm"></div>
@@ -81,22 +81,22 @@
         <div class="bg-white rounded-xl p-4 shadow-sm border border-slate-200 mb-4">
           <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3 mb-4">
             <h2 class="text-base font-bold text-slate-700 flex items-center gap-2">
-              <i class="fa-regular fa-calendar-days text-pink-500"></i> スケジュール
+              <i class="fa-regular fa-calendar-days text-emerald-500"></i> スケジュール
             </h2>
             <div class="flex items-center gap-2 w-full sm:w-auto justify-between sm:justify-end">
               <div class="bg-slate-100 p-0.5 rounded-lg border border-slate-200 flex text-[10px]">
-                <button id="viewListBtn" onclick="toggleCalendarView('list')" class="px-2.5 py-1 rounded-md font-bold transition bg-white text-pink-600 shadow-sm">
+                <button id="viewListBtn" onclick="toggleCalendarView('list')" class="px-2.5 py-1 rounded-md font-bold transition bg-white text-emerald-600 shadow-sm">
                   <i class="fa-solid fa-list mr-1"></i> リスト
                 </button>
-                <button id="viewGridBtn" onclick="toggleCalendarView('grid')" class="px-2.5 py-1 rounded-md font-bold transition text-slate-600 hover:text-pink-600">
+                <button id="viewGridBtn" onclick="toggleCalendarView('grid')" class="px-2.5 py-1 rounded-md font-bold transition text-slate-600 hover:text-emerald-600">
                   <i class="fa-solid fa-table-cells mr-1"></i> 月間
                 </button>
               </div>
               <div class="flex items-center gap-1 bg-slate-50 p-1 rounded-lg border border-slate-200">
-                <button onclick="changeMonth(-1)" class="p-1.5 text-slate-400 hover:text-pink-600 rounded hover:bg-slate-200"><i class="fa-solid fa-chevron-left"></i></button>
+                <button onclick="changeMonth(-1)" class="p-1.5 text-slate-400 hover:text-emerald-600 rounded hover:bg-slate-200"><i class="fa-solid fa-chevron-left"></i></button>
                 <select id="yearSelect" onchange="onDateChange()" class="bg-transparent text-slate-700 text-sm font-bold px-1 py-1 focus:outline-none cursor-pointer"></select>
                 <select id="monthSelect" onchange="onDateChange()" class="bg-transparent text-slate-700 text-sm font-bold px-1 py-1 focus:outline-none cursor-pointer"></select>
-                <button onclick="changeMonth(1)" class="p-1.5 text-slate-400 hover:text-pink-600 rounded hover:bg-slate-200"><i class="fa-solid fa-chevron-right"></i></button>
+                <button onclick="changeMonth(1)" class="p-1.5 text-slate-400 hover:text-emerald-600 rounded hover:bg-slate-200"><i class="fa-solid fa-chevron-right"></i></button>
               </div>
             </div>
           </div>
@@ -133,7 +133,7 @@
       <section id="tab-stage-daily" class="tab-content hidden space-y-4">
         <div class="bg-white rounded-xl p-4 shadow-sm border border-slate-200">
           <h2 class="text-base font-bold text-slate-800 mb-3 flex items-center justify-between">
-            <span class="flex items-center gap-2"><i class="fa-solid fa-table-cells text-pink-500"></i> 日別表</span>
+            <span class="flex items-center gap-2"><i class="fa-solid fa-table-cells text-emerald-500"></i> 日別表</span>
           </h2>
           <div class="overflow-x-auto rounded-lg border border-slate-200 shadow-inner">
             <table class="w-full text-left text-sm border-collapse min-w-max">
@@ -152,10 +152,10 @@
         <div class="bg-white rounded-xl p-4 shadow-sm border border-slate-200 space-y-3">
           <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-2">
             <h2 class="text-base font-bold text-slate-800 flex items-center gap-2">
-              <i class="fa-solid fa-clipboard-user text-pink-500"></i> 出演表
+              <i class="fa-solid fa-clipboard-user text-emerald-500"></i> 出演表
             </h2>
             <div class="flex items-center gap-2 bg-slate-100 p-1 rounded-lg text-xs font-bold">
-              <button onclick="setPerfTableMode('circle')" id="modeCircleBtn" class="px-3 py-1 rounded bg-white text-pink-600 shadow-sm transition">〇印表示</button>
+              <button onclick="setPerfTableMode('circle')" id="modeCircleBtn" class="px-3 py-1 rounded bg-white text-emerald-600 shadow-sm transition">〇印表示</button>
               <button onclick="setPerfTableMode('count')" id="modeCountBtn" class="px-3 py-1 rounded text-slate-600 transition">回数表示</button>
             </div>
           </div>
@@ -175,12 +175,12 @@
       <section id="tab-forecast" class="tab-content hidden space-y-4">
         <div class="bg-white rounded-xl p-4 shadow-sm border border-slate-200 space-y-4">
           <h2 class="text-base font-bold text-slate-800 flex items-center gap-2">
-            <i class="fa-solid fa-wand-magic-sparkles text-pink-500"></i> ポジション予想
+            <i class="fa-solid fa-wand-magic-sparkles text-emerald-500"></i> ポジション予想
           </h2>
           <div class="space-y-2">
             <label class="block text-xs font-bold text-slate-600">出演メンバーを「、」または「・」区切りで入力してください。</label>
-            <textarea id="forecastInputText" rows="3" placeholder="例: 工藤華純・平田侑希・倉島杏実・大村杏・青原優花・岡腰星来・塩月希依音・松岡さくら..." class="w-full p-2 border border-slate-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-pink-300"></textarea>
-            <button onclick="runForecast()" class="w-full bg-pink-600 hover:bg-pink-700 text-white font-bold py-2 px-4 rounded-lg text-sm shadow transition">
+            <textarea id="forecastInputText" rows="3" placeholder="例: 岩立沙穂 / 髙橋彩音 / 武藤小麟 / 平田侑希..." class="w-full p-2 border border-slate-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-emerald-300"></textarea>
+            <button onclick="runForecast()" class="w-full bg-emerald-600 hover:bg-emerald-700 text-white font-bold py-2 px-4 rounded-lg text-sm shadow transition">
               予想を実行する
             </button>
           </div>
@@ -202,23 +202,24 @@
       <section id="tab-coapp" class="tab-content hidden space-y-4">
         <div class="bg-white rounded-xl p-4 shadow-sm border border-slate-200 space-y-4">
           <h2 class="text-base font-bold text-slate-800 flex items-center gap-2">
-            <i class="fa-solid fa-users text-pink-500"></i> 共演検索
+            <i class="fa-solid fa-users text-emerald-500"></i> 共演検索
           </h2>
           <div class="flex items-center gap-2">
             <select id="coappGroupSelect" onchange="renderCoappMemberChips()" class="bg-slate-50 border border-slate-300 text-xs font-bold rounded-lg p-2 focus:outline-none">
-              <option value="AKB48">AKB48</option>
-              <option value="SKE48">SKE48</option>
-              <option value="NMB48">NMB48</option>
-              <option value="HKT48">HKT48</option>
-              <option value="NGT48">NGT48</option>
-              <option value="STU48">STU48</option>
+              <option value="チームA">チームA</option>
+              <option value="チームB">チームB</option>
+              <option value="チームC">チームC</option>
+              <option value="チームD">チームD</option>
+              <option value="チームE">チームE</option>
+              <option value="チームF">チームF</option>
+              <option value="チームG">チームG</option>
             </select>
             <span class="text-xs text-slate-500">メンバーを選択してください。</span>
           </div>
           <div id="coappMemberChips" class="flex flex-wrap gap-1.5 p-2 border border-slate-200 rounded-lg bg-slate-50"></div>
           
           <div class="pt-2">
-            <button onclick="searchCoappearances()" class="w-full bg-pink-600 hover:bg-pink-700 text-white font-bold py-2 rounded-lg text-xs shadow transition">共演公演を検索する</button>
+            <button onclick="searchCoappearances()" class="w-full bg-emerald-600 hover:bg-emerald-700 text-white font-bold py-2 rounded-lg text-xs shadow transition">共演公演を検索する</button>
           </div>
 
           <div id="coappResultArea" class="space-y-2 pt-2 border-t border-slate-100">
@@ -234,7 +235,7 @@
       <section id="tab-songparts" class="tab-content hidden space-y-4">
         <div class="bg-white rounded-xl p-4 shadow-sm border border-slate-200 space-y-4">
           <h2 class="text-base font-bold text-slate-800 flex items-center gap-2">
-            <i class="fa-solid fa-music text-pink-500"></i> 歌割りを確認できるページ
+            <i class="fa-solid fa-music text-emerald-500"></i> 歌割りを確認できるページ
           </h2>
           <div class="space-y-2">
             <label class="block text-xs font-bold text-slate-600">演目と楽曲を選択</label>
@@ -251,25 +252,25 @@
       <section id="tab-stats" class="tab-content hidden space-y-4">
         <div class="bg-white rounded-xl p-4 shadow-sm border border-slate-200 space-y-4">
           <h2 class="text-base font-bold text-slate-800 border-b pb-3 flex items-center gap-2">
-            <i class="fa-solid fa-chart-line text-pink-500"></i> 統計
+            <i class="fa-solid fa-chart-line text-emerald-500"></i> 統計
           </h2>
           
           <!-- カウントダウン -->
           <div class="space-y-2 bg-slate-50 p-3 rounded-lg border border-slate-200">
-            <h4 class="text-xs font-bold text-slate-700"><i class="fa-solid fa-hourglass-half text-pink-500 mr-1"></i> 大台達成カウントダウン</h4>
+            <h4 class="text-xs font-bold text-slate-700"><i class="fa-solid fa-hourglass-half text-emerald-500 mr-1"></i> 大台達成カウントダウン</h4>
             <div id="countdownList" class="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs"></div>
           </div>
 
           <!-- 節目達成日一覧 -->
           <div class="space-y-2 bg-slate-50 p-3 rounded-lg border border-slate-200">
-            <h4 class="text-xs font-bold text-slate-700"><i class="fa-solid fa-medal text-pink-500 mr-1"></i> 節目達成日一覧</h4>
+            <h4 class="text-xs font-bold text-slate-700"><i class="fa-solid fa-medal text-emerald-500 mr-1"></i> 節目達成日一覧</h4>
             <div id="milestoneList" class="space-y-1.5 text-xs max-h-48 overflow-y-auto pr-1"></div>
           </div>
 
           <!-- 演目別出演回数ランキング -->
           <div class="space-y-2 bg-slate-50 p-3 rounded-lg border border-slate-200">
             <h4 class="text-xs font-bold text-slate-700 flex items-center gap-1">
-              <i class="fa-solid fa-trophy text-pink-500"></i> 演目別出演回数ランキング
+              <i class="fa-solid fa-trophy text-emerald-500"></i> 演目別出演回数ランキング
             </h4>
             <div>
               <select id="statsStageRankingSelect" onchange="renderStatsStageRanking()" class="text-xs font-bold bg-white border border-slate-300 rounded px-3 py-1.5 w-full"></select>
@@ -284,12 +285,12 @@
     <section id="memberDetailContainer" class="hidden space-y-4">
       <div class="bg-white rounded-xl p-4 shadow-sm border border-slate-200 flex justify-between items-center">
         <div class="flex items-center gap-3">
-          <div class="avatar-box bg-pink-600 text-white text-base font-bold shadow">
+          <div class="avatar-box bg-emerald-600 text-white text-base font-bold shadow">
             <i class="fa-solid fa-user"></i>
           </div>
           <div>
             <h2 id="detailMemberName" class="text-xl font-bold text-slate-800">メンバー名</h2>
-            <p id="detailMemberSub" class="text-xs text-pink-600 font-semibold">出演データ統計</p>
+            <p id="detailMemberSub" class="text-xs text-emerald-600 font-semibold">出演データ統計</p>
           </div>
         </div>
         <button onclick="goHome()" class="text-xs bg-slate-100 hover:bg-slate-200 text-slate-600 px-3 py-1.5 rounded-lg font-bold border border-slate-200">
@@ -300,9 +301,9 @@
       <div class="bg-white rounded-xl p-4 shadow-sm border border-slate-200">
         <div class="flex items-center justify-between border-b pb-2 mb-3">
           <h3 class="text-sm font-bold text-slate-800 flex items-center gap-2">
-            <i class="fa-solid fa-chart-pie text-pink-500"></i> 出演統計
+            <i class="fa-solid fa-chart-pie text-emerald-500"></i> 出演統計
           </h3>
-          <span id="totalPerfBadge" class="bg-pink-100 text-pink-700 text-xs font-bold px-3 py-1 rounded-full">総出演回数: 0回</span>
+          <span id="totalPerfBadge" class="bg-emerald-100 text-emerald-700 text-xs font-bold px-3 py-1 rounded-full">総出演回数: 0回</span>
         </div>
         <h4 class="text-xs font-bold text-slate-500 mb-2">演目ごとの出演回数</h4>
         <ul id="showsBreakdownList" class="space-y-2 text-xs"></ul>
@@ -311,22 +312,22 @@
       <div class="bg-white rounded-xl p-4 shadow-sm border border-slate-200 space-y-4">
         <div>
           <h3 class="text-sm font-bold text-slate-800 border-b pb-2 mb-2 flex items-center gap-2">
-            <i class="fa-solid fa-calendar text-pink-500"></i> 年別出演回数
+            <i class="fa-solid fa-calendar text-emerald-500"></i> 年別出演回数
           </h3>
           <div id="yearlyBreakdownList" class="flex flex-wrap gap-2 text-xs"></div>
         </div>
         <div>
           <div class="flex justify-between items-center border-b pb-2 mb-2">
             <h3 id="rankingSectionTitle" class="text-sm font-bold text-slate-800 flex items-center gap-2">
-              <i class="fa-solid fa-trophy text-pink-500"></i> 出演回数ランキング
+              <i class="fa-solid fa-trophy text-emerald-500"></i> 出演回数ランキング
             </h3>
-            <span id="rankingGroupBadge" class="text-xs font-bold bg-pink-50 text-pink-600 border border-pink-200 px-2 py-0.5 rounded">グループ限定</span>
+            <span id="rankingGroupBadge" class="text-xs font-bold bg-emerald-50 text-emerald-600 border border-emerald-200 px-2 py-0.5 rounded">チーム限定</span>
           </div>
           <ol id="memberRankingList" class="space-y-1 text-xs divide-y divide-slate-100"></ol>
         </div>
         <div>
           <h3 class="text-sm font-bold text-slate-800 border-b pb-2 mb-2 flex items-center gap-2">
-            <i class="fa-solid fa-users text-pink-500"></i> 共演回数ランキング
+            <i class="fa-solid fa-users text-emerald-500"></i> 共演回数ランキング
           </h3>
           <ol id="coappearanceTopList" class="space-y-1 text-xs divide-y divide-slate-100"></ol>
         </div>
@@ -334,7 +335,7 @@
 
       <div class="bg-white rounded-xl p-4 shadow-sm border border-slate-200">
         <h3 class="text-sm font-bold text-slate-800 border-b pb-2 mb-3 flex items-center gap-2">
-          <i class="fa-solid fa-list-check text-pink-500"></i> 出演履歴
+          <i class="fa-solid fa-list-check text-emerald-500"></i> 出演履歴
         </h3>
         <div id="memberShowsHistoryList" class="space-y-2 max-h-80 overflow-y-auto pr-1"></div>
       </div>
@@ -346,7 +347,7 @@
     <div class="bg-white rounded-xl max-w-lg w-full p-4 shadow-2xl border border-slate-100 space-y-4 max-h-[90vh] overflow-y-auto">
       <div class="flex justify-between items-start border-b pb-3">
         <div>
-          <span id="modalTheater" class="text-[10px] font-bold px-2 py-0.5 rounded bg-pink-100 text-pink-700"></span>
+          <span id="modalTheater" class="text-[10px] font-bold px-2 py-0.5 rounded bg-emerald-100 text-emerald-700"></span>
           <h3 id="modalTitle" class="text-base font-bold text-slate-800 mt-1"></h3>
           <p id="modalDate" class="text-xs text-slate-500 font-medium"></p>
         </div>
@@ -355,12 +356,12 @@
       <div id="modalMembersArea" class="bg-slate-50 border border-slate-200 rounded-lg p-3 text-xs space-y-2">
         <div class="font-bold text-slate-700 flex justify-between items-center">
           <span>【出演メンバー / ポジション】</span>
-          <span id="modalPosCount" class="text-[10px] text-pink-600 bg-pink-50 px-1.5 py-0.5 rounded border border-pink-200"></span>
+          <span id="modalPosCount" class="text-[10px] text-emerald-600 bg-emerald-50 px-1.5 py-0.5 rounded border border-emerald-200"></span>
         </div>
         <div id="modalMemberList" class="grid grid-cols-2 gap-1.5 pt-1"></div>
       </div>
       <div class="flex gap-2 pt-2">
-        <button id="modalBtnGoStage" class="flex-1 bg-pink-600 hover:bg-pink-700 text-white font-bold py-2 px-3 rounded-lg text-xs shadow transition text-center">演目詳細を開く</button>
+        <button id="modalBtnGoStage" class="flex-1 bg-emerald-600 hover:bg-emerald-700 text-white font-bold py-2 px-3 rounded-lg text-xs shadow transition text-center">演目詳細を開く</button>
         <button onclick="closeScheduleModal()" class="bg-slate-100 hover:bg-slate-200 text-slate-600 font-bold py-2 px-3 rounded-lg text-xs transition">閉じる</button>
       </div>
     </div>
@@ -369,7 +370,7 @@
   <!-- Bottom Navigation -->
   <nav class="fixed bottom-0 left-0 right-0 bg-white border-t border-slate-200 shadow-lg z-50">
     <div id="navNormal" class="max-w-4xl mx-auto flex justify-around">
-      <button onclick="switchTab('calendar')" id="nav-calendar" class="nav-btn active flex-1 py-3 text-center text-xs font-semibold text-pink-600">
+      <button onclick="switchTab('calendar')" id="nav-calendar" class="nav-btn active flex-1 py-3 text-center text-xs font-semibold text-emerald-600">
         <i class="fa-regular fa-calendar-days text-base block mb-0.5"></i> カレンダー
       </button>
       <button onclick="switchTab('stats')" id="nav-stats" class="nav-btn flex-1 py-3 text-center text-xs font-semibold text-slate-400">
@@ -377,74 +378,66 @@
       </button>
     </div>
     <div id="navStageDetail" class="hidden max-w-4xl mx-auto flex justify-around">
-      <button onclick="switchTab('positions')" id="nav-positions" class="nav-btn-stage flex-1 py-3 text-center text-xs font-semibold text-slate-400 transition hover:bg-pink-50">
+      <button onclick="switchTab('positions')" id="nav-positions" class="nav-btn-stage flex-1 py-3 text-center text-xs font-semibold text-slate-400 transition hover:bg-emerald-50">
         <i class="fa-solid fa-users-rectangle text-base block mb-0.5"></i> 一覧表
       </button>
-      <button onclick="switchTab('stage-daily')" id="nav-stage-daily" class="nav-btn-stage flex-1 py-3 text-center text-xs font-semibold text-slate-400 transition hover:bg-pink-50">
+      <button onclick="switchTab('stage-daily')" id="nav-stage-daily" class="nav-btn-stage flex-1 py-3 text-center text-xs font-semibold text-slate-400 transition hover:bg-emerald-50">
         <i class="fa-solid fa-table-cells text-base block mb-0.5"></i> 日別表
       </button>
-      <button onclick="switchTab('perf-table')" id="nav-perf-table" class="nav-btn-stage flex-1 py-3 text-center text-xs font-semibold text-slate-400 transition hover:bg-pink-50">
+      <button onclick="switchTab('perf-table')" id="nav-perf-table" class="nav-btn-stage flex-1 py-3 text-center text-xs font-semibold text-slate-400 transition hover:bg-emerald-50">
         <i class="fa-solid fa-clipboard-user text-base block mb-0.5"></i> 出演表
       </button>
-      <button onclick="switchTab('forecast')" id="nav-forecast" class="nav-btn-stage flex-1 py-3 text-center text-xs font-semibold text-slate-400 transition hover:bg-pink-50">
+      <button onclick="switchTab('forecast')" id="nav-forecast" class="nav-btn-stage flex-1 py-3 text-center text-xs font-semibold text-slate-400 transition hover:bg-emerald-50">
         <i class="fa-solid fa-wand-magic-sparkles text-base block mb-0.5"></i> 予想
       </button>
-      <button onclick="switchTab('coapp')" id="nav-coapp" class="nav-btn-stage flex-1 py-3 text-center text-xs font-semibold text-slate-400 transition hover:bg-pink-50">
+      <button onclick="switchTab('coapp')" id="nav-coapp" class="nav-btn-stage flex-1 py-3 text-center text-xs font-semibold text-slate-400 transition hover:bg-emerald-50">
         <i class="fa-solid fa-users text-base block mb-0.5"></i> 共演
       </button>
-      <button onclick="switchTab('songparts')" id="nav-songparts" class="nav-btn-stage flex-1 py-3 text-center text-xs font-semibold text-slate-400 transition hover:bg-pink-50">
+      <button onclick="switchTab('songparts')" id="nav-songparts" class="nav-btn-stage flex-1 py-3 text-center text-xs font-semibold text-slate-400 transition hover:bg-emerald-50">
         <i class="fa-solid fa-music text-base block mb-0.5"></i> 歌割り
       </button>
-      <button onclick="goHome()" id="nav-back" class="flex-1 py-3 text-center text-xs font-semibold text-slate-400 transition hover:bg-pink-50">
+      <button onclick="goHome()" id="nav-back" class="flex-1 py-3 text-center text-xs font-semibold text-slate-400 transition hover:bg-emerald-50">
         <i class="fa-solid fa-rotate-left text-base block mb-0.5"></i> 戻る
       </button>
     </div>
-    <div id="navMemberSearching" class="hidden max-w-4xl mx-auto flex justify-center py-3 bg-pink-50 text-pink-600 font-bold text-sm items-center gap-2 border-t-2 border-pink-500">
+    <div id="navMemberSearching" class="hidden max-w-4xl mx-auto flex justify-center py-3 bg-emerald-50 text-emerald-600 font-bold text-sm items-center gap-2 border-t-2 border-emerald-500">
       <i class="fa-solid fa-user-gear"></i>
       <span>メンバー詳細表示中</span>
-      <button onclick="goHome()" class="text-xs bg-pink-600 text-white px-3 py-1 rounded ml-2 shadow-sm">戻る</button>
+      <button onclick="goHome()" class="text-xs bg-emerald-600 text-white px-3 py-1 rounded ml-2 shadow-sm">戻る</button>
     </div>
   </nav>
 
   <!-- JavaScript Logic -->
   <script>
     const MASTER_MEMBER_ORDER_BY_GROUP = {
-      AKB48: [
-        "工藤華純", "平田侑希", "倉島杏実", "大村杏", "青原優花", "岡腰星来", "塩月希依音", "松岡さくら", "栗原紗英", "梁瀬鈴雅", "竹本くるみ", "喜多花恵", "甲斐心愛", "内海里音", "新井梨杏", "近藤沙樹",
-        "奥本カイリ", "松川みゆ", "松本慈子", "横井志穂", "高島柚愛", "佐藤綺星", "橋本恵理子", "畠山希美", "布袋百椛", "正鋳真優", "水島美結", "山﨑空"
+      "チームA": [
+        "岩立沙穂", "髙橋彩音", "武藤小麟", "平田侑希", "工藤華純", "奥本カイリ", "倉島杏実", "松川みゆ", "鎌田菜月", "松本慈子", "大村杏", "青原優花", "岡腰星来", "塩月希依音", "田中ミリア", "松岡さくら", "山口美桜", "栗原紗英", "梁瀬鈴雅", "猪島莉玲亜", "竹本くるみ", "安井妃奈", "喜多花恵", "甲斐心愛", "内海里音", "宗雪里香", "新井梨杏", "近藤沙樹", "川村昇子", "横井志穂", "桜井ひまり", "藪内陽花", "高島柚愛", "須藤凜華", "久我水羚", "木原姫花世", "田中奈菜子", "横井結菜"
       ],
-      SKE48: [
-        "川村結衣", "久保姫菜乃", "徳永羚海", "布袋百椛", "山内瑞葵", "北川愛乃", "青木莉樺", "河村優愛", "池帆乃香", "渋井美奈", "山内祐奈", "猪原絆愛", "清司麗菜", "北村優羽", "尾崎世里花", "吉田彩良",
-        "生野莉奈", "立花心良", "谷口茉妃菜", "石原侑奈", "山村さくら", "雲井紗菜"
+      "チームB": [
+        "福岡聖菜", "徳永羚海", "山内瑞葵", "布袋百椛", "久保姫菜乃", "川村結衣", "桒原椿", "南澤恋々", "北川愛乃", "青木莉樺", "河村優愛", "池帆乃香", "衣笠彩実", "澁谷愛紗南", "中川朋香", "松本海日菜", "生野莉奈", "渋井美奈", "山内祐奈", "猪原絆愛", "立花心良", "清司麗菜", "北村優羽", "谷口茉妃菜", "尾崎世里花", "吉田彩良", "石原侑奈", "丸山ひなた", "久保田怜", "飯田ゆら", "善家侑莉花", "和田承子", "西川晴菜", "中田麻実", "佐藤歩夏", "小松奈侑", "道保琉南"
       ],
-      NMB48: [
-        "小栗有以", "西潟茉莉奈", "新澤菜央", "豊永阿紀", "兵頭葵", "水津菜月", "三鴨くるみ", "坂本真凛", "今村麻莉愛", "相川暖花", "池田典愛", "田中伊桜莉", "正鋳真優", "山根涼羽", "赤堀君江", "迫由芽実",
-        "川又優菜", "渡辺菜月", "奥田唯菜", "佐々木希美"
+      "チームC": [
+        "小栗有以", "永野芹佳", "山根涼羽", "正鋳真優", "迫由芽実", "相川暖花", "坂本真凛", "山村さくら", "雲井紗菜", "赤堀君江", "鈴木愛菜", "池田典愛", "木根彩呂花", "新澤菜央", "西島梨央", "三鴨くるみ", "石川歩実優", "豊永阿紀", "吉田めい", "今村麻莉愛", "田中伊桜莉", "西潟茉莉奈", "水津菜月", "兵頭葵", "川又優菜", "渡辺菜月", "奥田唯菜", "髙橋舞桜", "佐々木希美", "池田有沙", "高橋樹奈", "青木日菜子", "安座間結", "皆川日和", "平井柚葉", "坂木叶愛", "野中莉央"
       ],
-      HKT48: [
-        "石橋颯", "浅井裕華", "福田朱里", "龍頭綺音", "荒野姫楓", "江浦優香", "杉本萌", "佐藤海里", "岡田あずみ", "石山千尋", "水島美結", "田中れい", "高橋ことね", "工藤理子", "成田香姫奈", "橋本陽菜",
-        "太田有紀", "石黒友月", "中野南実", "北澤苺", "倉本羽菜"
+      "チームD": [
+        "行天優莉奈", "橋本陽菜", "太田有紀", "水島美結", "成田香姫奈", "石黒友月", "杉本りいな", "荒野姫楓", "倉本羽菜", "浅井裕華", "中坂美祐", "石山千尋", "黒島咲花", "高橋ことね", "西田帆花", "宮崎紗衣", "石橋颯", "中野南実", "龍頭綺音", "江浦優香", "長野らら", "佐藤海里", "杉本萌", "福田朱里", "工藤理子", "岡田あずみ", "北澤苺", "田中沙友利", "立花菖", "竹下茉莉花", "田中れい", "呉優菜", "阿達夢", "相木茉采", "細矢夏帆", "坂崎愛", "濵田美惟"
       ],
-      NGT48: [
-        "佐藤綺星", "泉綾乃", "八木愛月", "江口心々華", "倉野尾成美", "大塚七海", "伊藤虹々美", "坂下真心", "岡村梨央", "千葉恵里", "濵田響", "伊藤実希", "島田紗香", "甲斐瑞季", "信濃宙花", "山﨑空",
-        "石松結菜", "秋吉優花", "福井可憐"
+      "チームE": [
+        "倉野尾成美", "千葉恵里", "佐藤綺星", "山﨑空", "八木愛月", "伊藤虹々美", "鈴木恋奈", "伊藤実希", "近藤海琴", "井田玲音名", "西井美桜", "泉綾乃", "坂下真心", "竹田京加", "宮原心音", "石松結菜", "藤野心葉", "秋吉優花", "江口心々華", "福井可憐", "大塚七海", "磯崎菜々", "信濃宙花", "迫姫華", "岡村梨央", "濵田響", "牧戸愛茉", "田村真悠", "中尾楓華", "谷口詩乃", "靏川那智", "甲斐瑞季", "猪股咲那", "石松陽菜", "島田紗香", "藤田愛結"
       ],
-      STU48: [
-        "甲斐心愛", "谷口茉妃菜", "兵頭葵", "福田朱里", "信濃宙花", "中村舞", "池田裕楽", "内海里音", "尾崎世里花", "川又優菜", "工藤理子", "迫姫華", "高雄さやか", "原田清花", "宗雪里香", "吉田彩良", "渡辺菜月"
+      "チームF": [
+        "坂川陽香", "黒須遥香", "橋本恵理子", "秋山由奈", "山口結愛", "入内嶋涼", "野村実代", "井上瑠夏", "佐藤佳穂", "太田彩夏", "長谷川雅", "板垣心和", "坂田心咲", "龍本弥生", "平山真衣", "宮本杏海", "市村愛里", "渕上舞", "井澤美優", "大庭凜咲", "松本苺花", "三村妃乃", "木本杏菜", "中村舞", "高雄さやか", "久留島優果", "森末妃奈", "森川優", "聖遥花", "矢島凪", "西住美咲妃", "山川万里愛", "北澤百音", "大橋彩乃", "井上久伶杏", "曽我部あこ", "三好真綺"
+      ],
+      "チームG": [
+        "下尾みう", "長友彩海", "畠山希美", "新井彩永", "伊藤百花", "熊崎晴香", "原優寧", "奥野心羽", "篠原京香", "太田愛恵", "森本くるみ", "内田愛彩", "桜田彩叶", "田中美空", "福野杏実", "村井悠莉", "北川陽彩", "松永悠良", "石井彩音", "栗山梨奈", "森﨑冴彩", "磯部瑠紅", "佐藤広花", "池田裕楽", "原田清花", "諸葛望愛", "大賀彩姫", "渡邉葵心", "宮本倫花", "赤松昊", "福原琴美", "新沢葵唯", "佐藤柚花", "片山珠吏", "蕪竹真奈", "髙村栞里", "屋木優菜"
       ]
     };
 
-    let MASTER_MEMBER_ORDER = [...MASTER_MEMBER_ORDER_BY_GROUP.AKB48];
-    let currentMemberOrderGroup = "AKB48";
-
-    function normalizeGroupName(groupName) {
-      const value = String(groupName || "").replace(/劇場/g, "").trim().toUpperCase();
-      const match = value.match(/(AKB48|SKE48|NMB48|HKT48|NGT48|STU48)/);
-      return match ? match[1] : null;
-    }
+    let MASTER_MEMBER_ORDER = [...MASTER_MEMBER_ORDER_BY_GROUP["チームA"]];
+    let currentMemberOrderGroup = "チームA";
 
     function setMasterMemberOrder(groupName) {
-      const group = normalizeGroupName(groupName) || "AKB48";
+      const group = MASTER_MEMBER_ORDER_BY_GROUP[groupName] ? groupName : "チームA";
       currentMemberOrderGroup = group;
       MASTER_MEMBER_ORDER = [...(MASTER_MEMBER_ORDER_BY_GROUP[group] || [])];
       return group;
@@ -454,7 +447,7 @@
       for (const [group, members] of Object.entries(MASTER_MEMBER_ORDER_BY_GROUP)) {
         if (members.includes(memberName)) return group;
       }
-      return "AKB48";
+      return "チームA";
     }
 
     function detectGroupFromMembers(memberNames) {
@@ -483,87 +476,47 @@
     let perfTableMode = 'circle';
     let selectedCoappMembers = new Set();
 
-    // schedule_202610.json 形式および直近の初日・10/1公演データに対応したフォールバックデータ
-    const FALLBACK_SCHEDULE_202610 = [
+    // デフォルト・フォールバック用スケジュールデータ（2025年〜2026年の日付を設定し、真っ白にならないように対策）
+    const FALLBACK_SCHEDULE = [
       {
-        "id": "team_a_shonichi",
-        "date": "2024-01-01 00:00",
+        "id": "team_a_20261001",
+        "date": "2026-10-01 18:00",
         "theater": "AKB48劇場",
-        "title": "チームA「ここからだ」公演 初日",
+        "title": "チームA「ここからだ」公演",
         "members": ["工藤華純", "平田侑希", "倉島杏実", "大村杏", "青原優花", "岡腰星来", "塩月希依音", "松岡さくら", "栗原紗英", "梁瀬鈴雅", "竹本くるみ", "喜多花恵", "甲斐心愛", "内海里音", "新井梨杏", "近藤沙樹"],
         "positions": ["大村杏", "塩月希依音", "甲斐心愛", "青原優花", "竹本くるみ", "岡腰星来", "梁瀬鈴雅", "栗原紗英", "近藤沙樹", "倉島杏実", "工藤華純", "新井梨杏", "喜多花恵", "内海里音", "松岡さくら", "平田侑希"]
       },
       {
-        "id": "team_b_shonichi",
-        "date": "2024-01-01 00:00",
+        "id": "team_b_20261001",
+        "date": "2026-10-01 18:00",
         "theater": "SKE48劇場",
-        "title": "チームB「RESET」公演 初日",
+        "title": "チームB「RESET」公演",
         "members": ["川村結衣", "久保姫菜乃", "徳永羚海", "布袋百椛", "山内瑞葵", "北川愛乃", "青木莉樺", "河村優愛", "池帆乃香", "渋井美奈", "山内祐奈", "猪原絆愛", "清司麗菜", "北村優羽", "尾崎世里花", "吉田彩良"],
         "positions": ["河村優愛", "吉田彩良", "北村優羽", "山内瑞葵", "尾崎世里花", "川村結衣", "池帆乃香", "清司麗菜", "山内祐奈", "猪原絆愛", "渋井美奈", "青木莉樺", "徳永羚海", "北川愛乃", "久保姫菜乃", "布袋百椛"]
       },
       {
-        "id": "team_c_shonichi",
-        "date": "2024-01-01 00:00",
-        "theater": "NMB48劇場",
-        "title": "チームC「M.Tに捧ぐ」公演 初日",
-        "members": ["小栗有以", "迫由芽実", "正鋳真優", "山根涼羽", "相川暖花", "坂本真凛", "赤堀君江", "池田典愛", "新澤菜央", "三鴨くるみ", "豊永阿紀", "今村麻莉愛", "田中伊桜莉", "西潟茉莉奈", "水津菜月", "兵頭葵"],
-        "positions": ["小栗有以", "西潟茉莉奈", "新澤菜央", "豊永阿紀", "兵頭葵", "水津菜月", "三鴨くるみ", "坂本真凛", "今村麻莉愛", "相川暖花", "池田典愛", "田中伊桜莉", "正鋳真優", "山根涼羽", "赤堀君江", "迫由芽実"]
-      },
-      {
-        "id": "team_d_shonichi",
-        "date": "2024-01-01 00:00",
-        "theater": "HKT48劇場",
-        "title": "チームD「シアターの女神」公演 初日",
-        "members": ["成田香姫奈", "橋本陽菜", "水島美結", "荒野姫楓", "浅井裕華", "石山千尋", "高橋ことね", "石橋颯", "龍頭綺音", "江浦優香", "佐藤海里", "杉本萌", "福田朱里", "工藤理子", "岡田あずみ", "田中れい"],
-        "positions": ["石橋颯", "浅井裕華", "福田朱里", "龍頭綺音", "荒野姫楓", "江浦優香", "杉本萌", "佐藤海里", "岡田あずみ", "石山千尋", "水島美結", "田中れい", "高橋ことね", "工藤理子", "成田香姫奈", "橋本陽菜"]
-      },
-      {
-        "id": "team_e_shonichi",
-        "date": "2024-01-01 00:00",
-        "theater": "NGT48劇場",
-        "title": "チームE「制服の芽」公演 初日",
-        "members": ["倉野尾成美", "佐藤綺星", "千葉恵里", "八木愛月", "山﨑空", "伊藤虹々美", "伊藤実希", "泉綾乃", "坂下真心", "江口心々華", "大塚七海", "信濃宙花", "岡村梨央", "濵田響", "甲斐瑞季", "島田紗香"],
-        "positions": ["佐藤綺星", "泉綾乃", "八木愛月", "江口心々華", "倉野尾成美", "大塚七海", "伊藤虹々美", "坂下真心", "岡村梨央", "千葉恵里", "濵田響", "伊藤実希", "島田紗香", "甲斐瑞季", "信濃宙花", "山﨑空"]
-      },
-      {
-        "id": "team_a_241001",
-        "date": "2024-10-01 18:00",
-        "theater": "AKB48劇場",
-        "title": "チームA「ここからだ」公演",
-        "members": ["奥本カイリ", "工藤華純", "平田侑希", "倉島杏実", "松川みゆ", "松本慈子", "松岡さくら", "栗原紗英", "梁瀬鈴雅", "喜多花恵", "甲斐心愛", "内海里音", "新井梨杏", "近藤沙樹", "横井志穂", "高島柚愛"],
-        "positions": ["近藤沙樹", "梁瀬鈴雅", "甲斐心愛", "倉島杏実", "喜多花恵", "松岡さくら", "平田侑希", "栗原紗英", "横井志穂", "奥本カイリ", "工藤華純", "新井梨杏", "松川みゆ", "内海里音", "松本慈子", "高島柚愛"]
-      },
-      {
-        "id": "team_b_241001",
-        "date": "2024-10-01 18:00",
-        "theater": "SKE48劇場",
-        "title": "チームB「RESET」公演",
-        "members": ["川村結衣", "久保姫菜乃", "徳永羚海", "布袋百椛", "山内瑞葵", "北川愛乃", "池帆乃香", "生野莉奈", "山内祐奈", "猪原絆愛", "立花心良", "北村優羽", "谷口茉妃菜", "尾崎世里花", "吉田彩良", "石原侑奈"],
-        "positions": ["山内瑞葵", "吉田彩良", "北村優羽", "山内祐奈", "尾崎世里花", "川村結衣", "池帆乃香", "久保姫菜乃", "石原侑奈", "猪原絆愛", "生野莉奈", "谷口茉妃菜", "徳永羚海", "北川愛乃", "立花心良", "布袋百椛"]
-      },
-      {
-        "id": "team_c_241001",
-        "date": "2024-10-01 18:00",
+        "id": "team_c_20251101",
+        "date": "2025-11-01 18:00",
         "theater": "NMB48劇場",
         "title": "チームC「M.Tに捧ぐ」公演",
-        "members": ["小栗有以", "迫由芽実", "正鋳真優", "相川暖花", "坂本真凛", "山村さくら", "雲井紗菜", "新澤菜央", "豊永阿紀", "今村麻莉愛", "水津菜月", "兵頭葵", "川又優菜", "渡辺菜月", "奥田唯菜", "佐々木希美"],
-        "positions": ["小栗有以", "坂本真凛", "新澤菜央", "豊永阿紀", "兵頭葵", "水津菜月", "正鋳真優", "迫由芽実", "今村麻莉愛", "相川暖花", "山村さくら", "佐々木希美", "奥田唯菜", "渡辺菜月", "川又優菜", "雲井紗菜"]
+        "members": ["小栗有以", "永野芹佳", "山根涼羽", "正鋳真優", "迫由芽実", "相川暖花", "坂本真凛", "山村さくら", "雲井紗菜", "赤堀君江", "鈴木愛菜", "池田典愛", "木根彩呂花", "新澤菜央"],
+        "positions": ["小栗有以", "永野芹佳", "山根涼羽", "正鋳真優", "迫由芽実", "相川暖花", "坂本真凛", "山村さくら", "雲井紗菜", "赤堀君江", "鈴木愛菜", "池田典愛", "木根彩呂花", "新澤菜央"]
       },
       {
-        "id": "team_d_241001",
-        "date": "2024-10-01 18:00",
+        "id": "team_d_20260901",
+        "date": "2026-09-01 18:00",
         "theater": "HKT48劇場",
         "title": "チームD「シアターの女神」公演",
-        "members": ["太田有紀", "成田香姫奈", "橋本陽菜", "石黒友月", "荒野姫楓", "倉本羽菜", "石橋颯", "中野南実", "龍頭綺音", "江浦優香", "佐藤海里", "杉本萌", "福田朱里", "工藤理子", "岡田あずみ", "北澤苺"],
-        "positions": ["石橋颯", "岡田あずみ", "福田朱里", "龍頭綺音", "荒野姫楓", "江浦優香", "杉本萌", "佐藤海里", "北澤苺", "中野南実", "石黒友月", "太田有紀", "倉本羽菜", "工藤理子", "成田香姫奈", "橋本陽菜"]
+        "members": ["行天優莉奈", "橋本陽菜", "太田有紀", "水島美結", "成田香姫奈", "石黒友月", "杉本りいな", "荒野姫楓", "倉本羽菜", "浅井裕華"],
+        "positions": ["行天優莉奈", "橋本陽菜", "太田有紀", "水島美結", "成田香姫奈", "石黒友月", "杉本りいな", "荒野姫楓", "倉本羽菜", "浅井裕華"]
       },
       {
-        "id": "team_e_241001",
-        "date": "2024-10-01 18:00",
+        "id": "team_e_20260915",
+        "date": "2026-09-15 18:00",
         "theater": "NGT48劇場",
         "title": "チームE「制服の芽」公演",
-        "members": ["倉野尾成美", "佐藤綺星", "千葉恵里", "伊藤虹々美", "伊藤実希", "坂下真心", "石松結菜", "秋吉優花", "江口心々華", "福井可憐", "大塚七海", "信濃宙花", "岡村梨央", "濵田響", "甲斐瑞季", "島田紗香"],
-        "positions": ["佐藤綺星", "伊藤虹々美", "坂下真心", "江口心々華", "倉野尾成美", "大塚七海", "甲斐瑞季", "秋吉優花", "岡村梨央", "千葉恵里", "濵田響", "伊藤実希", "島田紗香", "石松結菜", "信濃宙花", "福井可憐"]
+        "members": ["倉野尾成美", "千葉恵里", "佐藤綺星", "山﨑空", "八木愛月", "伊藤虹々美", "鈴木恋奈", "伊藤実希", "近藤海琴", "井田玲音名"],
+        "positions": ["倉野尾成美", "千葉恵里", "佐藤綺星", "山﨑空", "八木愛月", "伊藤虹々美", "鈴木恋奈", "伊藤実希", "近藤海琴", "井田玲音名"]
       }
     ];
 
@@ -609,19 +562,37 @@
       onDateChange();
     }
 
-    async function fetchScheduleJson(groupName, year) {
+    async function fetchScheduleJson(year, month) {
+      // 2026年9月なら schedule_202609.json、2025年11月なら schedule_202511.json、あるいは一般的な schedule_202610.json を動的に読み込み試行
+      const fileName = `schedule_${year}${month}.json`;
       try {
-        const response = await fetch('schedule_202610.json');
+        const response = await fetch(fileName);
         if (!response.ok) throw new Error();
         const data = await response.json();
         return Array.isArray(data) ? data : [];
       } catch (err) {
-        return FALLBACK_SCHEDULE_202610;
+        // 別ネームやデフォルトのファイルを試す
+        try {
+          const res2 = await fetch('schedule_202610.json');
+          if (res2.ok) {
+            const data2 = await res2.json();
+            if (Array.isArray(data2)) return data2;
+          }
+        } catch(e) {}
+        return [];
       }
     }
 
     async function loadAllYearsScheduleData() {
-      const rawData = await fetchScheduleJson();
+      const yearSelect = document.getElementById("yearSelect");
+      const monthSelect = document.getElementById("monthSelect");
+      const y = yearSelect ? yearSelect.value : "2026";
+      const m = monthSelect ? monthSelect.value : "10";
+
+      let rawData = await fetchScheduleJson(y, m);
+      if (!rawData || rawData.length === 0) {
+        rawData = FALLBACK_SCHEDULE;
+      }
       const normalizedData = normalizeScheduleData(rawData);
       ALL_SCHEDULE_DATA = normalizedData;
       generateGlobalStageDatabase();
@@ -658,7 +629,7 @@
           theater: item.theater || "AKB48劇場",
           displayTitle: mainTitle, subTitle: subTitle, baseStageName: baseStage,
           performersText: membersArr.join("・"), membersArray: membersArr, positionsArray: posArr,
-          sourceGroup: item.theater ? item.theater.replace("劇場", "") : "AKB48"
+          sourceGroup: item.theater ? item.theater.replace("劇場", "") : "チームA"
         };
       });
     }
@@ -673,7 +644,7 @@
           GLOBAL_STAGE_DATABASE[base] = { 
             id: base, 
             name: stageDisplayName, 
-            group: item.theater.replace("劇場", "").trim() || "AKB48", 
+            group: "チームA", 
             fixed: [], 
             allMembers: new Set(), 
             schedules: [] 
@@ -700,7 +671,7 @@
           STAGE_DATABASE[base] = { 
             id: base, 
             name: stageDisplayName, 
-            group: item.theater.replace("劇場", "").trim() || "AKB48", 
+            group: "チームA", 
             fixed: [], 
             allMembers: new Set(), 
             schedules: [] 
@@ -733,8 +704,24 @@
 
     async function onDateChange() {
       const yearSelect = document.getElementById("yearSelect");
-      if (!yearSelect) return;
-      SCHEDULE_DATA = ALL_SCHEDULE_DATA;
+      const monthSelect = document.getElementById("monthSelect");
+      if (!yearSelect || !monthSelect) return;
+      const y = yearSelect.value;
+      const m = monthSelect.value;
+
+      let rawData = await fetchScheduleJson(y, m);
+      if (!rawData || rawData.length === 0) {
+        // 該当月のデータがない場合はFALLBACKからその月にマッチするもの、あるいは全件を対象にする
+        rawData = FALLBACK_SCHEDULE;
+      }
+      const normalized = normalizeScheduleData(rawData);
+      SCHEDULE_DATA = normalized;
+      // ALL_SCHEDULE_DATAにも統合
+      const existingIds = new Set(ALL_SCHEDULE_DATA.map(i => i.id));
+      normalized.forEach(item => {
+        if (!existingIds.has(item.id)) ALL_SCHEDULE_DATA.push(item);
+      });
+
       generateStageDatabase();
       renderCalendar();
     }
@@ -746,13 +733,13 @@
       const listContainer = document.getElementById('calendarList');
       const gridContainer = document.getElementById('calendarGrid');
       if (mode === 'list') {
-        listBtn.className = "px-2.5 py-1 rounded-md font-bold transition bg-white text-pink-600 shadow-sm";
-        gridBtn.className = "px-2.5 py-1 rounded-md font-bold transition text-slate-600 hover:text-pink-600";
+        listBtn.className = "px-2.5 py-1 rounded-md font-bold transition bg-white text-emerald-600 shadow-sm";
+        gridBtn.className = "px-2.5 py-1 rounded-md font-bold transition text-slate-600 hover:text-emerald-600";
         listContainer.classList.remove('hidden');
         gridContainer.classList.add('hidden');
       } else {
-        gridBtn.className = "px-2.5 py-1 rounded-md font-bold transition bg-white text-pink-600 shadow-sm";
-        listBtn.className = "px-2.5 py-1 rounded-md font-bold transition text-slate-600 hover:text-pink-600";
+        gridBtn.className = "px-2.5 py-1 rounded-md font-bold transition bg-white text-emerald-600 shadow-sm";
+        listBtn.className = "px-2.5 py-1 rounded-md font-bold transition text-slate-600 hover:text-emerald-600";
         gridContainer.classList.remove('hidden');
         listContainer.classList.add('hidden');
       }
@@ -793,15 +780,15 @@
       document.querySelectorAll('.tab-content').forEach(el => el.classList.add('hidden'));
       document.getElementById(`tab-${tabName}`).classList.remove('hidden');
       document.querySelectorAll('.nav-btn, .nav-btn-stage').forEach(btn => {
-        btn.classList.remove('text-pink-600', 'border-t-[3px]', 'border-pink-500');
+        btn.classList.remove('text-emerald-600', 'border-t-[3px]', 'border-emerald-500');
         btn.classList.add('text-slate-400');
       });
       const activeBtn = document.getElementById(`nav-${tabName}`);
       if (activeBtn) {
         activeBtn.classList.remove('text-slate-400');
-        activeBtn.classList.add('text-pink-600');
+        activeBtn.classList.add('text-emerald-600');
         if (activeBtn.classList.contains('nav-btn-stage')) {
-          activeBtn.classList.add('border-t-[3px]', 'border-pink-500');
+          activeBtn.classList.add('border-t-[3px]', 'border-emerald-500');
         }
       }
       if (tabName === 'coapp') renderCoappMemberChips();
@@ -848,7 +835,7 @@
         const isToday = item.date === todayString;
         const card = document.createElement('div');
         card.id = `sched-${item.id}`;
-        card.className = `sched-card p-3 rounded-lg border shadow-sm transition cursor-pointer ${isToday ? 'bg-pink-50 border-pink-300' : 'bg-white border-slate-200 hover:border-pink-300'}`;
+        card.className = `sched-card p-3 rounded-lg border shadow-sm transition cursor-pointer ${isToday ? 'bg-emerald-50 border-emerald-300' : 'bg-white border-slate-200 hover:border-emerald-300'}`;
         card.onclick = () => openScheduleModal(item);
         const dateParts = item.date.split('/');
         const monthDay = dateParts.length >= 3 ? `${dateParts[1]}/${dateParts[2]}` : item.date;
@@ -858,13 +845,13 @@
               <div class="flex items-center gap-3">
                 <div class="text-center bg-white border border-slate-200 px-2.5 py-1 rounded w-16">
                   <span class="block text-xs text-slate-500 font-bold">${monthDay}</span>
-                  <span class="block text-xs font-bold text-pink-600">${item.time || '00:00'}</span>
+                  <span class="block text-xs font-bold text-emerald-600">${item.time || '00:00'}</span>
                 </div>
                 <div>
-                  ${isToday ? '<span class="text-[10px] font-bold px-2 py-0.5 rounded bg-pink-500 text-white mr-1 inline-block">本日</span>' : ''}
-                  <span class="text-[10px] font-bold px-2 py-0.5 rounded bg-pink-100 text-pink-700">${item.theater}</span>
+                  ${isToday ? '<span class="text-[10px] font-bold px-2 py-0.5 rounded bg-emerald-500 text-white mr-1 inline-block">本日</span>' : ''}
+                  <span class="text-[10px] font-bold px-2 py-0.5 rounded bg-emerald-100 text-emerald-700">${item.theater}</span>
                   <h4 class="font-bold text-slate-800 text-xs mt-0.5">${escapeHtml(item.displayTitle)}</h4>
-                  ${item.subTitle ? `<div class="text-xs text-pink-600 font-bold mt-0.5">${escapeHtml(item.subTitle)}</div>` : ''}
+                  ${item.subTitle ? `<div class="text-xs text-emerald-600 font-bold mt-0.5">${escapeHtml(item.subTitle)}</div>` : ''}
                 </div>
               </div>
             </div>
@@ -908,11 +895,11 @@
         const fullDateStr = `${year}/${mStr}/${dStr}`;
         const isToday = fullDateStr === todayString;
         const dayShows = schedMap[fullDateStr] || [];
-        html += `<div class="cal-cell ${isToday ? 'today border border-pink-400' : ''}">`;
-        html += `<span class="text-[10px] font-bold ${isToday ? 'text-pink-600' : 'text-slate-600'}">${day}</span>`;
+        html += `<div class="cal-cell ${isToday ? 'today border border-emerald-400' : ''}">`;
+        html += `<span class="text-[10px] font-bold ${isToday ? 'text-emerald-600' : 'text-slate-600'}">${day}</span>`;
         html += `<div class="space-y-1 mt-1 overflow-y-auto max-h-16 flex-1">`;
         dayShows.forEach(s => {
-          html += `<div onclick="openScheduleModalById('${s.id}')" class="bg-pink-100 hover:bg-pink-200 text-pink-800 text-[9px] p-0.5 rounded leading-tight cursor-pointer truncate" title="${escapeHtml(s.baseStageName)}">${escapeHtml(s.baseStageName)}</div>`;
+          html += `<div onclick="openScheduleModalById('${s.id}')" class="bg-emerald-100 hover:bg-emerald-200 text-emerald-800 text-[9px] p-0.5 rounded leading-tight cursor-pointer truncate" title="${escapeHtml(s.baseStageName)}">${escapeHtml(s.baseStageName)}</div>`;
         });
         html += `</div></div>`;
       }
@@ -990,11 +977,11 @@
           const item = SCHEDULE_DATA.find(s => s.id === elementId);
           if (item) openScheduleModal(item);
         } else {
-          document.querySelectorAll('.sched-card').forEach(el => el.classList.remove('bg-pink-100', 'border-pink-500', 'ring-2', 'ring-pink-500'));
+          document.querySelectorAll('.sched-card').forEach(el => el.classList.remove('bg-emerald-100', 'border-emerald-500', 'ring-2', 'ring-emerald-500'));
           const target = document.getElementById(`sched-${elementId}`);
           if (target) {
             target.scrollIntoView({ behavior: 'smooth', block: 'center' });
-            target.classList.add('bg-pink-100', 'border-pink-500', 'ring-2', 'ring-pink-500');
+            target.classList.add('bg-emerald-100', 'border-emerald-500', 'ring-2', 'ring-emerald-500');
           }
         }
       }, 200);
@@ -1139,16 +1126,16 @@
 
       sortedShows.forEach((show, idx) => {
         const numTh = document.createElement('th');
-        numTh.className = "p-2.5 min-w-[100px] text-center border-r border-slate-200 text-xs font-bold text-pink-600";
+        numTh.className = "p-2.5 min-w-[100px] text-center border-r border-slate-200 text-xs font-bold text-emerald-600";
         numTh.innerText = idx + 1;
         numHeaderTr.appendChild(numTh);
 
         const shortDateStr = formatShortDate(show.date);
         const th = document.createElement('th');
-        th.className = "p-2.5 min-w-[100px] text-center border-r border-slate-200 whitespace-nowrap cursor-pointer hover:bg-pink-50 transition group";
+        th.className = "p-2.5 min-w-[100px] text-center border-r border-slate-200 whitespace-nowrap cursor-pointer hover:bg-emerald-50 transition group";
         th.title = "クリックしてスケジュールを表示";
         th.onclick = () => jumpToSchedule(show.date, show.id);
-        th.innerHTML = `<span class="text-xs font-bold text-slate-600 group-hover:text-pink-600">${escapeHtml(shortDateStr)}</span>`;
+        th.innerHTML = `<span class="text-xs font-bold text-slate-600 group-hover:text-emerald-600">${escapeHtml(shortDateStr)}</span>`;
         headerTr.appendChild(th);
       });
 
@@ -1186,8 +1173,8 @@
 
     function setPerfTableMode(mode) {
       perfTableMode = mode;
-      document.getElementById('modeCircleBtn').className = `px-3 py-1 rounded transition ${mode === 'circle' ? 'bg-white text-pink-600 shadow-sm' : 'text-slate-600'}`;
-      document.getElementById('modeCountBtn').className = `px-3 py-1 rounded transition ${mode === 'count' ? 'bg-white text-pink-600 shadow-sm' : 'text-slate-600'}`;
+      document.getElementById('modeCircleBtn').className = `px-3 py-1 rounded transition ${mode === 'circle' ? 'bg-white text-emerald-600 shadow-sm' : 'text-slate-600'}`;
+      document.getElementById('modeCountBtn').className = `px-3 py-1 rounded transition ${mode === 'count' ? 'bg-white text-emerald-600 shadow-sm' : 'text-slate-600'}`;
       renderPerfTable();
     }
 
@@ -1216,15 +1203,15 @@
 
       sortedShows.forEach((show, idx) => {
         const numTh = document.createElement('th');
-        numTh.className = "p-2.5 min-w-[80px] text-center border-r border-slate-200 text-xs font-bold text-pink-600";
+        numTh.className = "p-2.5 min-w-[80px] text-center border-r border-slate-200 text-xs font-bold text-emerald-600";
         numTh.innerText = idx + 1;
         numHeaderTr.appendChild(numTh);
 
         const shortDateStr = formatShortDate(show.date);
         const th = document.createElement('th');
-        th.className = "p-2.5 min-w-[80px] text-center border-r border-slate-200 whitespace-nowrap cursor-pointer hover:bg-pink-50 transition group";
+        th.className = "p-2.5 min-w-[80px] text-center border-r border-slate-200 whitespace-nowrap cursor-pointer hover:bg-emerald-50 transition group";
         th.onclick = () => jumpToSchedule(show.date, show.id);
-        th.innerHTML = `<span class="text-xs font-bold text-slate-600 group-hover:text-pink-600">${escapeHtml(shortDateStr)}</span>`;
+        th.innerHTML = `<span class="text-xs font-bold text-slate-600 group-hover:text-emerald-600">${escapeHtml(shortDateStr)}</span>`;
         headerTr.appendChild(th);
       });
 
@@ -1241,7 +1228,7 @@
 
         const tdMember = document.createElement('td');
         tdMember.className = "p-2.5 text-left pl-3 border-r border-slate-100 sticky-col-1 text-xs font-bold text-slate-800 bg-white flex justify-between items-center";
-        tdMember.innerHTML = `<span class="member-link" onclick="openMemberDetail('${escapeHtml(member)}')">${escapeHtml(member)}</span><span class="text-pink-600 text-[10px] ml-2">${totalCount}回</span>`;
+        tdMember.innerHTML = `<span class="member-link" onclick="openMemberDetail('${escapeHtml(member)}')">${escapeHtml(member)}</span><span class="text-emerald-600 text-[10px] ml-2">${totalCount}回</span>`;
         tr.appendChild(tdMember);
 
         let runningCount = 0;
@@ -1271,7 +1258,7 @@
       const rawInput = document.getElementById('forecastInputText').value;
       const inputNames = rawInput.split(/[\s・、,\n/]+/).map(s => s.trim()).filter(s => s.length > 0 && s !== "-" && s !== "－");
       const detectedGroup = detectGroupFromMembers(inputNames);
-      const forecastGroup = normalizeGroupName(stage.group) || detectedGroup || currentMemberOrderGroup || "AKB48";
+      const forecastGroup = stage.group || detectedGroup || currentMemberOrderGroup || "チームA";
       setMasterMemberOrder(forecastGroup);
 
       const inputSet = new Set(inputNames);
@@ -1296,8 +1283,8 @@
         if (name === "-" || name === "－") return;
         const isAttending = inputSet.has(name);
         const div = document.createElement('div');
-        div.className = `p-2 rounded border flex items-center justify-between ${isAttending ? 'bg-pink-50 border-pink-300 font-bold text-pink-700' : 'bg-white border-slate-200 text-slate-600'}`;
-        div.innerHTML = `<span>${escapeHtml(name)}</span><span class="text-[10px] px-1.5 py-0.5 rounded ${isAttending ? 'bg-pink-600 text-white' : 'bg-slate-100 text-slate-400'}">${isAttending ? '出演' : '不在'}</span>`;
+        div.className = `p-2 rounded border flex items-center justify-between ${isAttending ? 'bg-emerald-50 border-emerald-300 font-bold text-emerald-700' : 'bg-white border-slate-200 text-slate-600'}`;
+        div.innerHTML = `<span>${escapeHtml(name)}</span><span class="text-[10px] px-1.5 py-0.5 rounded ${isAttending ? 'bg-emerald-600 text-white' : 'bg-slate-100 text-slate-400'}">${isAttending ? '出演' : '不在'}</span>`;
         allMembersGrid.appendChild(div);
       });
 
@@ -1359,7 +1346,7 @@
                 lastAppearedDateMap[pIdx][member] = sortedDates[0] || 0;
               } else { lastAppearedDateMap[pIdx][member] = 0; }
 
-              let cellBg = i === 0 ? "" : "bg-pink-50/50";
+              let cellBg = i === 0 ? "" : "bg-emerald-50/50";
               expTableHtml += `<td class="p-2.5 min-w-[100px] text-center border-r border-slate-100 whitespace-nowrap ${cellBg}"><span class="member-link text-xs font-bold" onclick="openMemberDetail('${escapeHtml(member)}')">${escapeHtml(member)}</span></td>`;
             } else {
               expTableHtml += `<td class="p-2.5 min-w-[100px] text-center border-r border-slate-100 whitespace-nowrap"></td>`;
@@ -1509,7 +1496,7 @@
       let html = `<div class="text-xs text-slate-500">最小新ポジ数：${minNewPosCount} ／ 該当パターン数：${rankedPatterns.length}</div>`;
       html += `<div class="overflow-x-auto rounded-lg border border-slate-200 shadow-inner"><table class="w-full text-left text-xs border-collapse min-w-max"><thead><tr class="bg-slate-50 border-b border-slate-200"><th class="p-2.5 min-w-[100px] text-center border-r border-slate-200 whitespace-nowrap sticky-col-1 bg-slate-50 font-bold text-slate-600 text-xs">ポジション</th>`;
       rankedPatterns.forEach(pattern => {
-        html += `<th class="p-2.5 min-w-[100px] text-center border-r border-slate-200 whitespace-nowrap"><span class="font-bold text-pink-600 text-xs">${pattern.probability}%</span></th>`;
+        html += `<th class="p-2.5 min-w-[100px] text-center border-r border-slate-200 whitespace-nowrap"><span class="font-bold text-emerald-600 text-xs">${pattern.probability}%</span></th>`;
       });
       html += `</tr></thead><tbody class="divide-y divide-slate-100">`;
       stage.fixed.forEach((fixedMember, pIdx) => {
@@ -1536,7 +1523,7 @@
         const isSelected = selectedCoappMembers.has(m);
         const btn = document.createElement('button');
         btn.type = 'button';
-        btn.className = `px-2.5 py-1 rounded-full text-xs font-bold transition border ${isSelected ? 'bg-pink-600 text-white border-pink-600 shadow-sm' : 'bg-white text-slate-700 border-slate-300 hover:bg-pink-50'}`;
+        btn.className = `px-2.5 py-1 rounded-full text-xs font-bold transition border ${isSelected ? 'bg-emerald-600 text-white border-emerald-600 shadow-sm' : 'bg-white text-slate-700 border-slate-300 hover:bg-emerald-50'}`;
         btn.innerText = m;
         btn.onclick = () => {
           if (selectedCoappMembers.has(m)) selectedCoappMembers.delete(m);
@@ -1576,13 +1563,13 @@
         const perfNumber = totalCount - index;
 
         const div = document.createElement('div');
-        div.className = "bg-slate-50 border border-slate-200 rounded-lg p-2.5 space-y-1 cursor-pointer hover:border-pink-300 transition";
+        div.className = "bg-slate-50 border border-slate-200 rounded-lg p-2.5 space-y-1 cursor-pointer hover:border-emerald-300 transition";
         div.onclick = () => jumpToSchedule(item.date, item.id);
         div.innerHTML = `
           <div class="flex items-center gap-2 text-xs">
-            <span class="font-bold text-pink-600">${perfNumber}回</span>
+            <span class="font-bold text-emerald-600">${perfNumber}回</span>
             <span class="text-slate-500 font-medium">${item.date}</span>
-            <span class="text-[10px] font-bold px-2 py-0.5 rounded bg-pink-100 text-pink-700">${escapeHtml(item.theater)}</span>
+            <span class="text-[10px] font-bold px-2 py-0.5 rounded bg-emerald-100 text-emerald-700">${escapeHtml(item.theater)}</span>
           </div>
           <div class="flex justify-between items-center text-xs">
             <span class="font-bold text-slate-800">${escapeHtml(stageTitleWithSub)}</span>
@@ -1617,8 +1604,8 @@
         <div class="bg-slate-50 p-3 rounded-lg border border-slate-200 space-y-2 text-xs">
           <div class="font-bold text-slate-700">【歌割り・ポジション構成】</div>
           <div class="grid grid-cols-2 gap-2">
-            <div class="bg-white p-2 rounded border"><span class="font-bold text-pink-600 block">メインポジション</span>出演メンバー順次対応</div>
-            <div class="bg-white p-2 rounded border"><span class="font-bold text-pink-600 block">コーラス / 全員</span>出演メンバー全員</div>
+            <div class="bg-white p-2 rounded border"><span class="font-bold text-emerald-600 block">メインポジション</span>出演メンバー順次対応</div>
+            <div class="bg-white p-2 rounded border"><span class="font-bold text-emerald-600 block">コーラス / 全員</span>出演メンバー全員</div>
           </div>
         </div>
       `;
@@ -1662,14 +1649,14 @@
       const yearlyList = document.getElementById('yearlyBreakdownList');
       yearlyList.innerHTML = '';
       const allBtn = document.createElement('button');
-      allBtn.className = `px-3 py-1.5 rounded-lg border text-xs font-bold transition ${currentSelectedMemberYear === 'ALL' ? 'bg-pink-600 text-white border-pink-600' : 'bg-slate-50 border-slate-200 text-slate-700 hover:bg-pink-50'}`;
+      allBtn.className = `px-3 py-1.5 rounded-lg border text-xs font-bold transition ${currentSelectedMemberYear === 'ALL' ? 'bg-emerald-600 text-white border-emerald-600' : 'bg-slate-50 border-slate-200 text-slate-700 hover:bg-emerald-50'}`;
       allBtn.innerText = `通算 : ${memberPerfs.length}回`;
       allBtn.onclick = () => { currentSelectedMemberYear = 'ALL'; renderMemberDetail(); };
       yearlyList.appendChild(allBtn);
 
       yearsSorted.forEach(y => {
         const btn = document.createElement('button');
-        btn.className = `px-3 py-1.5 rounded-lg border text-xs font-bold transition ${currentSelectedMemberYear === y ? 'bg-pink-600 text-white border-pink-600' : 'bg-slate-50 border-slate-200 text-slate-700 hover:bg-pink-50'}`;
+        btn.className = `px-3 py-1.5 rounded-lg border text-xs font-bold transition ${currentSelectedMemberYear === y ? 'bg-emerald-600 text-white border-emerald-600' : 'bg-slate-50 border-slate-200 text-slate-700 hover:bg-emerald-50'}`;
         btn.innerText = `${y}年 : ${yearCounts[y]}回`;
         btn.onclick = () => { currentSelectedMemberYear = y; renderMemberDetail(); };
         yearlyList.appendChild(btn);
@@ -1709,7 +1696,7 @@
           li.innerHTML = `
             <div class="flex justify-between items-center text-xs font-bold text-slate-800">
               <span>${escapeHtml(stDisplayName)}</span>
-              <span class="text-pink-600 font-bold ml-auto">${info.total}回</span>
+              <span class="text-emerald-600 font-bold ml-auto">${info.total}回</span>
             </div>
             <div class="text-[10px] text-slate-500 font-medium">${escapeHtml(posBreakdownArr.join('　'))}</div>
           `;
@@ -1738,13 +1725,13 @@
           if (item.subTitle && item.subTitle.trim()) stageTitleWithSub += `   ${item.subTitle.trim()}`;
 
           const div = document.createElement('div');
-          div.className = "bg-slate-50 border border-slate-200 rounded-lg p-2.5 space-y-1 cursor-pointer hover:border-pink-300 transition";
+          div.className = "bg-slate-50 border border-slate-200 rounded-lg p-2.5 space-y-1 cursor-pointer hover:border-emerald-300 transition";
           div.onclick = () => jumpToSchedule(item.date, item.id);
           div.innerHTML = `
             <div class="flex items-center gap-2 text-xs">
-              <span class="font-bold text-pink-600">${item._perfNumber}回</span>
+              <span class="font-bold text-emerald-600">${item._perfNumber}回</span>
               <span class="text-slate-500 font-medium">${item.date}</span>
-              <span class="text-[10px] font-bold px-2 py-0.5 rounded bg-pink-100 text-pink-700">${escapeHtml(item.theater)}</span>
+              <span class="text-[10px] font-bold px-2 py-0.5 rounded bg-emerald-100 text-emerald-700">${escapeHtml(item.theater)}</span>
             </div>
             <div class="flex justify-between items-center text-xs">
               <span class="font-bold text-slate-800">${escapeHtml(stageTitleWithSub)}</span>
@@ -1789,20 +1776,20 @@
       const displayRanking = showAllAppearanceRanking ? rankingArr : rankingArr.slice(0, 10);
       displayRanking.forEach((item) => {
         const li = document.createElement('li');
-        li.className = `flex justify-between items-center py-1.5 border-b border-slate-100 text-xs ${item.name === selectedMemberName ? 'bg-pink-50 font-bold' : ''}`;
+        li.className = `flex justify-between items-center py-1.5 border-b border-slate-100 text-xs ${item.name === selectedMemberName ? 'bg-emerald-50 font-bold' : ''}`;
         li.innerHTML = `
           <div class="flex items-center gap-2">
             <span class="w-10 text-right font-bold text-slate-400 whitespace-nowrap">${item.rank}位</span>
-            <span class="font-bold text-slate-700 cursor-pointer hover:text-pink-600" onclick="openMemberDetail('${escapeHtml(item.name)}')">${escapeHtml(item.name)}</span>
+            <span class="font-bold text-slate-700 cursor-pointer hover:text-emerald-600" onclick="openMemberDetail('${escapeHtml(item.name)}')">${escapeHtml(item.name)}</span>
           </div>
-          <span class="font-bold text-pink-600 ml-auto">${item.count}回</span>
+          <span class="font-bold text-emerald-600 ml-auto">${item.count}回</span>
         `;
         rankingList.appendChild(li);
       });
 
       if (rankingArr.length > 10) {
         const btn = document.createElement('button');
-        btn.className = "w-full mt-2 py-1.5 text-xs text-pink-600 font-bold bg-pink-50 hover:bg-pink-100 rounded-lg border border-pink-200 transition";
+        btn.className = "w-full mt-2 py-1.5 text-xs text-emerald-600 font-bold bg-emerald-50 hover:bg-emerald-100 rounded-lg border border-emerald-200 transition";
         btn.innerText = showAllAppearanceRanking ? "閉じる" : "もっと見る";
         btn.onclick = () => { showAllAppearanceRanking = !showAllAppearanceRanking; renderMemberRankings(); };
         rankingList.appendChild(btn);
@@ -1837,16 +1824,16 @@
         li.innerHTML = `
           <div class="flex items-center gap-2">
             <span class="w-10 text-right font-bold text-slate-400 whitespace-nowrap">${item.rank}位</span>
-            <span class="font-bold text-slate-700 cursor-pointer hover:text-pink-600" onclick="openMemberDetail('${escapeHtml(item.name)}')">${escapeHtml(item.name)}</span>
+            <span class="font-bold text-slate-700 cursor-pointer hover:text-emerald-600" onclick="openMemberDetail('${escapeHtml(item.name)}')">${escapeHtml(item.name)}</span>
           </div>
-          <span class="font-bold text-pink-600 ml-auto">${item.count}回</span>
+          <span class="font-bold text-emerald-600 ml-auto">${item.count}回</span>
         `;
         coappList.appendChild(li);
       });
 
       if (coappArr.length > 10) {
         const btn = document.createElement('button');
-        btn.className = "w-full mt-2 py-1.5 text-xs text-pink-600 font-bold bg-pink-50 hover:bg-pink-100 rounded-lg border border-pink-200 transition";
+        btn.className = "w-full mt-2 py-1.5 text-xs text-emerald-600 font-bold bg-emerald-50 hover:bg-emerald-100 rounded-lg border border-emerald-200 transition";
         btn.innerText = showAllCoappearanceRanking ? "閉じる" : "もっと見る";
         btn.onclick = () => { showAllCoappearanceRanking = !showAllCoappearanceRanking; renderMemberRankings(); };
         coappList.appendChild(btn);
@@ -1896,8 +1883,8 @@
         const div = document.createElement('div');
         div.className = "bg-white p-2 rounded border border-slate-200 flex justify-between items-center";
         div.innerHTML = `
-          <span class="font-bold text-slate-700 cursor-pointer hover:text-pink-600" onclick="openMemberDetail('${escapeHtml(item.name)}')">${escapeHtml(item.name)}</span>
-          <span class="bg-pink-100 text-pink-700 font-bold px-2 py-0.5 rounded text-[10px]">${item.nextMilestone}回まであと${item.diff}回</span>
+          <span class="font-bold text-slate-700 cursor-pointer hover:text-emerald-600" onclick="openMemberDetail('${escapeHtml(item.name)}')">${escapeHtml(item.name)}</span>
+          <span class="bg-emerald-100 text-emerald-700 font-bold px-2 py-0.5 rounded text-[10px]">${item.nextMilestone}回まであと${item.diff}回</span>
         `;
         container.appendChild(div);
       });
@@ -1946,12 +1933,12 @@
       achievements.forEach(ach => {
         const stageDisplayTitle = ach.stageName.includes("「") ? `${ach.stageName}公演` : `「${ach.stageName}」公演`;
         const div = document.createElement('div');
-        div.className = "bg-white p-2 rounded border border-slate-200 cursor-pointer hover:border-pink-300 transition space-y-0.5";
+        div.className = "bg-white p-2 rounded border border-slate-200 cursor-pointer hover:border-emerald-300 transition space-y-0.5";
         div.onclick = () => jumpToSchedule(ach.date, ach.id);
         div.innerHTML = `
           <div class="font-bold text-slate-800 flex justify-between">
-            <span class="cursor-pointer hover:text-pink-600" onclick="event.stopPropagation(); openMemberDetail('${escapeHtml(ach.name)}')">${escapeHtml(ach.name)}　${ach.milestone}回達成</span>
-            <span class="text-pink-600 text-[10px]">${ach.date}</span>
+            <span class="cursor-pointer hover:text-emerald-600" onclick="event.stopPropagation(); openMemberDetail('${escapeHtml(ach.name)}')">${escapeHtml(ach.name)}　${ach.milestone}回達成</span>
+            <span class="text-emerald-600 text-[10px]">${ach.date}</span>
           </div>
           <div class="text-[10px] text-slate-500">${escapeHtml(ach.theater)} ${escapeHtml(stageDisplayTitle)}</div>
         `;
@@ -2009,9 +1996,9 @@
         li.innerHTML = `
           <div class="flex items-center gap-2">
             <span class="w-10 text-right font-bold text-slate-400 whitespace-nowrap">${item.rank}位</span>
-            <span class="font-bold text-slate-700 cursor-pointer hover:text-pink-600" onclick="openMemberDetail('${escapeHtml(item.name)}')">${escapeHtml(item.name)}</span>
+            <span class="font-bold text-slate-700 cursor-pointer hover:text-emerald-600" onclick="openMemberDetail('${escapeHtml(item.name)}')">${escapeHtml(item.name)}</span>
           </div>
-          <span class="font-bold text-pink-600 ml-auto">${item.count}回</span>
+          <span class="font-bold text-emerald-600 ml-auto">${item.count}回</span>
         `;
         listEl.appendChild(li);
       });
@@ -2052,13 +2039,13 @@
         const displayLabel = stageKey.includes("「") ? `${stageKey}公演` : `「${stageKey}」公演`;
         const btn = document.createElement('button');
         btn.type = 'button';
-        btn.className = 'w-full text-left px-4 py-2.5 hover:bg-pink-50 flex items-center justify-between transition border-b border-slate-100 last:border-none';
+        btn.className = 'w-full text-left px-4 py-2.5 hover:bg-emerald-50 flex items-center justify-between transition border-b border-slate-100 last:border-none';
         btn.innerHTML = `
           <div class="flex items-center gap-2">
-            <i class="fa-solid fa-masks-theater text-pink-500 text-xs"></i>
+            <i class="fa-solid fa-masks-theater text-emerald-500 text-xs"></i>
             <span class="font-bold text-slate-700">${escapeHtml(displayLabel)}</span>
           </div>
-          <span class="text-[10px] bg-pink-100 text-pink-700 px-2 py-0.5 rounded font-bold">演目</span>
+          <span class="text-[10px] bg-emerald-100 text-emerald-700 px-2 py-0.5 rounded font-bold">演目</span>
         `;
         btn.onclick = () => { selectStage(stageKey); suggestBox.classList.add('hidden'); document.getElementById('searchInput').value = ''; };
         suggestBox.appendChild(btn);
@@ -2067,10 +2054,10 @@
       memberMatches.forEach(memberName => {
         const btn = document.createElement('button');
         btn.type = 'button';
-        btn.className = 'w-full text-left px-4 py-2.5 hover:bg-pink-50 flex items-center justify-between transition border-b border-slate-100 last:border-none';
+        btn.className = 'w-full text-left px-4 py-2.5 hover:bg-emerald-50 flex items-center justify-between transition border-b border-slate-100 last:border-none';
         btn.innerHTML = `
           <div class="flex items-center gap-2">
-            <i class="fa-solid fa-user text-pink-500 text-xs"></i>
+            <i class="fa-solid fa-user text-emerald-500 text-xs"></i>
             <span class="font-bold text-slate-700">　${escapeHtml(memberName)}</span>
           </div>
           <span class="text-[10px] bg-slate-100 text-slate-600 px-2 py-0.5 rounded font-bold">メンバー</span>
@@ -2079,6 +2066,7 @@
         suggestBox.appendChild(btn);
       });
 
+      suggestBox.classList.add('hidden'); // bugfix
       suggestBox.classList.remove('hidden');
     }
 
